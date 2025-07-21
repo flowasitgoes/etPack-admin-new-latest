@@ -80,7 +80,7 @@ export default function ERPAdmin() {
                 </div>
               </div>
               
-
+            <div className="mid-col-order-details-and-prod-spec">
               {/* Order Details Form */}
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div className="space-y-4">
@@ -151,7 +151,7 @@ export default function ERPAdmin() {
                   <Card className="production-specifications-item border-pink-200">
                     <CardContent className="p-0">
                       <div className="flex">
-                        <div className="bg-bag-drawing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
+                        <div className="bg-bag-drawing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
                           <div className="text-wrap-vertical">
                             <div>抽</div>
                             <div>袋</div>
@@ -164,16 +164,16 @@ export default function ERPAdmin() {
                               生產規格描述
                             </div>
                             <div className="bg-gray-100 p-4 space-y-3">
-                              <div className="flex items-center space-x-4">
-                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16">厚度</div>
+                              <div className="flex items-center space-x-4 bg-white p-2 rounded">
+                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">厚度</div>
                                 <span className="text-sm">0.038 mm</span>
                               </div>
-                              <div className="flex items-center space-x-4">
-                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16">寬度</div>
+                              <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
+                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">寬度</div>
                                 <span className="text-sm">160 cm. 到中間90cm,豪到雙收</span>
                               </div>
-                              <div className="flex items-center space-x-4">
-                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16">配方</div>
+                              <div className="flex items-center space-x-4 bg-white p-2 rounded">
+                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">配方</div>
                                 <div className="flex items-center space-x-2">
                                   <span className="text-sm">EW-28-1</span>
                                   <Edit className="w-3 h-3 text-gray-400" />
@@ -207,7 +207,7 @@ export default function ERPAdmin() {
                   <Card className="production-specifications-item border-blue-200">
                     <CardContent className="p-0">
                       <div className="flex">
-                        <div className="bg-bag-printing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
+                        <div className="bg-bag-printing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
                           <div className="text-wrap-vertical">
                             <div>印</div>
                             <div>刷</div>
@@ -220,10 +220,14 @@ export default function ERPAdmin() {
                               生產規格描述
                             </div>
                             <div className="bg-gray-100 p-4 space-y-3">
-                              <div className="text-sm space-y-2">
-                                <div>獨立印刷2色版</div>
-                                <div>1.棕桔 2.黑</div>
-                                <div className="bg-gray-200 p-2 rounded">提收後拉出方向尾出</div>
+                              <div className="flex items-center space-x-4 bg-white p-2 rounded">
+                                <span className="text-sm">獨立印刷2色版</span>
+                              </div>
+                              <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
+                                <span className="text-sm">1.棕桔 2.黑</span>
+                              </div>
+                              <div className="flex items-center space-x-4 bg-white p-2 rounded">
+                                <span className="text-sm">提收後拉出方向尾出</span>
                               </div>
                             </div>
                           </div>
@@ -253,7 +257,7 @@ export default function ERPAdmin() {
                   <Card className="production-specifications-item border-green-200">
                   <CardContent className="p-0">
                     <div className="flex">
-                      <div className="bg-bag-cutting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
+                      <div className="bg-bag-cutting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
                         <div className="text-wrap-vertical">
                           <div>裁</div>
                           <div>袋</div>
@@ -265,22 +269,18 @@ export default function ERPAdmin() {
                             <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                               生產規格描述
                             </div>
-                            <div className="bg-gray-100 p-4 space-y-3">
-                              <div className="flex items-center space-x-4">
-                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16">壹字袋長</div>
-                                <span className="text-sm">41.2cm</span>
+                            <div className="bg-gray-100 p-4 space-y-2">
+                              <div className="bg-white p-2 rounded">
+                                <span className="text-sm">1.壹字袋長41.2cm</span>
                               </div>
-                              <div className="flex items-center space-x-4">
-                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16">內折</div>
-                                <span className="text-sm">4.5cm</span>
+                              <div className="bg-gray-50 p-2 rounded">
+                                <span className="text-sm">2.內折4.5cm</span>
                               </div>
-                              <div className="flex items-center space-x-4">
-                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16">手提部分寬度</div>
-                                <span className="text-sm">2cm</span>
+                              <div className="bg-white p-2 rounded">
+                                <span className="text-sm">3.手提部分寬度2cm</span>
                               </div>
-                              <div className="flex items-center space-x-4">
-                                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16">孔距孔離邊</div>
-                                <span className="text-sm">1.5cm</span>
+                              <div className="bg-gray-50 p-2 rounded">
+                                <span className="text-sm">4.孔距孔離邊1.5cm</span>
                               </div>
                             </div>
                           </div>
@@ -305,7 +305,7 @@ export default function ERPAdmin() {
                   </CardContent>
                 </Card>
                 </div>
-
+                </div>
               </div>
             </div>
 
@@ -314,8 +314,8 @@ export default function ERPAdmin() {
               <div className="flex flex-col h-full">
                 <div className="space-y-6 flex-1">
                 {/* Order Creator */}
-                <div className="text-center">
-                  <div className="bg-gray-200 px-4 py-2 rounded-lg mb-4 font-medium">製單</div>
+                <div className="right-col-item text-center">
+                  <div className="bg-gray-200 px-4 py-2 border-br-bl-none rounded-lg mb-4 font-medium">製單</div>
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center mx-auto mb-2">
                     <User className="w-8 h-8 text-white" />
                   </div>
@@ -323,16 +323,16 @@ export default function ERPAdmin() {
                 </div>
 
                 {/* Manager */}
-                <div className="text-center">
-                  <div className="bg-gray-200 px-4 py-2 rounded-lg mb-4 font-medium">經理</div>
+                <div className="right-col-item text-center">
+                  <div className="bg-gray-200 px-4 py-2 border-br-bl-none rounded-lg mb-4 font-medium">經理</div>
                   <div className="w-16 h-16 rounded-full bg-theme-gray flex items-center justify-center mx-auto mb-2">
                     <User className="w-8 h-8 text-gray-500" />
                   </div>
                 </div>
 
                 {/* General Manager */}
-                <div className="text-center">
-                  <div className="bg-gray-200 px-4 py-2 rounded-lg mb-4 font-medium">總經理</div>
+                <div className="right-col-item text-center">
+                  <div className="bg-gray-200 px-4 py-2 border-br-bl-none rounded-lg mb-4 font-medium">總經理</div>
                   <div className="w-16 h-16 rounded-full bg-theme-gray flex items-center justify-center mx-auto mb-2">
                     <User className="w-8 h-8 text-gray-500" />
                   </div>
