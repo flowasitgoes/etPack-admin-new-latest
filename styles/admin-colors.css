@@ -209,13 +209,8 @@
     background-color: #9ce4a8;
   }
 
-  .text-vertical {
-    writing-mode: vertical-rl;
-  }
 
-  .text-wrap-vertical {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 62px;
-  }
+.bg-theme-gray {
+    background: rgb(155 155 155);
+}
+

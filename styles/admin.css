@@ -18,3 +18,38 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+
+.text-vertical {
+  writing-mode: vertical-rl;
+}
+
+.text-wrap-vertical {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 62px;
+}
+
+.production-specifications-wrap {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.production-specifications-wrap:focus {
+  box-shadow: 0 0 0 6px rgba(181, 181, 181, 0.3), 0 4px 12px rgba(168, 168, 231, 0.2);
+}
+
+.production-specifications-item {
+
+}
+
+.production-spec-scrollable-wrap {
+  max-height: 200px;
+  overflow: hidden;
+  transition: overflow 0.2s ease;
+}
+
+.production-specifications-wrap:focus .production-spec-scrollable-wrap {
+  overflow: auto;
+}

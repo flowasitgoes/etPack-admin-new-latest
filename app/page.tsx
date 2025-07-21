@@ -11,7 +11,7 @@ export default function ERPAdmin() {
   return (
     <div className="admin-container min-h-screen bg-gradient-to-br p-4">
       <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <div className="flex h-screen">
+        <div className="flex h-screen pb-20">
           {/* Left Sidebar */}
           <div className="admin-left-sidebar bg-gray-50">
             <div className="user-and-search-section p-6">
@@ -71,7 +71,7 @@ export default function ERPAdmin() {
 
               {/* Order Header */}
               <div className="order-header-wrap">
-                <div className="bg-gray-500 text-white px-6 py-3 mb-6 flex justify-between items-center">
+                <div className="bg-theme-gray text-white px-6 py-3 mb-6 flex justify-between items-center">
                   <span className="font-medium">訂單編號 K01140414001</span>
                 </div>
 
@@ -147,19 +147,20 @@ export default function ERPAdmin() {
               {/* Production Specifications */}
               <div className="space-y-6">
                 {/* Bag Section */}
-                <Card className="border-pink-200">
-                  <CardContent className="p-0">
-                    <div className="flex">
-                      <div className="bg-bag-drawing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
-                        <div className="text-wrap-vertical">
-                          <div>抽</div>
-                          <div>袋</div>
+                <div className="production-specifications-wrap" tabIndex={0}>
+                  <Card className="production-specifications-item border-pink-200">
+                    <CardContent className="p-0">
+                      <div className="flex">
+                        <div className="bg-bag-drawing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
+                          <div className="text-wrap-vertical">
+                            <div>抽</div>
+                            <div>袋</div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex-1 p-6">
+                        <div className="production-spec-scrollable-wrap flex-1 p-6">
                         <div className="grid grid-cols-2 gap-6">
                           <div>
-                            <div className="bg-gray-500 text-white px-4 py-2 rounded-t-lg text-center font-medium">
+                            <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                               生產規格描述
                             </div>
                             <div className="bg-gray-100 p-4 space-y-3">
@@ -181,7 +182,7 @@ export default function ERPAdmin() {
                             </div>
                           </div>
                           <div>
-                            <div className="bg-gray-500 text-white px-4 py-2 rounded-t-lg text-center font-medium">
+                            <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                               生產條件
                             </div>
                             <div className="bg-gray-100 p-4">
@@ -199,21 +200,23 @@ export default function ERPAdmin() {
                     </div>
                   </CardContent>
                 </Card>
+                </div>
 
                 {/* Printing Section */}
-                <Card className="border-blue-200">
-                  <CardContent className="p-0">
-                    <div className="flex">
-                      <div className="bg-bag-printing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
-                        <div className="text-wrap-vertical">
-                          <div>印</div>
-                          <div>刷</div>
+                <div className="production-specifications-wrap" tabIndex={0}>
+                  <Card className="production-specifications-item border-blue-200">
+                    <CardContent className="p-0">
+                      <div className="flex">
+                        <div className="bg-bag-printing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
+                          <div className="text-wrap-vertical">
+                            <div>印</div>
+                            <div>刷</div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex-1 p-6">
+                        <div className="production-spec-scrollable-wrap flex-1 p-6">
                         <div className="grid grid-cols-2 gap-6">
                           <div>
-                            <div className="bg-gray-500 text-white px-4 py-2 rounded-t-lg text-center font-medium">
+                            <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                               生產規格描述
                             </div>
                             <div className="bg-gray-100 p-4 space-y-3">
@@ -225,7 +228,7 @@ export default function ERPAdmin() {
                             </div>
                           </div>
                           <div>
-                            <div className="bg-gray-500 text-white px-4 py-2 rounded-t-lg text-center font-medium">
+                            <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                               生產條件
                             </div>
                             <div className="bg-gray-100 p-4">
@@ -243,9 +246,11 @@ export default function ERPAdmin() {
                     </div>
                   </CardContent>
                 </Card>
+                </div>
 
                 {/* Bag Cutting Section */}
-                <Card className="border-green-200">
+                <div className="production-specifications-wrap" tabIndex={0}>
+                  <Card className="production-specifications-item border-green-200">
                   <CardContent className="p-0">
                     <div className="flex">
                       <div className="bg-bag-cutting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical min-w-20">
@@ -254,10 +259,10 @@ export default function ERPAdmin() {
                           <div>袋</div>
                         </div>
                       </div>
-                      <div className="flex-1 p-6">
+                      <div className="production-spec-scrollable-wrap flex-1 p-6">
                         <div className="grid grid-cols-2 gap-6">
                           <div>
-                            <div className="bg-gray-500 text-white px-4 py-2 rounded-t-lg text-center font-medium">
+                            <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                               生產規格描述
                             </div>
                             <div className="bg-gray-100 p-4 space-y-3">
@@ -280,7 +285,7 @@ export default function ERPAdmin() {
                             </div>
                           </div>
                           <div>
-                            <div className="bg-gray-500 text-white px-4 py-2 rounded-t-lg text-center font-medium">
+                            <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                               生產條件
                             </div>
                             <div className="bg-gray-100 p-4">
@@ -299,11 +304,13 @@ export default function ERPAdmin() {
                     </div>
                   </CardContent>
                 </Card>
+                </div>
+
               </div>
             </div>
 
             {/* Right Sidebar - Staff Info */}
-            <div className="admin-right-col-section w-64 bg-gray-50 p-6" style={{ position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
+            <div className="admin-right-col-section w-64 bg-gray-50 p-6 shadow-[-4px_0_8px_rgba(0,0,0,0.1)]" style={{ position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
               <div className="space-y-6">
                 {/* Order Creator */}
                 <div className="text-center">
@@ -317,7 +324,7 @@ export default function ERPAdmin() {
                 {/* Manager */}
                 <div className="text-center">
                   <div className="bg-gray-200 px-4 py-2 rounded-lg mb-4 font-medium">經理</div>
-                  <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center mx-auto mb-2">
+                  <div className="w-16 h-16 rounded-full bg-theme-gray flex items-center justify-center mx-auto mb-2">
                     <User className="w-8 h-8 text-gray-500" />
                   </div>
                 </div>
@@ -325,10 +332,29 @@ export default function ERPAdmin() {
                 {/* General Manager */}
                 <div className="text-center">
                   <div className="bg-gray-200 px-4 py-2 rounded-lg mb-4 font-medium">總經理</div>
-                  <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center mx-auto mb-2">
+                  <div className="w-16 h-16 rounded-full bg-theme-gray flex items-center justify-center mx-auto mb-2">
                     <User className="w-8 h-8 text-gray-500" />
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer with Submit Button */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="flex justify-between items-center">
+              <div className="text-sm text-gray-600">
+                訂單編號: K01140414001 | 製單人: 陳某某
+              </div>
+              <div className="flex space-x-4">
+                <Button variant="outline" className="px-6 py-2">
+                  儲存草稿
+                </Button>
+                <Button className="bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white px-8 py-2 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  確認送出
+                </Button>
               </div>
             </div>
           </div>
