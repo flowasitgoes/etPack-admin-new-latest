@@ -1,0 +1,20 @@
+.admin-container {
+  background-color: #f0f0f0;
+}
+.admin-left-sidebar {
+  width: 14rem;
+}
+
+.admin-right-col-section {
+  width: 14rem;
+}
+
+.middle-col-outer-wrap {
+   
+}
+
+.order-header-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
