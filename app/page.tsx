@@ -11,7 +11,7 @@ export default function ERPAdmin() {
   return (
     <div className="admin-container min-h-screen bg-gradient-to-br p-4">
       <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <div className="flex h-screen pb-20">
+        <div className="flex h-screen">
           {/* Left Sidebar */}
           <div className="admin-left-sidebar bg-gray-50">
             <div className="user-and-search-section p-6">
@@ -41,7 +41,7 @@ export default function ERPAdmin() {
             </div>
             {/* Navigation Menu */}
             <nav className="space-y-2">
-              <div className="text-gray-600 hover:text-purple-600 hover:bg-purple-50 px-4 py-3 cursor-pointer transition-colors">
+              <div className="text-gray-600 text-center hover:text-purple-600 hover:bg-purple-50 px-4 py-3 cursor-pointer transition-colors">
                 工作排程
               </div>
               <div className="bg-gradient-primary px-4 py-3 text-center">訂製單記錄</div>
@@ -311,7 +311,8 @@ export default function ERPAdmin() {
 
             {/* Right Sidebar - Staff Info */}
             <div className="admin-right-col-section w-64 bg-gray-50 p-6 shadow-[-4px_0_8px_rgba(0,0,0,0.1)]" style={{ position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
-              <div className="space-y-6">
+              <div className="flex flex-col h-full">
+                <div className="space-y-6 flex-1">
                 {/* Order Creator */}
                 <div className="text-center">
                   <div className="bg-gray-200 px-4 py-2 rounded-lg mb-4 font-medium">製單</div>
@@ -336,25 +337,14 @@ export default function ERPAdmin() {
                     <User className="w-8 h-8 text-gray-500" />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                </div>
 
-        {/* Footer with Submit Button */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <div className="flex justify-between items-center">
-              <div className="text-sm text-gray-600">
-                訂單編號: K01140414001 | 製單人: 陳某某
-              </div>
-              <div className="flex space-x-4">
-                <Button variant="outline" className="px-6 py-2">
-                  儲存草稿
-                </Button>
-                <Button className="bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white px-8 py-2 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                  確認送出
-                </Button>
+                {/* Submit Button */}
+                <div className="mt-auto pt-6">
+                  <Button className="w-full bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white py-3 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                    確認送出
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
