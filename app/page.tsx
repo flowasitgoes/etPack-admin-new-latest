@@ -145,7 +145,7 @@ export default function ERPAdmin() {
               </div>
 
               {/* Production Specifications */}
-              <div className="space-y-6">
+              <div className="production-specifications-container space-y-6">
                 {/* Bag Section */}
                 <div className="production-specifications-wrap" tabIndex={0}>
                   <Card className="production-specifications-item border-pink-200">
@@ -252,9 +252,117 @@ export default function ERPAdmin() {
                 </Card>
                 </div>
 
+                {/* Lamination Section */}
+                <div className="production-specifications-wrap" tabIndex={0}>
+                  <Card className="production-specifications-item border-orange-300">
+                    <CardContent className="p-0">
+                      <div className="flex">
+                        <div className="bg-bag-lamination text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
+                          <div className="text-wrap-vertical">
+                            <div>貼</div>
+                            <div>合</div>
+                          </div>
+                        </div>
+                        <div className="production-spec-scrollable-wrap flex-1 p-6">
+                          <div className="grid grid-cols-2 gap-6">
+                            <div>
+                              <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
+                                生產規格描述
+                              </div>
+                              <div className="bg-gray-100 p-4 space-y-2">
+                                <div className="bg-white p-2 rounded">
+                                  <span className="text-sm">1.貼合方式: 熱貼合</span>
+                                </div>
+                                <div className="bg-gray-50 p-2 rounded">
+                                  <span className="text-sm">2.溫度設定: 180°C</span>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                  <span className="text-sm">3.壓力: 2.5kg/cm²</span>
+                                </div>
+                                <div className="bg-gray-50 p-2 rounded">
+                                  <span className="text-sm">4.速度: 15m/min</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
+                                生產條件
+                              </div>
+                              <div className="bg-gray-100 p-4">
+                                <div className="text-sm space-y-2">
+                                  <div>貼合3000M*2R / 約 260K</div>
+                                  <div>使用環保膠水</div>
+                                  <div>品質檢驗: 拉力測試</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <Button size="icon" variant="ghost" className="m-2">
+                          <Edit className="w-4 h-4 text-yellow-400" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Slitting Section */}
+                <div className="production-specifications-wrap" tabIndex={0}>
+                  <Card className="production-specifications-item border-orange-200">
+                    <CardContent className="p-0">
+                      <div className="flex">
+                        <div className="bg-bag-slitting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
+                          <div className="text-wrap-vertical">
+                            <div>分</div>
+                            <div>條</div>
+                          </div>
+                        </div>
+                        <div className="production-spec-scrollable-wrap flex-1 p-6">
+                          <div className="grid grid-cols-2 gap-6">
+                            <div>
+                              <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
+                                生產規格描述
+                              </div>
+                              <div className="bg-gray-100 p-4 space-y-2">
+                                <div className="bg-white p-2 rounded">
+                                  <span className="text-sm">1.分條寬度: 160cm</span>
+                                </div>
+                                <div className="bg-gray-50 p-2 rounded">
+                                  <span className="text-sm">2.刀片規格: 0.5mm</span>
+                                </div>
+                                <div className="bg-white p-2 rounded">
+                                  <span className="text-sm">3.張力控制: 自動</span>
+                                </div>
+                                <div className="bg-gray-50 p-2 rounded">
+                                  <span className="text-sm">4.收捲方式: 氣脹軸</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
+                                生產條件
+                              </div>
+                              <div className="bg-gray-100 p-4">
+                                <div className="text-sm space-y-2">
+                                  <div>分條3000M*2R / 約 260K</div>
+                                  <div>邊緣平整度: ±0.5mm</div>
+                                  <div>收捲緊密度: 適中</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <Button size="icon" variant="ghost" className="m-2">
+                          <Edit className="w-4 h-4 text-orange-400" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
                 {/* Bag Cutting Section */}
                 <div className="production-specifications-wrap" tabIndex={0}>
-                  <Card className="production-specifications-item border-green-200">
+                  <Card className="production-specifications-item border-yellow-400">
                   <CardContent className="p-0">
                     <div className="flex">
                       <div className="bg-bag-cutting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">

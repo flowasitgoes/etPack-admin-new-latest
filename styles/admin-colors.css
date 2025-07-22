@@ -202,12 +202,20 @@
   }
 
   .bg-bag-printing {
-    background-color: #9cc0e4;
-  }
+    background-color: #9ccee4;
+}
 
-  .bg-bag-cutting {
-    background-color: #9ce4a8;
-  }
+.bg-bag-cutting {
+    background-color: #fccc48;
+}
+
+.bg-bag-lamination {
+    background-color: #e4b49c;
+}
+
+.bg-bag-slitting {
+    background-color: #e4a89c;
+}
 
 
 .bg-theme-gray {

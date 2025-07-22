@@ -40,6 +40,10 @@
   gap: 62px;
 }
 
+.production-specifications-container {
+  padding-bottom: 32px;
+}
+
 .production-specifications-wrap {
   cursor: pointer;
   transition: all 0.2s ease;
