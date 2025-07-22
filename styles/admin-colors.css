@@ -87,10 +87,6 @@
     border-color: var(--primary-light);
   }
   
-  /* 漸變背景 */
-  .bg-gradient-primary {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-  }
   
   .bg-gradient-primary-light {
     background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
@@ -194,9 +190,8 @@
   }
   
   .bg-gradient-primary {
-    background: linear-gradient(90deg, rgb(213 225 255) 0%, rgba(255, 255, 255, 1) 100%);
-  }
-
+    background: linear-gradient(90deg, rgb(94 129 216) 0%, rgb(183 210 230) 100%);
+}
   .bg-bag-drawing {
     background-color: #e49cc0;
   }
