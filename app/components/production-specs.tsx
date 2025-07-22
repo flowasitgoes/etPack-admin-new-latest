@@ -31,7 +31,7 @@ export default function ProductionSpecs() {
                       </div>
                       <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
                         <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">寬度</div>
-                        <span className="text-sm">160 cm. 到中間90cm,豪到雙收</span>
+                        <span className="text-sm">160 cm. 到中間90cm,雙剖雙收</span>
                       </div>
                       <div className="flex items-center space-x-4 bg-white p-2 rounded">
                         <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">配方</div>
@@ -49,7 +49,7 @@ export default function ProductionSpecs() {
                     <div className="bg-gray-100 p-4">
                       <div className="text-sm space-y-2">
                         <div>抽3000M*2R / 約 260K</div>
-                        <div>染白豪理</div>
+                        <div>染白雙理</div>
                       </div>
                     </div>
                   </div>

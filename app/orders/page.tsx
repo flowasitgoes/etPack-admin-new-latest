@@ -1,11 +1,21 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import OrderForm from "../components/order-form"
 import ProductionSpecs from "../components/production-specs"
 
 export default function OrdersPage() {
+  const [pageOpacity, setPageOpacity] = useState(0)
+
+  useEffect(() => {
+    // 組件掛載後開始淡入
+    setTimeout(() => setPageOpacity(1), 50)
+  }, [])
   return (
-    <div className="middle-col-outer-wrap flex-1">
+    <div 
+      className="middle-col-outer-wrap flex-1 transition-all duration-300 ease-in-out"
+      style={{ opacity: pageOpacity }}
+    >
       {/* Header */}
       <div className="bg-gray-600 text-white px-6 py-4 mb-6">
         <div className="flex items-center space-x-2 text-sm">

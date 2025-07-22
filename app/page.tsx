@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Sidebar from "./components/sidebar"
 import StaffInfo from "./components/staff-info"
 import OrdersPage from "./orders/page"
@@ -13,6 +13,29 @@ import "../styles/admin.css"
 
 export default function ERPAdmin() {
   const [activeModule, setActiveModule] = useState("orders")
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [fadeOpacity, setFadeOpacity] = useState(1)
+
+  // 處理模組切換的淡入淡出效果
+  const handleModuleChange = async (newModule: string) => {
+    if (newModule === activeModule) return
+    
+    setIsTransitioning(true)
+    setFadeOpacity(0)
+    
+    // 等待淡出動畫完成
+    await new Promise(resolve => setTimeout(resolve, 150))
+    
+    // 切換模組
+    setActiveModule(newModule)
+    
+    // 等待一幀確保 DOM 更新
+    await new Promise(resolve => requestAnimationFrame(resolve))
+    
+    // 開始淡入
+    setFadeOpacity(1)
+    setIsTransitioning(false)
+  }
 
   const renderActiveModule = () => {
     switch (activeModule) {
@@ -35,14 +58,22 @@ export default function ERPAdmin() {
       <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="flex h-screen">
           {/* Left Sidebar */}
-          <Sidebar activeModule={activeModule} onModuleChange={setActiveModule} />
+          <Sidebar activeModule={activeModule} onModuleChange={handleModuleChange} />
 
           {/* Main Content */}
-          <div className="middle-col-section flex-1 flex" style={{ overflow: "scroll" }}>
-            {renderActiveModule()}
+          <div className="middle-col-section flex-1 flex transition-all duration-300 ease-in-out" style={{ overflow: "scroll" }}>
+            <div 
+              className="flex-1 transition-opacity duration-150 ease-in-out"
+              style={{ 
+                opacity: fadeOpacity,
+                pointerEvents: isTransitioning ? 'none' : 'auto'
+              }}
+            >
+              {renderActiveModule()}
+            </div>
 
-            {/* Right Sidebar - Staff Info */}
-            <StaffInfo />
+            {/* Right Sidebar - Staff Info (只在非配方資料庫模組顯示) */}
+            {activeModule !== "formulas" && <StaffInfo />}
           </div>
         </div>
       </div>
