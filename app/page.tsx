@@ -72,8 +72,8 @@ export default function ERPAdmin() {
               {renderActiveModule()}
             </div>
 
-            {/* Right Sidebar - Staff Info (只在非配方資料庫模組顯示) */}
-            {activeModule !== "formulas" && <StaffInfo />}
+            {/* Right Sidebar - Staff Info (只在非配方資料庫和產品資訊模組顯示) */}
+            {activeModule !== "formulas" && activeModule !== "products" && <StaffInfo />}
           </div>
         </div>
       </div>

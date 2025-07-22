@@ -3,69 +3,69 @@
 import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { type Formula } from "../lib/formula-service"
+import { type Product } from "../lib/product-service"
 
-interface FormulaListProps {
-  formulas: Formula[]
-  selectedFormula: string
+interface ProductListProps {
+  products: Product[]
+  selectedProduct: string
   sortBy: string
-  onFormulaSelect: (formulaId: string) => void
+  onProductSelect: (productId: string) => void
   onSortChange: (sortBy: string) => void
-  onEditClick?: (formula: Formula) => void
+  onEditClick: (product: Product) => void
   isEditing?: boolean
-  editingFormulaId?: string
+  editingProductId?: string
 }
 
-export default function FormulaList({
-  formulas,
-  selectedFormula,
+export default function ProductList({
+  products,
+  selectedProduct,
   sortBy,
-  onFormulaSelect,
+  onProductSelect,
   onSortChange,
   onEditClick,
   isEditing = false,
-  editingFormulaId = ""
-}: FormulaListProps) {
+  editingProductId = ""
+}: ProductListProps) {
   return (
     <div className="px-6 mb-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-800">配方列表</h2>
+        <h2 className="text-lg font-semibold text-gray-800">產品列表</h2>
         <div className="relative">
           <Button
             variant="outline"
             className="flex items-center space-x-2"
-            onClick={() => onSortChange(sortBy === "name" ? "order" : "name")}
+            onClick={() => onSortChange(sortBy === "name" ? "number" : "name")}
           >
-            <span>{sortBy === "name" ? "名稱排序" : "訂單排序"}</span>
+            <span>{sortBy === "name" ? "名稱排序" : "編號排序"}</span>
             <ChevronDown className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
-      {/* Formula Table */}
+      {/* Product Table */}
       <Card className="mb-6">
         <CardContent className="p-0">
           <div className="grid grid-cols-3">
             <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tl-lg">
-              配方編號
+              產品編號
             </div>
             <div className="bg-primary text-white px-4 py-3 text-center font-medium">
-              配方名稱
+              品名
             </div>
             <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tr-lg">
               操作
             </div>
           </div>
           <div className="max-h-64 overflow-y-auto">
-            {formulas.map((formula) => {
-              const isCurrentlyEditing = isEditing && editingFormulaId === formula.id
-              const isDisabled = isEditing && editingFormulaId !== formula.id
+            {products.map((product) => {
+              const isCurrentlyEditing = isEditing && editingProductId === product.id
+              const isDisabled = isEditing && editingProductId !== product.id
               
               return (
                 <div
-                  key={formula.id}
+                  key={product.id}
                   className={`grid grid-cols-3 border-b transition-colors ${
-                    selectedFormula === formula.id ? "bg-purple-50" : ""
+                    selectedProduct === product.id ? "bg-purple-50" : ""
                   } ${
                     isCurrentlyEditing ? "bg-blue-50 border-blue-200" : ""
                   } ${
@@ -78,11 +78,11 @@ export default function FormulaList({
                     }`}
                     onClick={() => {
                       if (!isDisabled) {
-                        onFormulaSelect(formula.id)
+                        onProductSelect(product.id)
                       }
                     }}
                   >
-                    {formula.id}
+                    {product.id}
                   </div>
                   <div 
                     className={`px-4 py-3 text-sm border-r ${
@@ -90,46 +90,46 @@ export default function FormulaList({
                     }`}
                     onClick={() => {
                       if (!isDisabled) {
-                        onFormulaSelect(formula.id)
+                        onProductSelect(product.id)
                       }
                     }}
                   >
-                    {formula.variants.map((variant, vIndex) => (
+                    {product.variants.map((variant, vIndex) => (
                       <div key={vIndex} className="mb-1 last:mb-0">
                         {variant}
                       </div>
                     ))}
                   </div>
-                  <div className="px-4 py-3 text-sm flex items-center justify-center">
-                    <Button
-                      size="sm"
-                      className={`px-3 py-1 text-xs font-medium rounded-md shadow-sm transition-all duration-200 transform ${
-                        isDisabled 
-                          ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
-                          : "bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white hover:shadow-md hover:-translate-y-0.5"
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        if (!isDisabled && onEditClick) {
-                          onEditClick(formula)
-                        }
-                      }}
-                      disabled={isDisabled}
-                    >
-                      配方基本資料編輯
-                    </Button>
-                  </div>
+                <div className="px-4 py-3 text-sm flex items-center justify-center">
+                  <Button
+                    size="sm"
+                    className={`px-3 py-1 text-xs font-medium rounded-md shadow-sm transition-all duration-200 transform ${
+                      isDisabled 
+                        ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
+                        : "bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white hover:shadow-md hover:-translate-y-0.5"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      if (!isDisabled) {
+                        onEditClick(product)
+                      }
+                    }}
+                    disabled={isDisabled}
+                  >
+                    產品基本資料編輯
+                  </Button>
                 </div>
-              )
-            })}
+              </div>
+            )
+          })}
           </div>
         </CardContent>
       </Card>
       
-      {/* 提示信息 - 只在沒有選擇配方時顯示 */}
-      {!selectedFormula && formulas.length > 0 && (
+      {/* 提示信息 - 只在沒有選擇產品時顯示 */}
+      {!selectedProduct && products.length > 0 && (
         <div className="text-center py-8 text-gray-500">
-          <p className="text-sm">點擊上方配方來查看歷史訂單記錄</p>
+          <p className="text-sm">點擊上方產品來查看歷史訂單記錄</p>
         </div>
       )}
     </div>
