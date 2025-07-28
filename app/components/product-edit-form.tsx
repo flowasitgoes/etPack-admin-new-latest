@@ -109,7 +109,7 @@ export default function ProductEditForm({
         {/* 產品變體 */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">
-            產品變體 (第一個變體將作為主要品名)
+            產品變體 (品名)
           </Label>
           <div className="space-y-2">
             {formData.variants.map((variant, index) => (

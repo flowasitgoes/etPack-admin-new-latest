@@ -45,16 +45,18 @@ export default function FormulaList({
       {/* Formula Table */}
       <Card className="mb-6">
         <CardContent className="p-0">
-          <div className="grid grid-cols-3">
+          <div className={onEditClick ? "grid grid-cols-3" : "grid grid-cols-2"}>
             <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tl-lg">
               配方編號
             </div>
-            <div className="bg-primary text-white px-4 py-3 text-center font-medium">
+            <div className={`bg-primary text-white px-4 py-3 text-center font-medium ${onEditClick ? "" : "rounded-tr-lg"}`}>
               配方名稱
             </div>
-            <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tr-lg">
-              操作
-            </div>
+            {onEditClick && (
+              <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tr-lg">
+                操作
+              </div>
+            )}
           </div>
           <div className="max-h-64 overflow-y-auto">
             {formulas.map((formula) => {
@@ -64,7 +66,7 @@ export default function FormulaList({
               return (
                 <div
                   key={formula.id}
-                  className={`grid grid-cols-3 border-b transition-colors ${
+                  className={`${onEditClick ? "grid grid-cols-3" : "grid grid-cols-2"} border-b transition-colors ${
                     selectedFormula === formula.id ? "bg-purple-50" : ""
                   } ${
                     isCurrentlyEditing ? "bg-blue-50 border-blue-200" : ""
@@ -85,7 +87,7 @@ export default function FormulaList({
                     {formula.id}
                   </div>
                   <div 
-                    className={`px-4 py-3 text-sm border-r ${
+                    className={`px-4 py-3 text-sm ${onEditClick ? "border-r" : ""} ${
                       isDisabled ? "cursor-not-allowed" : "cursor-pointer"
                     }`}
                     onClick={() => {
@@ -100,25 +102,27 @@ export default function FormulaList({
                       </div>
                     ))}
                   </div>
-                  <div className="px-4 py-3 text-sm flex items-center justify-center">
-                    <Button
-                      size="sm"
-                      className={`px-3 py-1 text-xs font-medium rounded-md shadow-sm transition-all duration-200 transform ${
-                        isDisabled 
-                          ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
-                          : "bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white hover:shadow-md hover:-translate-y-0.5"
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        if (!isDisabled && onEditClick) {
-                          onEditClick(formula)
-                        }
-                      }}
-                      disabled={isDisabled}
-                    >
-                      配方基本資料編輯
-                    </Button>
-                  </div>
+                  {onEditClick && (
+                    <div className="px-4 py-3 text-sm flex items-center justify-center">
+                      <Button
+                        size="sm"
+                        className={`px-3 py-1 text-xs font-medium rounded-md shadow-sm transition-all duration-200 transform ${
+                          isDisabled 
+                            ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
+                            : "bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white hover:shadow-md hover:-translate-y-0.5"
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          if (!isDisabled && onEditClick) {
+                            onEditClick(formula)
+                          }
+                        }}
+                        disabled={isDisabled}
+                      >
+                        配方基本資料編輯
+                      </Button>
+                    </div>
+                  )}
                 </div>
               )
             })}
