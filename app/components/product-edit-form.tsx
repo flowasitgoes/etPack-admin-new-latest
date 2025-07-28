@@ -91,7 +91,78 @@ export default function ProductEditForm({
         <p className="text-sm text-gray-600">編輯產品基本資料</p>
       </div>
 
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* 產品編號 */}
+        <div className="space-y-2">
+          <Label htmlFor="productId" className="text-sm font-medium text-gray-700">
+            產品編號
+          </Label>
+          <Input
+            id="productId"
+            value={formData.id}
+            onChange={(e) => setFormData({ ...formData, id: e.target.value })}
+            className="w-full"
+            placeholder="輸入產品編號"
+          />
+        </div>
 
+        {/* 產品變體 */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">
+            產品變體 (品名)
+          </Label>
+          <div className="space-y-2">
+            {formData.variants.map((variant, index) => (
+              <div key={index} className="flex space-x-2">
+                <Input
+                  value={variant}
+                  onChange={(e) => handleVariantChange(index, e.target.value)}
+                  placeholder={index === 0 ? "主要品名" : `變體 ${index + 1}`}
+                  className="flex-1"
+                />
+                {formData.variants.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => removeVariant(index)}
+                    className="px-2 text-red-600 hover:text-red-700"
+                  >
+                    刪除
+                  </Button>
+                )}
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={addVariant}
+              className="w-full"
+            >
+              新增變體
+            </Button>
+          </div>
+        </div>
+
+        {/* 按鈕區域 */}
+        <div className="flex space-x-3 pt-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onCancel}
+            className="flex-1"
+          >
+            取消
+          </Button>
+          <Button
+            type="submit"
+            className="flex-1 bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white"
+          >
+            確認送出
+          </Button>
+        </div>
+      </form>
     </div>
   )
 } 
