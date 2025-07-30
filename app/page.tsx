@@ -61,9 +61,9 @@ export default function ERPAdmin() {
           <Sidebar activeModule={activeModule} onModuleChange={handleModuleChange} />
 
           {/* Main Content */}
-          <div className="middle-col-section flex-1 flex transition-all duration-300 ease-in-out" style={{ overflow: "scroll" }}>
+          <div className="middle-col-section flex-1 flex transition-all duration-300 ease-in-out overflow-hidden">
             <div 
-              className="flex-1 transition-opacity duration-150 ease-in-out"
+              className="flex-1 transition-opacity duration-150 ease-in-out overflow-y-auto"
               style={{ 
                 opacity: fadeOpacity,
                 pointerEvents: isTransitioning ? 'none' : 'auto'
