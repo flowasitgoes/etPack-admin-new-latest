@@ -3,6 +3,7 @@
 import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { type Product } from "../lib/product-service"
 
 interface ProductListProps {
@@ -26,19 +27,34 @@ export default function ProductList({
   isEditing = false,
   editingProductId = ""
 }: ProductListProps) {
+  // 獲取排序選項顯示文字
+  const getSortOptionText = (option: string) => {
+    switch (option) {
+      case "name":
+        return "名稱排序"
+      case "number":
+        return "編號排序"
+      default:
+        return "名稱排序"
+    }
+  }
+
   return (
     <div className="px-6 mb-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-800">產品列表</h2>
         <div className="relative">
-          <Button
-            variant="outline"
-            className="flex items-center space-x-2"
-            onClick={() => onSortChange(sortBy === "name" ? "number" : "name")}
-          >
-            <span>{sortBy === "name" ? "名稱排序" : "編號排序"}</span>
-            <ChevronDown className="w-4 h-4" />
-          </Button>
+          <Select value={sortBy} onValueChange={onSortChange}>
+            <SelectTrigger className="w-40">
+              <SelectValue>
+                {getSortOptionText(sortBy)}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">名稱排序</SelectItem>
+              <SelectItem value="number">編號排序</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
