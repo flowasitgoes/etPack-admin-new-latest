@@ -26,7 +26,7 @@ export interface VendorOrder {
   remarks: string
 }
 
-// 模擬廠商數據
+// 模擬客戶數據
 const mockVendors: Vendor[] = [
   {
     id: "V001",
@@ -84,7 +84,7 @@ const mockVendors: Vendor[] = [
   }
 ]
 
-// 模擬廠商歷史訂單數據
+// 模擬客戶歷史訂單數據
 const mockVendorOrders: VendorOrder[] = [
   {
     id: "O001",
@@ -145,31 +145,35 @@ const mockVendorOrders: VendorOrder[] = [
 ]
 
 export class VendorService {
-  // 獲取所有廠商
+  // 獲取所有客戶
   static async getAllVendors(): Promise<Vendor[]> {
     // 模擬API延遲
     await new Promise(resolve => setTimeout(resolve, 500))
     return [...mockVendors]
   }
 
-  // 根據名稱排序廠商
+  // 根據名稱排序客戶
   static async sortVendors(vendors: Vendor[], sortBy: string): Promise<Vendor[]> {
     const sortedVendors = [...vendors]
     
     if (sortBy === "name") {
       sortedVendors.sort((a, b) => a.name.localeCompare(b.name, 'zh-TW'))
+    } else if (sortBy === "id") {
+      sortedVendors.sort((a, b) => a.id.localeCompare(b.id))
+    } else if (sortBy === "vendorId") {
+      sortedVendors.sort((a, b) => a.vendorId.localeCompare(b.vendorId))
     }
     
     return sortedVendors
   }
 
-  // 獲取廠商歷史訂單
+  // 獲取客戶歷史訂單
   static async getVendorOrders(vendorId: string): Promise<VendorOrder[]> {
     await new Promise(resolve => setTimeout(resolve, 300))
     return mockVendorOrders.filter(order => order.vendorId === vendorId)
   }
 
-  // 更新廠商信息
+  // 更新客戶信息
   static async updateVendor(vendor: Vendor, originalId?: string): Promise<Vendor> {
     await new Promise(resolve => setTimeout(resolve, 300))
     
@@ -181,14 +185,14 @@ export class VendorService {
     return vendor
   }
 
-  // 添加新廠商
+  // 添加新客戶
   static async addVendor(vendor: Vendor): Promise<Vendor> {
     await new Promise(resolve => setTimeout(resolve, 300))
     mockVendors.push(vendor)
     return vendor
   }
 
-  // 刪除廠商
+  // 刪除客戶
   static async deleteVendor(vendorId: string): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 300))
     const index = mockVendors.findIndex(v => v.id === vendorId)

@@ -85,7 +85,7 @@ export default function VendorDetailForm({
   return (
     <div className="px-6 mb-6">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* 廠商基本資料 */}
+        {/* 客戶基本資料 */}
         <Card className={`transition-all duration-200 ${
           focusedSection === 'basic' 
             ? 'ring-1 ring-primary ring-opacity-30 shadow-md' 
@@ -93,7 +93,7 @@ export default function VendorDetailForm({
         }`}>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-semibold text-gray-800">廠商基本資料</CardTitle>
+              <CardTitle className="text-lg font-semibold text-gray-800">客戶基本資料</CardTitle>
               <Button size="sm" variant="ghost" className="text-primary">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -105,7 +105,7 @@ export default function VendorDetailForm({
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm font-medium text-gray-700">
-                  廠商名稱 *
+                  客戶名稱 *
                 </Label>
                 <Input
                   id="name"
@@ -113,7 +113,7 @@ export default function VendorDetailForm({
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   onFocus={() => setFocusedSection('basic')}
                   onBlur={() => setFocusedSection(null)}
-                  placeholder="請輸入廠商名稱"
+                  placeholder="請輸入客戶名稱"
                   className="w-full"
                   required
                 />
@@ -121,7 +121,7 @@ export default function VendorDetailForm({
 
               <div className="space-y-2">
                 <Label htmlFor="vendorId" className="text-sm font-medium text-gray-700">
-                  廠商編號
+                  客戶編號
                 </Label>
                 <Input
                   id="vendorId"
@@ -129,7 +129,7 @@ export default function VendorDetailForm({
                   onChange={(e) => handleInputChange("vendorId", e.target.value)}
                   onFocus={() => setFocusedSection('basic')}
                   onBlur={() => setFocusedSection(null)}
-                  placeholder="請輸入廠商編號"
+                  placeholder="請輸入客戶編號"
                   className="w-full"
                 />
               </div>
@@ -137,7 +137,7 @@ export default function VendorDetailForm({
 
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700">
-                廠商地址
+                客戶地址
               </Label>
               <div className="grid grid-cols-2 gap-2">
                 <Select 

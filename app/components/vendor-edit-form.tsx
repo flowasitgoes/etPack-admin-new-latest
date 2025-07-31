@@ -83,15 +83,15 @@ export default function VendorEditForm({
       <Card className="sticky top-6">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-gray-800">
-            廠商資料編輯
+            客戶資料編輯
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* 廠商基本資料 */}
+            {/* 客戶基本資料 */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-md font-medium text-gray-700">廠商基本資料</h3>
+                <h3 className="text-md font-medium text-gray-700">客戶基本資料</h3>
                 <Button size="sm" variant="ghost" className="text-primary">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -101,13 +101,13 @@ export default function VendorEditForm({
 
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm font-medium text-gray-700">
-                  廠商名稱 *
+                  客戶名稱 *
                 </Label>
                 <Input
                   id="name"
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
-                  placeholder="請輸入廠商名稱"
+                  placeholder="請輸入客戶名稱"
                   className="w-full"
                   required
                 />
@@ -115,20 +115,20 @@ export default function VendorEditForm({
 
               <div className="space-y-2">
                 <Label htmlFor="vendorId" className="text-sm font-medium text-gray-700">
-                  廠商編號
+                  客戶編號
                 </Label>
                 <Input
                   id="vendorId"
                   value={formData.vendorId}
                   onChange={(e) => handleInputChange("vendorId", e.target.value)}
-                  placeholder="請輸入廠商編號"
+                  placeholder="請輸入客戶編號"
                   className="w-full"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label className="text-sm font-medium text-gray-700">
-                  廠商地址
+                  客戶地址
                 </Label>
                 <div className="grid grid-cols-2 gap-2">
                   <Select value={formData.address.country} onValueChange={(value) => handleAddressChange("country", value)}>

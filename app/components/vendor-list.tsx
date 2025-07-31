@@ -3,6 +3,7 @@
 import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { type Vendor } from "../lib/vendor-service"
 
 interface VendorListProps {
@@ -26,19 +27,37 @@ export default function VendorList({
   isEditing = false,
   editingVendorId = ""
 }: VendorListProps) {
+  // 獲取排序選項顯示文字
+  const getSortOptionText = (option: string) => {
+    switch (option) {
+      case "name":
+        return "名稱排序"
+      case "id":
+        return "編號排序"
+      case "vendorId":
+        return "客戶編號"
+      default:
+        return "名稱排序"
+    }
+  }
+
   return (
     <div className="px-6 mb-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-800">廠商列表</h2>
+        <h2 className="text-lg font-semibold text-gray-800">客戶列表</h2>
         <div className="relative">
-          <Button
-            variant="outline"
-            className="flex items-center space-x-2"
-            onClick={() => onSortChange(sortBy === "name" ? "id" : "name")}
-          >
-            <span>{sortBy === "name" ? "名稱排序" : "編號排序"}</span>
-            <ChevronDown className="w-4 h-4" />
-          </Button>
+          <Select value={sortBy} onValueChange={onSortChange}>
+            <SelectTrigger className="w-40">
+              <SelectValue>
+                {getSortOptionText(sortBy)}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">名稱排序</SelectItem>
+              <SelectItem value="id">編號排序</SelectItem>
+              <SelectItem value="vendorId">客戶編號</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -47,7 +66,7 @@ export default function VendorList({
         <CardContent className="p-0">
           <div className="grid grid-cols-3">
             <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tl-lg">
-              廠商名稱
+              客戶名稱
             </div>
             <div className="bg-primary text-white px-4 py-3 text-center font-medium">
               連絡窗口
@@ -92,10 +111,10 @@ export default function VendorList({
         </CardContent>
       </Card>
       
-      {/* 提示信息 - 只在沒有選擇廠商時顯示 */}
+      {/* 提示信息 - 只在沒有選擇客戶時顯示 */}
       {!selectedVendor && vendors.length > 0 && (
         <div className="text-center py-8 text-gray-500">
-          <p className="text-sm">點擊上方廠商來查看詳細信息和歷史訂單</p>
+          <p className="text-sm">點擊上方客戶來查看詳細信息和歷史訂單</p>
         </div>
       )}
     </div>

@@ -32,7 +32,7 @@ export default function ProductOrders({
       <Card className="rounded-t-none">
         <CardContent className="p-0">
           <div className="grid grid-cols-4 bg-gray-100">
-            <div className="px-4 py-3 text-sm font-medium text-center border-r">廠商名稱</div>
+            <div className="px-4 py-3 text-sm font-medium text-center border-r">客戶名稱</div>
             <div className="px-4 py-3 text-sm font-medium text-center border-r">交貨日期</div>
             <div className="px-4 py-3 text-sm font-medium text-center border-r">訂單數量</div>
             <div className="px-4 py-3 text-sm font-medium text-center">備註</div>

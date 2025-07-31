@@ -67,7 +67,7 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
                 }`}
                 onClick={() => onModuleChange?.("vendors")}
               >
-                廠商資訊
+                客戶資訊
               </div>
               <div 
                 className={`text-center px-4 py-3 cursor-pointer transition-colors ${

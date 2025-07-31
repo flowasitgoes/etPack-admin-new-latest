@@ -34,7 +34,7 @@ app/lib/
 
 ### 2. 歷史訂單記錄
 - **訂單查詢**：顯示選中產品的所有歷史訂單
-- **詳細信息**：包含廠商名稱、交貨日期、訂單數量、備註
+- **詳細信息**：包含客戶名稱、交貨日期、訂單數量、備註
 - **動態載入**：只在選擇產品後才顯示訂單記錄
 - **淡入效果**：平滑的視覺過渡效果
 
@@ -64,7 +64,7 @@ interface Product {
 interface ProductOrder {
   id: string          // 訂單ID
   productId: string   // 產品ID
-  vendor: string      // 廠商名稱
+  vendor: string      // 客戶名稱
   deliveryDate: string // 交貨日期
   quantity: string    // 訂單數量
   notes: string       // 備註

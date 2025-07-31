@@ -27,7 +27,7 @@ export default function VendorsPage() {
     return `${year} / ${month} / ${day} ${hours}:${minutes}`
   }
 
-  // 初始化載入廠商數據
+  // 初始化載入客戶數據
   useEffect(() => {
     const loadVendors = async () => {
       try {
@@ -35,7 +35,7 @@ export default function VendorsPage() {
         const sortedVendors = await VendorService.sortVendors(vendorsData, sortBy)
         setVendors(sortedVendors)
       } catch (error) {
-        console.error("載入廠商數據失敗:", error)
+        console.error("載入客戶數據失敗:", error)
       } finally {
         setLoading(false)
         // 數據載入完成後開始淡入
@@ -53,7 +53,7 @@ export default function VendorsPage() {
     setVendors(sortedVendors)
   }
 
-  // 處理廠商選擇
+  // 處理客戶選擇
   const handleVendorSelect = (vendorId: string) => {
     setSelectedVendor(vendorId)
     const vendor = vendors.find(v => v.id === vendorId)
@@ -65,20 +65,20 @@ export default function VendorsPage() {
     try {
       const savedVendor = await VendorService.updateVendor(updatedVendor, selectedVendor)
       
-      // 更新本地廠商列表
+      // 更新本地客戶列表
       const updatedVendors = vendors.map(v => 
         v.id === selectedVendor ? savedVendor : v
       )
       setVendors(updatedVendors)
       
-      // 更新選中的廠商數據
+      // 更新選中的客戶數據
       setSelectedVendorData(savedVendor)
     } catch (error) {
-      console.error("保存廠商失敗:", error)
+      console.error("保存客戶失敗:", error)
     }
   }
 
-  // 當選擇的廠商改變時，載入對應的歷史訂單
+  // 當選擇的客戶改變時，載入對應的歷史訂單
   useEffect(() => {
     const loadVendorOrders = async () => {
       if (selectedVendor) {
@@ -86,7 +86,7 @@ export default function VendorsPage() {
           const orders = await VendorService.getVendorOrders(selectedVendor)
           setVendorOrders(orders)
         } catch (error) {
-          console.error("載入廠商訂單失敗:", error)
+          console.error("載入客戶訂單失敗:", error)
         }
       } else {
         setVendorOrders([])
@@ -118,7 +118,7 @@ export default function VendorsPage() {
           <div className="flex items-center space-x-2 text-sm">
             <span>業務課</span>
             <span>{">"}</span>
-            <span>廠商資訊</span>
+            <span>客戶資訊</span>
           </div>
           <div className="flex items-center space-x-2 text-sm">
             <Clock className="w-4 h-4" />
@@ -141,7 +141,7 @@ export default function VendorsPage() {
           editingVendorId=""
         />
 
-        {/* Vendor Detail Form - 只在選擇廠商後顯示 */}
+        {/* Vendor Detail Form - 只在選擇客戶後顯示 */}
         {selectedVendorData && (
           <VendorDetailForm
             vendor={selectedVendorData}
@@ -149,7 +149,7 @@ export default function VendorsPage() {
           />
         )}
 
-        {/* Vendor Orders Section - 只在選擇廠商後顯示 */}
+        {/* Vendor Orders Section - 只在選擇客戶後顯示 */}
         {selectedVendor && (
           <VendorOrders
             vendorId={selectedVendor}
