@@ -401,7 +401,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-blue-400" />
+                <Edit className="w-4 h-4 text-[#fccc48]" />
               </Button>
             </div>
           </CardContent>
@@ -410,7 +410,7 @@ export default function ProductionSpecs() {
 
       {/* Lamination Section */}
       <div className="production-specifications-wrap" tabIndex={0}>
-        <Card className="production-specifications-item border-orange-300">
+        <Card className="production-specifications-item border-[#e4b49c]">
           <CardContent className="p-0">
             <div className="flex">
               <div className="bg-bag-lamination text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
@@ -563,7 +563,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-yellow-400" />
+                <Edit className="w-4 h-4 text-[#e4b49c]" />
               </Button>
             </div>
           </CardContent>
@@ -576,7 +576,7 @@ export default function ProductionSpecs() {
           <CardContent className="p-0">
             <div className="flex">
               <div className="bg-bag-slitting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
-                <div className="text-wrap-vertical bg">
+                <div className="text-wrap-vertical">
                   <div>分</div>
                   <div>條</div>
                 </div>
@@ -750,7 +750,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-orange-400" />
+                <Edit className="w-4 h-4 text-[#9ee7a6]" />
               </Button>
             </div>
           </CardContent>
@@ -759,7 +759,7 @@ export default function ProductionSpecs() {
 
       {/* Bag Cutting Section */}
       <div className="production-specifications-wrap" tabIndex={0}>
-        <Card className="production-specifications-item border-[#90f19a]">
+        <Card className="production-specifications-item border-yellow-400">
           <CardContent className="p-0">
             <div className="flex">
               <div className="bg-bag-cutting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
@@ -804,7 +804,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-green-400" />
+                <Edit className="w-4 h-4 text-[#fccc48]" />
               </Button>
             </div>
           </CardContent>
