@@ -67,6 +67,36 @@
   overflow: auto;
 }
 
+/* 生产规格表单样式 */
+.production-spec-form input {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.production-spec-form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(144, 144, 228, 0.1);
+}
+
+.production-spec-form .select-trigger {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.production-spec-form .select-trigger:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(144, 144, 228, 0.1);
+}
+
 .mid-col-order-details-and-prod-spec {
   padding-left: 20px;
   padding-right: 20px;
