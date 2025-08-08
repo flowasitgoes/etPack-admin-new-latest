@@ -12,20 +12,20 @@ export default function ProductionSpecs() {
       {/* Bag Section */}
       <div className="production-specifications-wrap" tabIndex={0}>
         <Card className="production-specifications-item border-pink-200">
-          <CardContent className="p-0">
-            <div className="flex">
+        <CardContent className="p-0">
+          <div className="flex">
               <div className="bg-bag-drawing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
-                <div className="text-wrap-vertical">
+              <div className="text-wrap-vertical">
                   <div>抽</div>
                   <div>袋</div>
-                </div>
               </div>
-              <div className="production-spec-scrollable-wrap flex-1 p-6">
-                <div className="grid grid-cols-2 gap-6">
-                  <div>
-                    <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
-                      生產規格描述
-                    </div>
+            </div>
+            <div className="production-spec-scrollable-wrap flex-1 p-6">
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
+                    生產規格描述
+                  </div>
                     <div className="bg-gray-100 p-4 space-y-3 production-spec-form">
                       {/* 厚度 */}
                       <div className="flex items-center space-x-4 bg-white p-2 rounded">
@@ -382,17 +382,17 @@ export default function ProductionSpecs() {
                         </Select>
                         <Input className="w-24 h-8 text-sm" placeholder="填值" />
                       </div>
-                    </div>
                   </div>
-                  <div>
-                    <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
-                      生產條件
-                    </div>
-                    <div className="bg-gray-100 p-4">
+                </div>
+                <div>
+                  <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
+                    生產條件
+                  </div>
+                  <div className="bg-gray-100 p-4">
                       <div className="text-sm space-y-2 mb-3">
                         <div>約260k</div>
                       </div>
-                      <div className="text-sm space-y-2">
+                    <div className="text-sm space-y-2">
                         <div>印3000M*2R / 約 260K</div>
                         <div>條碼: 4712425028076</div>
                       </div>
@@ -752,10 +752,10 @@ export default function ProductionSpecs() {
               <Button size="icon" variant="ghost" className="m-2">
                 <Edit className="w-4 h-4 text-[#9ee7a6]" />
               </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
 
       {/* Bag Cutting Section */}
       <div className="production-specifications-wrap" tabIndex={0}>

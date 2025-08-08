@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import OrderForm from "../components/order-form"
+import CreatingCategoryOrder from "../components/creating-category-order"
 import ProductionSpecs from "../components/production-specs"
 
 export default function OrdersPage() {
@@ -38,6 +39,7 @@ export default function OrdersPage() {
       
       {/* Order Form */}
       <OrderForm />
+      <CreatingCategoryOrder />
 
       {/* Production Specifications */}
       <ProductionSpecs />
