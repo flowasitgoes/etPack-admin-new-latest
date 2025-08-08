@@ -3,6 +3,13 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { ChevronDown, Trash2, X } from "lucide-react"
 
 export default function CreatingCategoryOrder() {
   // 各个生产步骤的计数状态
@@ -39,127 +46,112 @@ export default function CreatingCategoryOrder() {
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-medium text-gray-800">生產流程</h2>
-                        <Button
-              variant="destructive"
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-              onClick={clearAllCounts}
-            >
-              清除全部
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="destructive"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  清除全部
+                  <ChevronDown className="w-4 h-4 ml-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[var(--radix-dropdown-menu-trigger-width)]">
+                <DropdownMenuItem 
+                  className="text-red-600 focus:text-red-600 cursor-pointer justify-center"
+                  onClick={clearAllCounts}
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  確認清除全部
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           
           <div className="grid grid-cols-5 gap-6">
             {/* 抽袋 */}
             <div className="text-center">
               <button 
-                className="w-20 h-20 rounded-full text-white font-bold text-lg border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#e49cc0' }}
                 onClick={() => incrementCount('bag')}
               >
-                抽袋
+                + 抽袋
               </button>
+              <div className="flex justify-center items-center">
+                <div className="border-b-2 border-gray-400 pb-1 text-base font-bold" style={{ color: '#666' }}>
+                  {counts.bag}
+                </div>
+                <span className="ml-2 text-xs text-gray-600">張表單</span>
+              </div>
             </div>
             
             {/* 印刷 */}
             <div className="text-center">
               <button 
-                className="w-20 h-20 rounded-full text-white font-bold text-lg border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#9ccee4' }}
                 onClick={() => incrementCount('printing')}
               >
-                印刷
+                + 印刷
               </button>
+              <div className="flex justify-center items-center">
+                <div className="border-b-2 border-gray-400 pb-1 text-base font-bold" style={{ color: '#666' }}>
+                  {counts.printing}
+                </div>
+                <span className="ml-2 text-xs text-gray-600">張表單</span>
+              </div>
             </div>
             
             {/* 貼合 */}
             <div className="text-center">
               <button 
-                className="w-20 h-20 rounded-full text-white font-bold text-lg border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#e4b49c' }}
                 onClick={() => incrementCount('lamination')}
               >
-                貼合
+                + 貼合
               </button>
+              <div className="flex justify-center items-center">
+                <div className="border-b-2 border-gray-400 pb-1 text-base font-bold" style={{ color: '#666' }}>
+                  {counts.lamination}
+                </div>
+                <span className="ml-2 text-xs text-gray-600">張表單</span>
+              </div>
             </div>
             
             {/* 分條 */}
             <div className="text-center">
               <button 
-                className="w-20 h-20 rounded-full text-white font-bold text-lg border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#9ee7a6' }}
                 onClick={() => incrementCount('slitting')}
               >
-                分條
+                + 分條
               </button>
+              <div className="flex justify-center items-center">
+                <div className="border-b-2 border-gray-400 pb-1 text-base font-bold" style={{ color: '#666' }}>
+                  {counts.slitting}
+                </div>
+                <span className="ml-2 text-xs text-gray-600">張表單</span>
+              </div>
             </div>
             
             {/* 裁袋 */}
             <div className="text-center">
               <button 
-                className="w-20 h-20 rounded-full text-white font-bold text-lg border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#fccc48' }}
                 onClick={() => incrementCount('cutting')}
               >
-                裁袋
+                + 裁袋
               </button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* 實體視覺化 Section */}
-      <Card className="border border-gray-200">
-        <CardContent className="p-6">
-          <h2 className="text-lg font-medium text-gray-800 mb-6 text-center">實體視覺化</h2>
-          
-          <div className="grid grid-cols-5 gap-8">
-            {/* 抽袋 */}
-            <div className="text-center">
-              <h3 className="text-lg font-medium text-gray-800 mb-4">抽袋</h3>
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-gray-500 text-white rounded-full flex items-center justify-center text-lg font-bold">
-                  {counts.bag}
-                </div>
-              </div>
-            </div>
-            
-            {/* 印刷 */}
-            <div className="text-center">
-              <h3 className="text-lg font-medium text-gray-800 mb-4">印刷</h3>
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-gray-500 text-white rounded-full flex items-center justify-center text-lg font-bold">
-                  {counts.printing}
-                </div>
-              </div>
-            </div>
-            
-            {/* 貼合 */}
-            <div className="text-center">
-              <h3 className="text-lg font-medium text-gray-800 mb-4">貼合</h3>
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-gray-500 text-white rounded-full flex items-center justify-center text-lg font-bold">
-                  {counts.lamination}
-                </div>
-              </div>
-            </div>
-            
-            {/* 分條 */}
-            <div className="text-center">
-              <h3 className="text-lg font-medium text-gray-800 mb-4">分條</h3>
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-gray-500 text-white rounded-full flex items-center justify-center text-lg font-bold">
-                  {counts.slitting}
-                </div>
-              </div>
-            </div>
-            
-            {/* 裁袋 */}
-            <div className="text-center">
-              <h3 className="text-lg font-medium text-gray-800 mb-4">裁袋</h3>
-              <div className="flex justify-center">
-                <div className="w-12 h-12 bg-gray-500 text-white rounded-full flex items-center justify-center text-lg font-bold">
+              <div className="flex justify-center items-center">
+                <div className="border-b-2 border-gray-400 pb-1 text-base font-bold" style={{ color: '#666' }}>
                   {counts.cutting}
                 </div>
+                <span className="ml-2 text-xs text-gray-600">張表單</span>
               </div>
             </div>
           </div>

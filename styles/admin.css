@@ -41,6 +41,8 @@
 }
 
 .production-specifications-container {
+  padding-left: 26px;
+  padding-right: 26px;
   padding-bottom: 32px;
 }
 
@@ -58,13 +60,9 @@
 }
 
 .production-spec-scrollable-wrap {
-  max-height: 200px;
-  overflow: hidden;
-  transition: overflow 0.2s ease;
-}
-
-.production-specifications-wrap:focus .production-spec-scrollable-wrap {
-  overflow: auto;
+  /* 移除高度限制，让内容完全展开 */
+  overflow: visible;
+  transition: all 0.2s ease;
 }
 
 /* 生产规格表单样式 */

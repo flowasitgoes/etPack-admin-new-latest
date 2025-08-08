@@ -55,7 +55,7 @@ export default function ERPAdmin() {
   }
   return (
     <div className="admin-container min-h-screen bg-gradient-to-br p-4">
-      <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div className="max-w-[1600px] mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="flex h-screen">
           {/* Left Sidebar */}
           <Sidebar activeModule={activeModule} onModuleChange={handleModuleChange} />

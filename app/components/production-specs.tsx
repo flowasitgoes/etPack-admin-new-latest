@@ -1,10 +1,16 @@
 "use client"
 
-import { Edit } from "lucide-react"
+import { Edit, MoreVertical, X } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function ProductionSpecs() {
   return (
@@ -20,8 +26,29 @@ export default function ProductionSpecs() {
                   <div>袋</div>
               </div>
             </div>
-            <div className="production-spec-scrollable-wrap flex-1 p-6">
-              <div className="grid grid-cols-2 gap-6">
+            <div className="flex-1 flex flex-col">
+              <div className="bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center">
+                <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="icon" variant="ghost" className="h-6 w-6">
+                      <MoreVertical className="w-4 h-4 text-pink-400" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                      <X className="w-4 h-4 mr-2" />
+                      刪除
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Edit className="w-4 h-4 mr-2" />
+                      編輯
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <div className="production-spec-scrollable-wrap flex-1 p-6">
+              <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                 <div>
                   <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                     生產規格描述
@@ -173,9 +200,7 @@ export default function ProductionSpecs() {
                   </div>
                 </div>
               </div>
-              <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-pink-400" />
-              </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -193,7 +218,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="production-spec-scrollable-wrap flex-1 p-6">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                       生產規格描述
@@ -386,7 +411,7 @@ export default function ProductionSpecs() {
                 </div>
                 <div>
                   <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
-                    生產條件
+                    其他生產條件
                   </div>
                   <div className="bg-gray-100 p-4">
                       <div className="text-sm space-y-2 mb-3">
@@ -400,9 +425,23 @@ export default function ProductionSpecs() {
                   </div>
                 </div>
               </div>
-              <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-[#fccc48]" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="icon" variant="ghost" className="m-2">
+                    <MoreVertical className="w-4 h-4 text-[#9ccee4]" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                    <X className="w-4 h-4 mr-2" />
+                    刪除
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Edit className="w-4 h-4 mr-2" />
+                    編輯
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </CardContent>
         </Card>
@@ -420,7 +459,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="production-spec-scrollable-wrap flex-1 p-6">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                       生產規格描述
@@ -547,7 +586,7 @@ export default function ProductionSpecs() {
                   </div>
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
-                      生產條件
+                      其他生產條件
                     </div>
                     <div className="bg-gray-100 p-4">
                       <div className="text-sm space-y-2 mb-3">
@@ -562,9 +601,23 @@ export default function ProductionSpecs() {
                   </div>
                 </div>
               </div>
-              <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-[#e4b49c]" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="icon" variant="ghost" className="m-2">
+                    <MoreVertical className="w-4 h-4 text-[#e4b49c]" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                    <X className="w-4 h-4 mr-2" />
+                    刪除
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Edit className="w-4 h-4 mr-2" />
+                    編輯
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </CardContent>
         </Card>
@@ -582,7 +635,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="production-spec-scrollable-wrap flex-1 p-6">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                       生產規格描述
@@ -734,7 +787,7 @@ export default function ProductionSpecs() {
                   </div>
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
-                      生產條件
+                      其他生產條件
                     </div>
                     <div className="bg-gray-100 p-4">
                       <div className="text-sm space-y-2 mb-3">
@@ -749,9 +802,23 @@ export default function ProductionSpecs() {
                   </div>
                 </div>
               </div>
-              <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-[#9ee7a6]" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="icon" variant="ghost" className="m-2">
+                    <MoreVertical className="w-4 h-4 text-[#9ee7a6]" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                    <X className="w-4 h-4 mr-2" />
+                    刪除
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Edit className="w-4 h-4 mr-2" />
+                    編輯
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
           </div>
         </CardContent>
       </Card>
@@ -769,7 +836,7 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="production-spec-scrollable-wrap flex-1 p-6">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                       生產規格描述
@@ -885,7 +952,7 @@ export default function ProductionSpecs() {
                   </div>
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
-                      生產條件
+                      其他生產條件
                     </div>
                     <div className="bg-gray-100 p-4">
                       <div className="text-sm space-y-2">
@@ -897,9 +964,23 @@ export default function ProductionSpecs() {
                   </div>
                 </div>
               </div>
-              <Button size="icon" variant="ghost" className="m-2">
-                <Edit className="w-4 h-4 text-[#fccc48]" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="icon" variant="ghost" className="m-2">
+                    <MoreVertical className="w-4 h-4 text-[#fccc48]" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                    <X className="w-4 h-4 mr-2" />
+                    刪除
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Edit className="w-4 h-4 mr-2" />
+                    編輯
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </CardContent>
         </Card>
