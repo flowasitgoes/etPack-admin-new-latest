@@ -1,6 +1,7 @@
 "use client"
 
-import { Edit, MoreVertical, X } from "lucide-react"
+import { useState } from "react"
+import { Edit, MoreVertical, X, ChevronDown, ChevronUp } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +14,21 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export default function ProductionSpecs() {
+  const [collapsedStates, setCollapsedStates] = useState({
+    bag: false,
+    printing: false,
+    lamination: false,
+    slitting: false,
+    cutting: false
+  })
+
+  const toggleCollapse = (section: string) => {
+    setCollapsedStates(prev => ({
+      ...prev,
+      [section]: !prev[section as keyof typeof prev]
+    }))
+  }
+
   return (
     <div className="production-specifications-container space-y-6">
       {/* Bag Section */}
@@ -20,14 +36,20 @@ export default function ProductionSpecs() {
         <Card className="production-specifications-item border-pink-200">
         <CardContent className="p-0">
           <div className="flex">
-              <div className="bg-bag-drawing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
-              <div className="text-wrap-vertical">
+              <div className={`bg-bag-drawing text-white flex items-center justify-center ${
+                collapsedStates.bag 
+                  ? 'px-4 py-2 text-sm' 
+                  : 'px-6 py-8 text-2xl text-vertical'
+              }`}>
+              <div className={collapsedStates.bag ? 'flex space-x-1' : 'text-wrap-vertical'}>
                   <div>抽</div>
                   <div>袋</div>
               </div>
             </div>
             <div className="flex-1 flex flex-col">
-              <div className="bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center">
+              <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                collapsedStates.bag ? 'border-b-0' : ''
+              }`}>
                 <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -36,6 +58,10 @@ export default function ProductionSpecs() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => toggleCollapse('bag')}>
+                      {collapsedStates.bag ? <ChevronDown className="w-4 h-4 mr-2" /> : <ChevronUp className="w-4 h-4 mr-2" />}
+                      {collapsedStates.bag ? '展開' : '折疊'}
+                    </DropdownMenuItem>
                     <DropdownMenuItem className="text-red-600 focus:text-red-600">
                       <X className="w-4 h-4 mr-2" />
                       刪除
@@ -47,8 +73,9 @@ export default function ProductionSpecs() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <div className="production-spec-scrollable-wrap flex-1 p-6">
-              <div className="grid grid-cols-[1fr_0.75fr] gap-6">
+              {!collapsedStates.bag && (
+                <div className="production-spec-scrollable-wrap flex-1 p-6">
+                  <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                 <div>
                   <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
                     生產規格描述
@@ -199,9 +226,14 @@ export default function ProductionSpecs() {
                     </div>
                   </div>
                 </div>
-              </div>
-              </div>
+                </div>
+              )}
+              {collapsedStates.bag && (
+                <div className="flex-1 bg-gray-50">
+                </div>
+              )}
             </div>
+          </div>
           </CardContent>
         </Card>
       </div>
@@ -211,13 +243,45 @@ export default function ProductionSpecs() {
         <Card className="production-specifications-item border-blue-200">
           <CardContent className="p-0">
             <div className="flex">
-              <div className="bg-bag-printing text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
-                <div className="text-wrap-vertical">
+              <div className={`bg-bag-printing text-white flex items-center justify-center ${
+                collapsedStates.printing 
+                  ? 'px-4 py-2 text-sm' 
+                  : 'px-6 py-8 text-2xl text-vertical'
+              }`}>
+                <div className={collapsedStates.printing ? 'flex space-x-1' : 'text-wrap-vertical'}>
                   <div>印</div>
                   <div>刷</div>
                 </div>
               </div>
-              <div className="production-spec-scrollable-wrap flex-1 p-6">
+              <div className="flex-1 flex flex-col">
+                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.printing ? 'border-b-0' : ''
+                }`}>
+                  <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="icon" variant="ghost" className="h-6 w-6">
+                        <MoreVertical className="w-4 h-4 text-[#9ccee4]" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => toggleCollapse('printing')}>
+                        {collapsedStates.printing ? <ChevronDown className="w-4 h-4 mr-2" /> : <ChevronUp className="w-4 h-4 mr-2" />}
+                        {collapsedStates.printing ? '展開' : '折疊'}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                        <X className="w-4 h-4 mr-2" />
+                        刪除
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Edit className="w-4 h-4 mr-2" />
+                        編輯
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                {!collapsedStates.printing && (
+                  <div className="production-spec-scrollable-wrap flex-1 p-6">
                 <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
@@ -424,24 +488,13 @@ export default function ProductionSpecs() {
                     </div>
                   </div>
                 </div>
+                </div>
+                )}
+                {collapsedStates.printing && (
+                  <div className="flex-1 bg-gray-50">
+                  </div>
+                )}
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button size="icon" variant="ghost" className="m-2">
-                    <MoreVertical className="w-4 h-4 text-[#9ccee4]" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                    <X className="w-4 h-4 mr-2" />
-                    刪除
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Edit className="w-4 h-4 mr-2" />
-                    編輯
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </CardContent>
         </Card>
@@ -452,13 +505,45 @@ export default function ProductionSpecs() {
         <Card className="production-specifications-item border-[#e4b49c]">
           <CardContent className="p-0">
             <div className="flex">
-              <div className="bg-bag-lamination text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
-                <div className="text-wrap-vertical">
+              <div className={`bg-bag-lamination text-white flex items-center justify-center ${
+                collapsedStates.lamination 
+                  ? 'px-4 py-2 text-sm' 
+                  : 'px-6 py-8 text-2xl text-vertical'
+              }`}>
+                <div className={collapsedStates.lamination ? 'flex space-x-1' : 'text-wrap-vertical'}>
                   <div>貼</div>
                   <div>合</div>
                 </div>
               </div>
-              <div className="production-spec-scrollable-wrap flex-1 p-6">
+              <div className="flex-1 flex flex-col">
+                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.lamination ? 'border-b-0' : ''
+                }`}>
+                  <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="icon" variant="ghost" className="h-6 w-6">
+                        <MoreVertical className="w-4 h-4 text-[#e4b49c]" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => toggleCollapse('lamination')}>
+                        {collapsedStates.lamination ? <ChevronDown className="w-4 h-4 mr-2" /> : <ChevronUp className="w-4 h-4 mr-2" />}
+                        {collapsedStates.lamination ? '展開' : '折疊'}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                        <X className="w-4 h-4 mr-2" />
+                        刪除
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Edit className="w-4 h-4 mr-2" />
+                        編輯
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                {!collapsedStates.lamination && (
+                  <div className="production-spec-scrollable-wrap flex-1 p-6">
                 <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
@@ -600,24 +685,13 @@ export default function ProductionSpecs() {
                     </div>
                   </div>
                 </div>
+                </div>
+                )}
+                {collapsedStates.lamination && (
+                  <div className="flex-1 bg-gray-50">
+                  </div>
+                )}
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button size="icon" variant="ghost" className="m-2">
-                    <MoreVertical className="w-4 h-4 text-[#e4b49c]" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                    <X className="w-4 h-4 mr-2" />
-                    刪除
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Edit className="w-4 h-4 mr-2" />
-                    編輯
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </CardContent>
         </Card>
@@ -628,13 +702,45 @@ export default function ProductionSpecs() {
         <Card className="production-specifications-item border-[#9ee7a6]">
           <CardContent className="p-0">
             <div className="flex">
-              <div className="bg-bag-slitting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
-                <div className="text-wrap-vertical">
+              <div className={`bg-bag-slitting text-white flex items-center justify-center ${
+                collapsedStates.slitting 
+                  ? 'px-4 py-2 text-sm' 
+                  : 'px-6 py-8 text-2xl text-vertical'
+              }`}>
+                <div className={collapsedStates.slitting ? 'flex space-x-1' : 'text-wrap-vertical'}>
                   <div>分</div>
                   <div>條</div>
                 </div>
               </div>
-              <div className="production-spec-scrollable-wrap flex-1 p-6">
+              <div className="flex-1 flex flex-col">
+                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.slitting ? 'border-b-0' : ''
+                }`}>
+                  <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="icon" variant="ghost" className="h-6 w-6">
+                        <MoreVertical className="w-4 h-4 text-[#9ee7a6]" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => toggleCollapse('slitting')}>
+                        {collapsedStates.slitting ? <ChevronDown className="w-4 h-4 mr-2" /> : <ChevronUp className="w-4 h-4 mr-2" />}
+                        {collapsedStates.slitting ? '展開' : '折疊'}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                        <X className="w-4 h-4 mr-2" />
+                        刪除
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Edit className="w-4 h-4 mr-2" />
+                        編輯
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                {!collapsedStates.slitting && (
+                  <div className="production-spec-scrollable-wrap flex-1 p-6">
                 <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
@@ -801,25 +907,14 @@ export default function ProductionSpecs() {
                     </div>
                   </div>
                 </div>
+                </div>
+                )}
+                {collapsedStates.slitting && (
+                  <div className="flex-1 bg-gray-50">
+                  </div>
+                )}
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button size="icon" variant="ghost" className="m-2">
-                    <MoreVertical className="w-4 h-4 text-[#9ee7a6]" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                    <X className="w-4 h-4 mr-2" />
-                    刪除
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Edit className="w-4 h-4 mr-2" />
-                    編輯
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-          </div>
+            </div>
         </CardContent>
       </Card>
     </div>
@@ -829,13 +924,45 @@ export default function ProductionSpecs() {
         <Card className="production-specifications-item border-yellow-400">
           <CardContent className="p-0">
             <div className="flex">
-              <div className="bg-bag-cutting text-white px-6 py-8 flex items-center justify-center text-2xl text-vertical">
-                <div className="text-wrap-vertical">
+              <div className={`bg-bag-cutting text-white flex items-center justify-center ${
+                collapsedStates.cutting 
+                  ? 'px-4 py-2 text-sm' 
+                  : 'px-6 py-8 text-2xl text-vertical'
+              }`}>
+                <div className={collapsedStates.cutting ? 'flex space-x-1' : 'text-wrap-vertical'}>
                   <div>裁</div>
                   <div>袋</div>
                 </div>
               </div>
-              <div className="production-spec-scrollable-wrap flex-1 p-6">
+              <div className="flex-1 flex flex-col">
+                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.cutting ? 'border-b-0' : ''
+                }`}>
+                  <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="icon" variant="ghost" className="h-6 w-6">
+                        <MoreVertical className="w-4 h-4 text-[#fccc48]" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => toggleCollapse('cutting')}>
+                        {collapsedStates.cutting ? <ChevronDown className="w-4 h-4 mr-2" /> : <ChevronUp className="w-4 h-4 mr-2" />}
+                        {collapsedStates.cutting ? '展開' : '折疊'}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600 focus:text-red-600">
+                        <X className="w-4 h-4 mr-2" />
+                        刪除
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Edit className="w-4 h-4 mr-2" />
+                        編輯
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                {!collapsedStates.cutting && (
+                  <div className="production-spec-scrollable-wrap flex-1 p-6">
                 <div className="grid grid-cols-[1fr_0.75fr] gap-6">
                   <div>
                     <div className="bg-theme-gray text-white px-4 py-2 text-center font-medium">
@@ -963,24 +1090,13 @@ export default function ProductionSpecs() {
                     </div>
                   </div>
                 </div>
+                </div>
+                )}
+                {collapsedStates.cutting && (
+                  <div className="flex-1 bg-gray-50">
+                  </div>
+                )}
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button size="icon" variant="ghost" className="m-2">
-                    <MoreVertical className="w-4 h-4 text-[#fccc48]" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                    <X className="w-4 h-4 mr-2" />
-                    刪除
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Edit className="w-4 h-4 mr-2" />
-                    編輯
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
             </div>
           </CardContent>
         </Card>

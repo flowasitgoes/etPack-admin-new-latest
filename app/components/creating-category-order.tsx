@@ -41,11 +41,11 @@ export default function CreatingCategoryOrder() {
   }
   return (
     <div className="px-6 mb-8 space-y-6">
-      {/* 生產流程 Section */}
+      {/* 創建課別表單 Section */}
       <Card className="border border-gray-200">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-medium text-gray-800">生產流程</h2>
+            <h2 className="text-lg font-medium text-gray-800">新增表單</h2>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

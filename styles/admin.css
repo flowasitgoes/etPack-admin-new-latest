@@ -112,3 +112,16 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+/* 折叠动画效果 */
+.production-specifications-item {
+  transition: all 0.3s ease-in-out;
+}
+
+.production-specifications-item.collapsed {
+  transform: scaleY(0.6);
+}
+
+.production-spec-scrollable-wrap {
+  transition: all 0.3s ease-in-out;
+}
