@@ -142,7 +142,7 @@ export default function CreatingCategoryOrder() {
             <div className="text-center">
               <button 
                 className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
-                style={{ backgroundColor: '#fccc48' }}
+                style={{ backgroundColor: '#dab346' }}
                 onClick={() => incrementCount('cutting')}
               >
                 + 裁袋

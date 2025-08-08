@@ -47,8 +47,10 @@ export default function ProductionSpecs() {
               </div>
             </div>
             <div className="flex-1 flex flex-col">
-              <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
-                collapsedStates.bag ? 'border-b-0' : ''
+              <div className={`px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                collapsedStates.bag 
+                  ? 'bg-gray-50 border-t border-l border-r border-gray-200' 
+                  : 'bg-gray-50 border border-gray-200'
               }`}>
                 <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
                 <DropdownMenu>
@@ -229,7 +231,7 @@ export default function ProductionSpecs() {
                 </div>
               )}
               {collapsedStates.bag && (
-                <div className="flex-1 bg-gray-50">
+                <div className="flex-1 p-0 bg-gray-50">
                 </div>
               )}
             </div>
@@ -254,8 +256,10 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="flex-1 flex flex-col">
-                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
-                  collapsedStates.printing ? 'border-b-0' : ''
+                <div className={`px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.printing 
+                    ? 'bg-gray-50 border-t border-l border-r border-gray-200' 
+                    : 'bg-gray-50 border border-gray-200'
                 }`}>
                   <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
                   <DropdownMenu>
@@ -491,7 +495,7 @@ export default function ProductionSpecs() {
                 </div>
                 )}
                 {collapsedStates.printing && (
-                  <div className="flex-1 bg-gray-50">
+                  <div className="flex-1 p-0 bg-gray-50">
                   </div>
                 )}
               </div>
@@ -516,8 +520,10 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="flex-1 flex flex-col">
-                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
-                  collapsedStates.lamination ? 'border-b-0' : ''
+                <div className={`px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.lamination 
+                    ? 'bg-gray-50 border-t border-l border-r border-gray-200' 
+                    : 'bg-gray-50 border border-gray-200'
                 }`}>
                   <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
                   <DropdownMenu>
@@ -688,7 +694,7 @@ export default function ProductionSpecs() {
                 </div>
                 )}
                 {collapsedStates.lamination && (
-                  <div className="flex-1 bg-gray-50">
+                  <div className="flex-1 p-0 bg-gray-50">
                   </div>
                 )}
               </div>
@@ -713,8 +719,10 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="flex-1 flex flex-col">
-                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
-                  collapsedStates.slitting ? 'border-b-0' : ''
+                <div className={`px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.slitting 
+                    ? 'bg-gray-50 border-t border-l border-r border-gray-200' 
+                    : 'bg-gray-50 border border-gray-200'
                 }`}>
                   <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
                   <DropdownMenu>
@@ -910,7 +918,7 @@ export default function ProductionSpecs() {
                 </div>
                 )}
                 {collapsedStates.slitting && (
-                  <div className="flex-1 bg-gray-50">
+                  <div className="flex-1 p-0 bg-gray-50">
                   </div>
                 )}
               </div>
@@ -935,14 +943,16 @@ export default function ProductionSpecs() {
                 </div>
               </div>
               <div className="flex-1 flex flex-col">
-                <div className={`bg-gray-50 border border-gray-200 px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
-                  collapsedStates.cutting ? 'border-b-0' : ''
+                <div className={`px-4 py-2 text-xs text-gray-600 flex justify-between items-center ${
+                  collapsedStates.cutting 
+                    ? 'bg-gray-50 border-t border-l border-r border-gray-200' 
+                    : 'bg-gray-50 border border-gray-200'
                 }`}>
                   <span className="text-right flex-1" style={{ marginRight: '10px' }}>創建時間：2025-08-08 11:30:56</span>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button size="icon" variant="ghost" className="h-6 w-6">
-                        <MoreVertical className="w-4 h-4 text-[#fccc48]" />
+                        <MoreVertical className="w-4 h-4 text-[#dab346]" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -1093,7 +1103,7 @@ export default function ProductionSpecs() {
                 </div>
                 )}
                 {collapsedStates.cutting && (
-                  <div className="flex-1 bg-gray-50">
+                  <div className="flex-1 p-0 bg-gray-50">
                   </div>
                 )}
               </div>
