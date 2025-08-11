@@ -19,33 +19,8 @@ interface ProductionSpecsContextType {
 const ProductionSpecsContext = createContext<ProductionSpecsContextType | undefined>(undefined)
 
 export function ProductionSpecsProvider({ children }: { children: ReactNode }) {
-  const [productionSpecs, setProductionSpecs] = useState<ProductionSpecItem[]>([
-    {
-      id: 'bag-1',
-      type: 'bag',
-      createdAt: '2025-08-08 11:30:56'
-    },
-    {
-      id: 'printing-1',
-      type: 'printing',
-      createdAt: '2025-08-08 11:30:56'
-    },
-    {
-      id: 'lamination-1',
-      type: 'lamination',
-      createdAt: '2025-08-08 11:30:56'
-    },
-    {
-      id: 'slitting-1',
-      type: 'slitting',
-      createdAt: '2025-08-08 11:30:56'
-    },
-    {
-      id: 'cutting-1',
-      type: 'cutting',
-      createdAt: '2025-08-08 11:30:56'
-    }
-  ])
+  // 初始状态为空数组，不显示任何课别的表单
+  const [productionSpecs, setProductionSpecs] = useState<ProductionSpecItem[]>([])
 
   const addProductionSpec = (type: 'bag' | 'printing' | 'lamination' | 'slitting' | 'cutting') => {
     const now = new Date()
