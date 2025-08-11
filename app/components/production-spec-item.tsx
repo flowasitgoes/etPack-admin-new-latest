@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 interface ProductionSpecItemProps {
+  id: string
   type: 'bag' | 'printing' | 'lamination' | 'slitting' | 'cutting'
   title: string
   bgColor: string
@@ -24,6 +25,7 @@ interface ProductionSpecItemProps {
 }
 
 export default function ProductionSpecItem({
+  id,
   type,
   title,
   bgColor,
@@ -88,13 +90,13 @@ export default function ProductionSpecItem({
                       {isCollapsed ? <ChevronDown className="w-4 h-4 mr-2" /> : <ChevronUp className="w-4 h-4 mr-2" />}
                       {isCollapsed ? '展開' : '折疊'}
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={handleDelete}>
-                      <X className="w-4 h-4 mr-2" />
-                      刪除
-                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleEdit}>
                       <Edit className="w-4 h-4 mr-2" />
                       編輯
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={handleDelete}>
+                      <X className="w-4 h-4 mr-2" />
+                      刪除
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

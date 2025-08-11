@@ -10,35 +10,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronDown, Trash2, X } from "lucide-react"
+import { useProductionSpecs } from "@/app/contexts/production-specs-context"
 
 export default function CreatingCategoryOrder() {
-  // 各个生产步骤的计数状态
-  const [counts, setCounts] = useState({
-    bag: 0,      // 抽袋
-    printing: 0, // 印刷
-    lamination: 0, // 贴合
-    slitting: 0, // 分条
-    cutting: 0   // 裁袋
-  })
-
-  // 增加计数的函数
-  const incrementCount = (type: keyof typeof counts) => {
-    setCounts(prev => ({
-      ...prev,
-      [type]: prev[type] + 1
-    }))
+  const { productionSpecs, addProductionSpec, clearAllProductionSpecs } = useProductionSpecs()
+  
+  // 计算各个类型的数量
+  const counts = {
+    bag: productionSpecs.filter(item => item.type === 'bag').length,
+    printing: productionSpecs.filter(item => item.type === 'printing').length,
+    lamination: productionSpecs.filter(item => item.type === 'lamination').length,
+    slitting: productionSpecs.filter(item => item.type === 'slitting').length,
+    cutting: productionSpecs.filter(item => item.type === 'cutting').length
   }
 
-  // 清除全部计数
-  const clearAllCounts = () => {
-    setCounts({
-      bag: 0,
-      printing: 0,
-      lamination: 0,
-      slitting: 0,
-      cutting: 0
-    })
-  }
   return (
     <div className="px-6 mb-8 space-y-6">
       {/* 創建課別表單 Section */}
@@ -60,7 +45,7 @@ export default function CreatingCategoryOrder() {
               <DropdownMenuContent align="end" className="w-[var(--radix-dropdown-menu-trigger-width)]">
                 <DropdownMenuItem 
                   className="text-red-600 focus:text-red-600 cursor-pointer justify-center"
-                  onClick={clearAllCounts}
+                  onClick={clearAllProductionSpecs}
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   確認清除全部
@@ -75,7 +60,7 @@ export default function CreatingCategoryOrder() {
               <button 
                 className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#e49cc0' }}
-                onClick={() => incrementCount('bag')}
+                onClick={() => addProductionSpec('bag')}
               >
                 + 抽袋
               </button>
@@ -92,7 +77,7 @@ export default function CreatingCategoryOrder() {
               <button 
                 className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#9ccee4' }}
-                onClick={() => incrementCount('printing')}
+                onClick={() => addProductionSpec('printing')}
               >
                 + 印刷
               </button>
@@ -109,7 +94,7 @@ export default function CreatingCategoryOrder() {
               <button 
                 className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#e4b49c' }}
-                onClick={() => incrementCount('lamination')}
+                onClick={() => addProductionSpec('lamination')}
               >
                 + 貼合
               </button>
@@ -126,7 +111,7 @@ export default function CreatingCategoryOrder() {
               <button 
                 className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#9ee7a6' }}
-                onClick={() => incrementCount('slitting')}
+                onClick={() => addProductionSpec('slitting')}
               >
                 + 分條
               </button>
@@ -143,7 +128,7 @@ export default function CreatingCategoryOrder() {
               <button 
                 className="w-20 h-12 rounded-lg text-white font-bold text-base border-none cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 mb-3"
                 style={{ backgroundColor: '#dab346' }}
-                onClick={() => incrementCount('cutting')}
+                onClick={() => addProductionSpec('cutting')}
               >
                 + 裁袋
               </button>

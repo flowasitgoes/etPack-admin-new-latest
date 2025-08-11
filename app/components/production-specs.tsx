@@ -7,15 +7,10 @@ import LaminationSpecs from "./production-specs/lamination-specs"
 import SlittingSpecs from "./production-specs/slitting-specs"
 import CuttingSpecs from "./production-specs/cutting-specs"
 import { productionSpecConfigs } from "@/app/lib/production-spec-config"
+import { useProductionSpecs } from "@/app/contexts/production-specs-context"
 
 export default function ProductionSpecs() {
-  const handleEdit = (type: string) => {
-    console.log(`編輯 ${type} 生產規格`)
-  }
-
-  const handleDelete = (type: string) => {
-    console.log(`刪除 ${type} 生產規格`)
-  }
+  const { productionSpecs, deleteProductionSpec, editProductionSpec } = useProductionSpecs()
 
   // 渲染生产规格内容
   const renderProductionSpecContent = (type: string) => {
@@ -37,20 +32,27 @@ export default function ProductionSpecs() {
 
   return (
     <div className="production-specifications-container space-y-6">
-      {productionSpecConfigs.map((config) => (
-        <ProductionSpecItem
-          key={config.type}
-          type={config.type}
-          title={config.title}
-          bgColor={config.bgColor}
-          borderColor={config.borderColor}
-          iconColor={config.iconColor}
-          onEdit={() => handleEdit(config.type)}
-          onDelete={() => handleDelete(config.type)}
-        >
-          {renderProductionSpecContent(config.type)}
-        </ProductionSpecItem>
-      ))}
+      {productionSpecs.map((item) => {
+        const config = productionSpecConfigs.find(c => c.type === item.type)
+        if (!config) return null
+
+        return (
+          <ProductionSpecItem
+            key={item.id}
+            id={item.id}
+            type={item.type}
+            title={config.title}
+            bgColor={config.bgColor}
+            borderColor={config.borderColor}
+            iconColor={config.iconColor}
+            createdAt={item.createdAt}
+            onEdit={() => editProductionSpec(item.id)}
+            onDelete={() => deleteProductionSpec(item.id)}
+          >
+            {renderProductionSpecContent(item.type)}
+          </ProductionSpecItem>
+        )
+      })}
     </div>
   )
 } 
