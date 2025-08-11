@@ -46,13 +46,19 @@ export function ProductionSpecsProvider({ children }: { children: ReactNode }) {
     setProductionSpecs(prev => {
       const filtered = prev.filter(item => item.id !== id)
       
-      // 重新分配编号
+      // 按类型分组并按创建时间排序
       const typeGroups = filtered.reduce((acc, item) => {
         if (!acc[item.type]) acc[item.type] = []
         acc[item.type].push(item)
         return acc
       }, {} as Record<string, ProductionSpecItem[]>)
       
+      // 对每个类型组按创建时间排序（从早到晚）
+      Object.keys(typeGroups).forEach(type => {
+        typeGroups[type].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      })
+      
+      // 重新分配编号
       const renumbered = filtered.map(item => {
         const group = typeGroups[item.type]
         const index = group.findIndex(gItem => gItem.id === item.id)
