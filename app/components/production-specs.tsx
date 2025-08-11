@@ -46,6 +46,7 @@ export default function ProductionSpecs() {
             borderColor={config.borderColor}
             iconColor={config.iconColor}
             createdAt={item.createdAt}
+            number={item.number}
             onEdit={() => editProductionSpec(item.id)}
             onDelete={() => deleteProductionSpec(item.id)}
           >

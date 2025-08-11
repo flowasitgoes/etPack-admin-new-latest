@@ -6,6 +6,7 @@ interface ProductionSpecItem {
   id: string
   type: 'bag' | 'printing' | 'lamination' | 'slitting' | 'cutting'
   createdAt: string
+  number: string // 添加编号字段
 }
 
 interface ProductionSpecsContextType {
@@ -26,10 +27,15 @@ export function ProductionSpecsProvider({ children }: { children: ReactNode }) {
     const now = new Date()
     const createdAt = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
     
+    // 计算当前类型的编号
+    const existingOfType = productionSpecs.filter(item => item.type === type).length
+    const number = String(existingOfType + 1).padStart(2, '0')
+    
     const newItem: ProductionSpecItem = {
       id: `${type}-${Date.now()}`,
       type,
-      createdAt
+      createdAt,
+      number
     }
     
     // 将新项目添加到列表开头
@@ -37,7 +43,27 @@ export function ProductionSpecsProvider({ children }: { children: ReactNode }) {
   }
 
   const deleteProductionSpec = (id: string) => {
-    setProductionSpecs(prev => prev.filter(item => item.id !== id))
+    setProductionSpecs(prev => {
+      const filtered = prev.filter(item => item.id !== id)
+      
+      // 重新分配编号
+      const typeGroups = filtered.reduce((acc, item) => {
+        if (!acc[item.type]) acc[item.type] = []
+        acc[item.type].push(item)
+        return acc
+      }, {} as Record<string, ProductionSpecItem[]>)
+      
+      const renumbered = filtered.map(item => {
+        const group = typeGroups[item.type]
+        const index = group.findIndex(gItem => gItem.id === item.id)
+        return {
+          ...item,
+          number: String(index + 1).padStart(2, '0')
+        }
+      })
+      
+      return renumbered
+    })
   }
 
   const editProductionSpec = (id: string) => {

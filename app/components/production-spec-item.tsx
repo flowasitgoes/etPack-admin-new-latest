@@ -20,6 +20,7 @@ interface ProductionSpecItemProps {
   iconColor: string
   children: React.ReactNode
   createdAt?: string
+  number?: string // 添加编号字段
   onEdit?: () => void
   onDelete?: () => void
 }
@@ -33,6 +34,7 @@ export default function ProductionSpecItem({
   iconColor,
   children,
   createdAt = "2025-08-08 11:30:56",
+  number = "01", // 默认编号
   onEdit,
   onDelete
 }: ProductionSpecItemProps) {
@@ -65,6 +67,10 @@ export default function ProductionSpecItem({
                 {title.split('').map((char, index) => (
                   <div key={index}>{char}</div>
                 ))}
+                {/* 编号显示 */}
+                <div style={{ transform: 'rotate(270deg)' }}>
+                  {number}
+                </div>
               </div>
             </div>
 
