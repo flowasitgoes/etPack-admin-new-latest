@@ -48,8 +48,7 @@ export default function LaminationSpecs() {
               
               {/* 料膜數量 */}
               <div>
-                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center mb-2">料膜數量</div>
-                <div className="text-xs mb-2">(擇一)</div>
+                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center mb-2">料膜 A 數量 (擇一)</div>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <Input className="w-20 h-8 text-sm" placeholder="" />
@@ -107,8 +106,8 @@ export default function LaminationSpecs() {
               
               {/* 料膜數量 */}
               <div>
-                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center mb-2">料膜數量</div>
-                <div className="text-xs mb-2">(擇一)</div>
+                <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center mb-2">料膜 B 數量 (擇一)</div>
+                <div className="text-xs mb-2"></div>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <Input className="w-20 h-8 text-sm" placeholder="" />

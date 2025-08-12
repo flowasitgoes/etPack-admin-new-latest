@@ -105,7 +105,7 @@ export default function PrintingSpecs() {
           
           {/* 數量 */}
           <div className="bg-gray-50 p-2 rounded">
-            <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center mb-2">數量</div>
+            <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center mb-2">數量 (擇一)</div>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <Input className="w-20 h-8 text-sm" placeholder="3000" />
@@ -115,7 +115,6 @@ export default function PrintingSpecs() {
                 <span className="text-sm text-gray-600">卷</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">(擇一)</span>
                 <Input className="w-20 h-8 text-sm" placeholder="" />
                 <span className="text-sm text-gray-600">Kgs</span>
                 <span className="text-sm text-gray-600">X</span>

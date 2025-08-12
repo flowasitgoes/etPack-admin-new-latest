@@ -132,7 +132,6 @@ export default function BagSpecs() {
                 <span className="text-sm text-gray-600 ml-4">色</span>
                 <Input className="w-16 h-6 text-sm" placeholder="" />
                 <span className="text-sm text-gray-600 ml-4">面</span>
-                <Input className="w-16 h-6 text-sm" placeholder="" />
               </div>
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-600 min-w-12">版長</span>
