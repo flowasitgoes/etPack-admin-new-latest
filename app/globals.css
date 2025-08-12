@@ -92,3 +92,24 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* 新表单高亮效果 */
+@keyframes highlightNewForm {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.3);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    transform: scale(1);
+  }
+}
+
+.highlight-new-form {
+  animation: highlightNewForm 2s ease-in-out;
+  border-color: #3b82f6 !important;
+}

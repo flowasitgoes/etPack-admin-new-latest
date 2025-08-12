@@ -74,7 +74,7 @@ export default function ProductionSpecItem({
 
   return (
     <>
-      <div className="production-specifications-wrap" tabIndex={0}>
+      <div className="production-specifications-wrap" tabIndex={0} id={`production-spec-${id}`}>
         <Card className={`production-specifications-item ${borderColor}`}>
           <CardContent className="p-0">
             <div className="flex">

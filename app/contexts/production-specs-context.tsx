@@ -15,6 +15,7 @@ interface ProductionSpecsContextType {
   deleteProductionSpec: (id: string) => void
   editProductionSpec: (id: string) => void
   clearAllProductionSpecs: () => void
+  scrollToNewForm: (id: string) => void
 }
 
 const ProductionSpecsContext = createContext<ProductionSpecsContextType | undefined>(undefined)
@@ -38,8 +39,13 @@ export function ProductionSpecsProvider({ children }: { children: ReactNode }) {
       number
     }
     
-    // 将新项目添加到列表开头
-    setProductionSpecs(prev => [newItem, ...prev])
+    // 将新项目添加到列表末尾
+    setProductionSpecs(prev => [...prev, newItem])
+    
+    // 延迟滚动到新表单，确保DOM已更新
+    setTimeout(() => {
+      scrollToNewForm(newItem.id)
+    }, 100)
   }
 
   const deleteProductionSpec = (id: string) => {
@@ -80,13 +86,31 @@ export function ProductionSpecsProvider({ children }: { children: ReactNode }) {
     setProductionSpecs([])
   }
 
+  const scrollToNewForm = (id: string) => {
+    const element = document.getElementById(`production-spec-${id}`)
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      })
+      
+      // 添加高亮效果
+      element.classList.add('highlight-new-form')
+      setTimeout(() => {
+        element.classList.remove('highlight-new-form')
+      }, 2000)
+    }
+  }
+
   return (
     <ProductionSpecsContext.Provider value={{
       productionSpecs,
       addProductionSpec,
       deleteProductionSpec,
       editProductionSpec,
-      clearAllProductionSpecs
+      clearAllProductionSpecs,
+      scrollToNewForm
     }}>
       {children}
     </ProductionSpecsContext.Provider>
