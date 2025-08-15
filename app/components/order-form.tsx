@@ -13,7 +13,8 @@ export default function OrderForm() {
     productCode: "",
     productName: "",
     orderQuantity: "",
-    orderUnit: "只",
+    orderUnit1: "只",
+    orderUnit2: "箱",
     deliveryDate: "",
     formulaNumber: "",
     sampleFile: null as File | null
@@ -36,12 +37,15 @@ export default function OrderForm() {
     }
   }
 
-  const quantityUnits = [
-    { value: "M", label: "米(M)" },
-    { value: "Kgs", label: "Kgs" },
-    { value: "只", label: "只" },
-    { value: "卷", label: "卷" },
-    { value: "箱", label: "箱" }
+  const quantityUnits1 = [
+    { value: "米", label: "米" },
+    { value: "公斤", label: "公斤" },
+    { value: "只", label: "只" }
+  ]
+
+  const quantityUnits2 = [
+    { value: "箱", label: "箱" },
+    { value: "卷", label: "卷" }
   ]
 
   return (
@@ -95,12 +99,24 @@ export default function OrderForm() {
               className="flex-1"
               placeholder="輸入數量"
             />
-            <Select value={formData.orderUnit} onValueChange={(value) => handleInputChange('orderUnit', value)}>
-              <SelectTrigger className="w-24">
+            <Select value={formData.orderUnit1} onValueChange={(value) => handleInputChange('orderUnit1', value)}>
+              <SelectTrigger className="w-20">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {quantityUnits.map((unit) => (
+                {quantityUnits1.map((unit) => (
+                  <SelectItem key={unit.value} value={unit.value}>
+                    {unit.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={formData.orderUnit2} onValueChange={(value) => handleInputChange('orderUnit2', value)}>
+              <SelectTrigger className="w-20">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {quantityUnits2.map((unit) => (
                   <SelectItem key={unit.value} value={unit.value}>
                     {unit.label}
                   </SelectItem>
