@@ -14,6 +14,7 @@ export default function OrderForm() {
     productName: "",
     orderQuantity: "",
     orderUnit1: "只",
+    orderQuantity2: "",
     orderUnit2: "箱",
     deliveryDate: "",
     formulaNumber: "",
@@ -111,6 +112,12 @@ export default function OrderForm() {
                 ))}
               </SelectContent>
             </Select>
+            <Input
+              value={formData.orderQuantity2}
+              onChange={(e) => handleInputChange('orderQuantity2', e.target.value)}
+              className="w-20"
+              placeholder="輸入數量"
+            />
             <Select value={formData.orderUnit2} onValueChange={(value) => handleInputChange('orderUnit2', value)}>
               <SelectTrigger className="w-20">
                 <SelectValue />
