@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Calendar } from "lucide-react"
-import OrderForm from "../../components/order-form"
+import BaggingOrderForm from "../../components/bagging-order-form"
 import BaggingProductionSpecs from "../../components/bagging-production-specs"
 import { BaggingProductionSpecsProvider } from "../../contexts/bagging-production-specs-context"
 
@@ -54,7 +54,7 @@ export default function OrderRecordPage() {
         </div>
         
         {/* Order Form */}
-        <OrderForm />
+        <BaggingOrderForm />
 
         {/* Production Specifications */}
         <BaggingProductionSpecs />

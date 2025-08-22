@@ -132,7 +132,6 @@ export default function OrderForm() {
             </Select>
           </div>
         </div>
-
         <div className="space-y-4">
           <div className="flex items-center space-x-4">
             <div className="text-white bg-primary px-4 py-2 rounded-lg text-sm font-medium min-w-20">交貨日期</div>
@@ -143,7 +142,6 @@ export default function OrderForm() {
               placeholder="輸入交貨日期"
             />
           </div>
-
           <div className="flex items-center space-x-4">
             <div className="text-white bg-primary px-4 py-2 rounded-lg text-sm font-medium min-w-20">配方編號</div>
             <Input
@@ -153,7 +151,6 @@ export default function OrderForm() {
               placeholder="輸入配方編號"
             />
           </div>
-
           <div className="flex items-center space-x-4">
             <div className="text-white bg-primary px-4 py-2 rounded-lg text-sm font-medium min-w-20">樣品/圖稿</div>
             <div className="flex items-center space-x-2 flex-1">
