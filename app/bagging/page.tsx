@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react"
 import BaggingSidebar from "../components/bagging-sidebar"
 import BaggingProductionSchedule from "./production-schedule/page"
+import MaterialRecordPage from "./material-record/page"
+import OrderRecordPage from "./order-record/page"
 import "../../styles/admin-colors.css"
 import "../../styles/admin.css"
 
@@ -36,10 +38,10 @@ export default function BaggingPage() {
     switch (activeModule) {
       case "production-schedule":
         return <BaggingProductionSchedule />
-      case "order-record":
-        return <div className="p-6">訂製單記錄 - 開發中</div>
       case "material-record":
-        return <div className="p-6">領料記錄 - 開發中</div>
+        return <MaterialRecordPage />
+      case "order-record":
+        return <OrderRecordPage />
       case "daily-report":
         return <div className="p-6">生產/檢驗日報表 - 開發中</div>
       case "recipe-database":

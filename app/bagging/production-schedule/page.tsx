@@ -19,7 +19,7 @@ export default function BaggingProductionSchedule() {
   })
 
   // 待生產訂製單數據
-  const pendingOrders = [
+  const [pendingOrders, setPendingOrders] = useState([
     {
       orderNumber: "K01140625001",
       productName: "鮮自然224/厚62u",
@@ -41,32 +41,145 @@ export default function BaggingProductionSchedule() {
       deliveryDate: "114/07/15",
       machine: "1號機"
     }
-  ]
+  ])
 
   // 機台生產排程數據
-  const machineSchedules = [
+  const [machineSchedules, setMachineSchedules] = useState([
     {
       machine: "1號機",
-      schedule1: "K01140626001-2",
-      schedule2: "K01140701001-2",
+      schedule1: "",
+      schedule2: "",
       schedule3: "",
-      schedule4: ""
+      schedule4: "",
+      schedule5: "",
+      schedule6: "",
+      schedule7: "",
+      schedule8: ""
     },
     {
       machine: "2號機",
-      schedule1: "K01140701001-3",
+      schedule1: "",
       schedule2: "",
       schedule3: "",
-      schedule4: ""
+      schedule4: "",
+      schedule5: "",
+      schedule6: "",
+      schedule7: "",
+      schedule8: ""
     },
     {
       machine: "3號機",
-      schedule1: "K01140624003",
+      schedule1: "",
       schedule2: "",
       schedule3: "",
-      schedule4: ""
+      schedule4: "",
+      schedule5: "",
+      schedule6: "",
+      schedule7: "",
+      schedule8: ""
     }
-  ]
+  ])
+
+  // 處理確認按鈕點擊
+  const handleConfirm = (orderIndex: number) => {
+    console.log('確認按鈕被點擊，訂單索引:', orderIndex)
+    
+    const order = pendingOrders[orderIndex]
+    console.log('選中的訂單:', order)
+    
+    const machineName = order.machine
+    console.log('選中的機台:', machineName)
+    
+    // 找到對應的機台
+    const machineIndex = machineSchedules.findIndex(schedule => schedule.machine === machineName)
+    console.log('找到的機台索引:', machineIndex)
+    
+    if (machineIndex !== -1) {
+      // 找到該機台的第一個空排程位置
+      const schedule = machineSchedules[machineIndex]
+      let emptyScheduleIndex = -1
+      
+      for (let i = 1; i <= 8; i++) {
+        const scheduleKey = `schedule${i}` as keyof typeof schedule
+        if (!schedule[scheduleKey]) {
+          emptyScheduleIndex = i
+          break
+        }
+      }
+      
+      console.log('找到的空排程位置:', emptyScheduleIndex)
+      
+      if (emptyScheduleIndex !== -1) {
+        // 更新機台排程
+        const updatedSchedules = [...machineSchedules]
+        const scheduleKey = `schedule${emptyScheduleIndex}` as keyof typeof updatedSchedules[0]
+        updatedSchedules[machineIndex] = {
+          ...updatedSchedules[machineIndex],
+          [scheduleKey]: order.orderNumber
+        }
+        console.log('更新後的排程:', updatedSchedules)
+        setMachineSchedules(updatedSchedules)
+        
+        // 不再從待生產列表中移除該訂單
+        console.log('訂單保留在待生產列表中')
+      }
+    }
+  }
+
+  // 處理機台選擇變更
+  const handleMachineChange = (orderIndex: number, machine: string) => {
+    const updatedOrders = [...pendingOrders]
+    updatedOrders[orderIndex] = {
+      ...updatedOrders[orderIndex],
+      machine
+    }
+    setPendingOrders(updatedOrders)
+  }
+
+  // 處理移除按鈕點擊
+  const handleRemove = (orderIndex: number) => {
+    console.log('移除按鈕被點擊，訂單索引:', orderIndex)
+    
+    const order = pendingOrders[orderIndex]
+    console.log('要移除的訂單:', order)
+    
+    const machineName = order.machine
+    console.log('對應的機台:', machineName)
+    
+    // 找到對應的機台
+    const machineIndex = machineSchedules.findIndex(schedule => schedule.machine === machineName)
+    console.log('找到的機台索引:', machineIndex)
+    
+    if (machineIndex !== -1) {
+      // 找到該機台中包含此訂單的排程位置
+      const schedule = machineSchedules[machineIndex]
+      let scheduleIndexToRemove = -1
+      
+      for (let i = 1; i <= 8; i++) {
+        const scheduleKey = `schedule${i}` as keyof typeof schedule
+        if (schedule[scheduleKey] === order.orderNumber) {
+          scheduleIndexToRemove = i
+          break
+        }
+      }
+      
+      console.log('找到要移除的排程位置:', scheduleIndexToRemove)
+      
+      if (scheduleIndexToRemove !== -1) {
+        // 從機台排程中移除該訂單
+        const updatedSchedules = [...machineSchedules]
+        const scheduleKey = `schedule${scheduleIndexToRemove}` as keyof typeof updatedSchedules[0]
+        updatedSchedules[machineIndex] = {
+          ...updatedSchedules[machineIndex],
+          [scheduleKey]: ""
+        }
+        console.log('更新後的排程:', updatedSchedules)
+        setMachineSchedules(updatedSchedules)
+        
+        console.log('訂單已從排程中移除')
+      }
+    }
+  }
 
   return (
     <div className="bagging-container space-y-6">
@@ -84,8 +197,8 @@ export default function BaggingProductionSchedule() {
 
       {/* 待生產訂製單列表 */}
       <div className="bg-white rounded-lg shadow-md">
-        <div className="bg-gray-600 text-white p-4 rounded-t-lg">
-          <h2 className="text-lg font-semibold">待生產訂製單列表</h2>
+        <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: '#7c7d99' }}>
+          <h2 className="text-base font-semibold leading-tight">待生產訂製單列表</h2>
         </div>
         <div className="p-4">
           <p className="text-sm text-gray-600 mb-4">
@@ -113,7 +226,10 @@ export default function BaggingProductionSchedule() {
                     <TableCell className="p-4 align-middle">{order.orderQuantity}</TableCell>
                     <TableCell className="p-4 align-middle">{order.deliveryDate}</TableCell>
                     <TableCell className="p-4 align-middle">
-                      <Select defaultValue={order.machine}>
+                      <Select 
+                        value={order.machine} 
+                        onValueChange={(value) => handleMachineChange(index, value)}
+                      >
                         <SelectTrigger className="w-24 h-10">
                           <SelectValue />
                         </SelectTrigger>
@@ -126,12 +242,22 @@ export default function BaggingProductionSchedule() {
                     </TableCell>
                     <TableCell className="p-4 align-middle">
                       <div className="flex items-center space-x-2">
-                        <Button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded h-10">
+                        <Button 
+                          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded h-10"
+                          onClick={() => handleConfirm(index)}
+                        >
                           確認
                         </Button>
                         <div className="flex space-x-1">
                           <Button size="sm" variant="outline" className="w-6 h-6 p-0 text-sm">+</Button>
-                          <Button size="sm" variant="outline" className="w-6 h-6 p-0 text-sm">-</Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="w-6 h-6 p-0 text-sm"
+                            onClick={() => handleRemove(index)}
+                          >
+                            -
+                          </Button>
                         </div>
                       </div>
                     </TableCell>
@@ -145,40 +271,59 @@ export default function BaggingProductionSchedule() {
 
       {/* 機台生產排程列表 */}
       <div className="bg-white rounded-lg shadow-md">
-        <div className="bg-purple-800 text-white p-4 rounded-t-lg">
-          <h2 className="text-lg font-semibold">機台生產排程列表</h2>
+        <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: '#7c7d99' }}>
+          <h2 className="text-base font-semibold leading-tight">機台生產排程列表</h2>
         </div>
         <div className="p-4">
-          <div className="relative w-full overflow-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-purple-800 text-white border-b">
-                  <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold">排程01</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold">排程02</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold">排程03</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold">排程04</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {machineSchedules.map((schedule, index) => (
-                  <TableRow key={index} className="border-b hover:bg-gray-50">
-                    <TableCell className="p-4 align-middle bg-pink-200 font-medium">{schedule.machine}</TableCell>
-                    <TableCell className={`p-4 align-middle ${schedule.schedule1 ? "bg-gray-100" : ""}`}>
-                      {schedule.schedule1 || ""}
-                    </TableCell>
-                    <TableCell className={`p-4 align-middle ${schedule.schedule2 ? "bg-gray-100" : ""}`}>
-                      {schedule.schedule2 || ""}
-                    </TableCell>
-                    <TableCell className={`p-4 align-middle ${schedule.schedule3 ? "bg-gray-100" : ""}`}>
-                      {schedule.schedule3 || ""}
-                    </TableCell>
-                    <TableCell className={`p-4 align-middle ${schedule.schedule4 ? "bg-gray-100" : ""}`}>
-                      {schedule.schedule4 || ""}
-                    </TableCell>
+          <div className="overflow-x-auto">
+            <div className="min-w-max">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-purple-800 text-white border-b [&:hover]:bg-purple-800">
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[100px]">機台</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程01</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程02</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程03</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程04</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程05</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程06</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程07</TableHead>
+                    <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程08</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {machineSchedules.map((schedule, index) => (
+                    <TableRow key={index} className="border-b hover:bg-gray-50">
+                      <TableCell className="p-4 align-middle bg-pink-200 font-medium min-w-[100px]">{schedule.machine}</TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule1 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule1 || ""}
+                      </TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule2 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule2 || ""}
+                      </TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule3 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule3 || ""}
+                      </TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule4 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule4 || ""}
+                      </TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule5 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule5 || ""}
+                      </TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule6 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule6 || ""}
+                      </TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule7 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule7 || ""}
+                      </TableCell>
+                      <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule8 ? "bg-gray-100" : ""}`}>
+                        {schedule.schedule8 || ""}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </div>
