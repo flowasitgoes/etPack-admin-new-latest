@@ -4,12 +4,12 @@ import { Search, Edit, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-interface SidebarProps {
+interface BaggingSidebarProps {
   activeModule?: string
   onModuleChange?: (module: string) => void
 }
 
-export default function Sidebar({ activeModule = "orders", onModuleChange }: SidebarProps) {
+export default function BaggingSidebar({ activeModule = "production-schedule", onModuleChange }: BaggingSidebarProps) {
   return (
     <div className="admin-left-sidebar bg-gray-50">
       <div className="user-and-search-section p-6">
@@ -41,51 +41,51 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
       <nav className="space-y-2">
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "schedule" 
+            activeModule === "production-schedule" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("schedule")}
+          onClick={() => onModuleChange?.("production-schedule")}
         >
-          工作排程
+          生產排程
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "orders" 
+            activeModule === "order-record" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("orders")}
+          onClick={() => onModuleChange?.("order-record")}
         >
           訂製單記錄
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "vendors" 
+            activeModule === "material-record" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("vendors")}
+          onClick={() => onModuleChange?.("material-record")}
         >
-          客戶資訊
+          領料記錄
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "products" 
+            activeModule === "daily-report" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("products")}
+          onClick={() => onModuleChange?.("daily-report")}
         >
-          產品資訊
+          生產/檢驗日報表
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "formulas" 
+            activeModule === "recipe-database" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("formulas")}
+          onClick={() => onModuleChange?.("recipe-database")}
         >
           配方資料庫
         </div>
@@ -93,4 +93,3 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
     </div>
   )
 }
-
