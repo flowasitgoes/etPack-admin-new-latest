@@ -1,7 +1,7 @@
 "use client"
 
 import ProductionSpecItem from "./production-spec-item"
-import BagSpecs from "./production-specs/bag-specs"
+import BaggingBagSpecs from "./bagging-bag-specs"
 import PrintingSpecs from "./production-specs/printing-specs"
 import LaminationSpecs from "./production-specs/lamination-specs"
 import SlittingSpecs from "./production-specs/slitting-specs"
@@ -16,7 +16,7 @@ export default function BaggingProductionSpecs() {
   const renderProductionSpecContent = (type: string) => {
     switch (type) {
       case 'bag':
-        return <BagSpecs />
+        return <BaggingBagSpecs />
       case 'printing':
         return <PrintingSpecs />
       case 'lamination':
