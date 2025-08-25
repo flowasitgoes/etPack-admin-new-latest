@@ -2,10 +2,10 @@
 
 import ProductionSpecItem from "./production-spec-item"
 import BaggingBagSpecs from "./bagging-bag-specs"
-import PrintingSpecs from "./production-specs/printing-specs"
-import LaminationSpecs from "./production-specs/lamination-specs"
-import SlittingSpecs from "./production-specs/slitting-specs"
-import CuttingSpecs from "./production-specs/cutting-specs"
+import BaggingPrintingSpecs from "./bagging-printing-specs"
+import BaggingLaminationSpecs from "./bagging-lamination-specs"
+import BaggingSlittingSpecs from "./bagging-slitting-specs"
+import BaggingCuttingSpecs from "./bagging-cutting-specs"
 import { productionSpecConfigs } from "@/app/lib/production-spec-config"
 import { useBaggingProductionSpecs } from "@/app/contexts/bagging-production-specs-context"
 
@@ -50,19 +50,19 @@ export default function BaggingProductionSpecs({ useStaticData = false }: Baggin
     }
   ]
 
-  // 渲染生产规格内容
+  // 渲染生产规格内容 - 使用專門的唯讀組件
   const renderProductionSpecContent = (type: string) => {
     switch (type) {
       case 'bag':
         return <BaggingBagSpecs />
       case 'printing':
-        return <PrintingSpecs />
+        return <BaggingPrintingSpecs />
       case 'lamination':
-        return <LaminationSpecs />
+        return <BaggingLaminationSpecs />
       case 'slitting':
-        return <SlittingSpecs />
+        return <BaggingSlittingSpecs />
       case 'cutting':
-        return <CuttingSpecs />
+        return <BaggingCuttingSpecs />
       default:
         return <div>未知生產規格</div>
     }

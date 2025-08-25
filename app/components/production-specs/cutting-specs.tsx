@@ -1,5 +1,8 @@
 "use client"
 
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
 export default function CuttingSpecs() {
   return (
     <div className="grid grid-cols-[1fr_0.75fr] gap-6">
@@ -8,79 +11,106 @@ export default function CuttingSpecs() {
           生產規格描述
         </div>
         <div className="bg-gray-100 p-4 space-y-3 production-spec-form">
-          {/* 袋型 */}
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">袋型</div>
-            <div className="flex items-center justify-between px-3 py-2 w-40 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
-              <span>醫療平口袋</span>
-            </div>
+            <Select>
+              <SelectTrigger className="w-40 h-8 text-sm">
+                <SelectValue placeholder="醫療平口袋" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="醫療平口袋">醫療平口袋</SelectItem>
+                <SelectItem value="食品袋">食品袋</SelectItem>
+                <SelectItem value="工業袋">工業袋</SelectItem>
+                <SelectItem value="其他">其他</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
-          {/* 袋型 */}
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-sm text-gray-600">袋型</div>
-            <div className="flex items-center justify-between px-3 py-2 w-40 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
-              <span>標準袋型</span>
-            </div>
+            <Select>
+              <SelectTrigger className="w-40 h-8 text-sm">
+                <SelectValue placeholder="請選擇" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="標準袋型">標準袋型</SelectItem>
+                <SelectItem value="特殊袋型">特殊袋型</SelectItem>
+                <SelectItem value="客製袋型">客製袋型</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
-          {/* 印刷圖面 */}
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-sm text-gray-600">印刷圖面</div>
-            <div className="flex items-center justify-between px-3 py-2 w-32 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
-              <span>標準圖面</span>
-            </div>
+            <Select>
+              <SelectTrigger className="w-32 h-8 text-sm">
+                <SelectValue placeholder="請選擇" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="標準圖面">標準圖面</SelectItem>
+                <SelectItem value="客製圖面">客製圖面</SelectItem>
+                <SelectItem value="無印刷">無印刷</SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-600">袋長</span>
-              <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
-                20
-              </div>
+              <Input className="w-20 h-8 text-sm" placeholder="20" />
               <span className="text-sm text-gray-600">cm</span>
             </div>
           </div>
-          
-          {/* 數量 */}
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-sm text-gray-600">數量</div>
-            <div className="flex px-3 py-2 text-sm w-32 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
-              1000
-            </div>
-            <div className="flex items-center justify-between px-3 py-2 w-24 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
-              <span>磅/捆</span>
-            </div>
+            <Input className="w-32 h-8 text-sm" placeholder="1000" />
+            <Select>
+              <SelectTrigger className="w-24 h-8 text-sm">
+                <SelectValue placeholder="磅/捆" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="磅/捆">磅/捆</SelectItem>
+                <SelectItem value="個">個</SelectItem>
+                <SelectItem value="包">包</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
-          {/* 小包裝數量 */}
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-sm text-gray-600">小包裝數量</div>
-            <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
-              50
-            </div>
-            <div className="flex items-center justify-between px-3 py-2 w-24 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
-              <span>束</span>
-            </div>
+            <Input className="w-20 h-8 text-sm" placeholder="50" />
+            <Select>
+              <SelectTrigger className="w-24 h-8 text-sm">
+                <SelectValue placeholder="束" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="束">束</SelectItem>
+                <SelectItem value="包">包</SelectItem>
+                <SelectItem value="個">個</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
-          {/* 大包裝數量 */}
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-sm text-gray-600">大包裝數量</div>
-            <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
-              20
-            </div>
-            <div className="flex items-center justify-between px-3 py-2 w-24 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
-              <span>塑膠袋</span>
-            </div>
+            <Input className="w-20 h-8 text-sm" placeholder="20" />
+            <Select>
+              <SelectTrigger className="w-24 h-8 text-sm">
+                <SelectValue placeholder="塑膠袋" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="塑膠袋">塑膠袋</SelectItem>
+                <SelectItem value="紙箱">紙箱</SelectItem>
+                <SelectItem value="其他">其他</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
-          {/* 膠帶顏色 */}
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-sm text-gray-600">膠帶顏色</div>
-            <div className="flex items-center justify-between px-3 py-2 w-24 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
-              <span>其他</span>
-            </div>
-            <div className="flex px-3 py-2 text-sm w-24 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
-              透明
-            </div>
+            <Select>
+              <SelectTrigger className="w-24 h-8 text-sm">
+                <SelectValue placeholder="其他" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="透明">透明</SelectItem>
+                <SelectItem value="白色">白色</SelectItem>
+                <SelectItem value="其他">其他</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input className="w-24 h-8 text-sm" placeholder="填值" />
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function SchedulePage() {
   const [pageOpacity, setPageOpacity] = useState(0)
@@ -13,21 +14,35 @@ export default function SchedulePage() {
     setTimeout(() => setPageOpacity(1), 50)
   }, [])
 
-  // 示例數據
+  // 示例數據 - 更新訂單編號
   const scheduleData = [
     {
-      orderNumber: "K01140421358441",
+      orderNumber: "K01140414001",
       recorder: "H11",
       deliveryDate: "2025/05/30",
       customerName: "PSD",
       productInfo: "W8010-B201"
     },
     {
-      orderNumber: "K01140421358402",
+      orderNumber: "K01140414002",
       recorder: "H11",
       deliveryDate: "2025/06/30",
       customerName: "TD",
       productInfo: "W8010-B301"
+    },
+    {
+      orderNumber: "K01140414003",
+      recorder: "H11",
+      deliveryDate: "2025/07/15",
+      customerName: "ABC",
+      productInfo: "W8010-B401"
+    },
+    {
+      orderNumber: "K01140414004",
+      recorder: "H11",
+      deliveryDate: "2025/08/20",
+      customerName: "XYZ",
+      productInfo: "W8010-B501"
     }
   ]
 
@@ -84,9 +99,12 @@ export default function SchedulePage() {
                 <TableRow key={index} className="hover:bg-gray-50">
                   <TableCell className="border-r border-gray-200">
                     <div className="flex items-center space-x-2">
-                      <div className="bg-gray-500 text-white px-3 py-1 rounded text-sm font-medium">
+                      <Link 
+                        href={`/bagging/${item.orderNumber}`}
+                        className="bg-gray-500 text-white px-3 py-1 rounded text-sm font-medium hover:bg-gray-600 transition-colors cursor-pointer"
+                      >
                         {item.orderNumber}
-                      </div>
+                      </Link>
                       <Button
                         variant="ghost"
                         size="sm"
