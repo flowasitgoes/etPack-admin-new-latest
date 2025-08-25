@@ -73,6 +73,145 @@ export default function StaffInfo() {
         };
         otherConditions: string;
       }> = []
+      
+      // 擷取印刷課的資料
+      const printingSpecs: Array<{
+        id: string;
+        orderNumber: string;
+        createdAt: string;
+        moduleNumber: string;
+        printing: {
+          colors: string;
+          sides: string;
+        };
+        circumference: string;
+        plateLength: string;
+        barcode: string;
+        material: {
+          type: string;
+          supplier: string;
+          material: string;
+          thickness: string;
+          width: string;
+        };
+        quantity: {
+          meters: string;
+          rolls: string;
+          kgs: string;
+          kgsRolls: string;
+        };
+        ink: string[];
+        position: {
+          type: string;
+          distance: string;
+          other: string;
+        };
+        windingDirection: {
+          type: string;
+          value: string;
+        };
+        otherConditions: string;
+      }> = []
+      
+      // 擷取貼合課的資料
+      const laminationSpecs: Array<{
+        id: string;
+        orderNumber: string;
+        createdAt: string;
+        moduleNumber: string;
+        materialA: {
+          type: string;
+          value: string;
+          thickness: string;
+          width: string;
+          quantity: {
+            meters: string;
+            rolls: string;
+            kgs: string;
+            kgsRolls: string;
+          };
+        };
+        materialB: {
+          type: string;
+          value: string;
+          thickness: string;
+          width: string;
+          quantity: {
+            meters: string;
+            rolls: string;
+            kgs: string;
+            kgsRolls: string;
+          };
+        };
+        otherConditions: string;
+      }> = []
+      
+      // 擷取分條課的資料
+      const slittingSpecs: Array<{
+        id: string;
+        orderNumber: string;
+        createdAt: string;
+        moduleNumber: string;
+        material: string;
+        stage1: {
+          type: string;
+          size: string;
+          quantity: {
+            meters: string;
+            rolls: string;
+          };
+        };
+        stage2: {
+          type: string;
+          size: string;
+          quantity: {
+            meters: string;
+            rolls: string;
+          };
+        };
+        windingDirection: {
+          type: string;
+          value: string;
+        };
+        cornerFolding: {
+          bagWidth: string;
+          faceWidth: string;
+          fold: string;
+          oneSideFold: string;
+          quantity: string;
+        };
+        otherConditions: string;
+      }> = []
+      
+      // 擷取裁袋課的資料
+      const cuttingSpecs: Array<{
+        id: string;
+        orderNumber: string;
+        createdAt: string;
+        moduleNumber: string;
+        bagType: string;
+        bagType2: string;
+        printingPattern: string;
+        bagLength: string;
+        quantity: {
+          amount: string;
+          unit: string;
+        };
+        smallPackage: {
+          amount: string;
+          unit: string;
+        };
+        largePackage: {
+          amount: string;
+          unit: string;
+        };
+        tapeColor: {
+          type: string;
+          value: string;
+        };
+        otherConditions: string;
+      }> = []
+      
       const baggingElements = document.querySelectorAll('.production-specifications-item')
       
       baggingElements.forEach((element, index) => {
@@ -170,6 +309,337 @@ export default function StaffInfo() {
           
           baggingSpecs.push(baggingSpec)
         }
+        
+        // 檢查是否為印刷課的元件
+        const isPrinting = element.querySelector('.bg-bag-printing')
+        if (isPrinting) {
+          // 擷取創建時間
+          const createdAtElement = element.querySelector('.text-xs.text-gray-600 span')
+          const createdAt = createdAtElement ? createdAtElement.textContent?.replace('創建時間：', '') : ''
+          
+          // 擷取模組編號
+          const moduleNumberElement = element.querySelector('.text-wrap-vertical div:last-child')
+          const moduleNumber = moduleNumberElement ? moduleNumberElement.textContent : '01'
+          
+          // 擷取印刷色數和面數
+          const colorsInput = element.querySelector('input[placeholder="2"]') as HTMLInputElement
+          const sidesInput = element.querySelectorAll('input[placeholder=""]')[0] as HTMLInputElement
+          
+          // 擷取圓周
+          const circumferenceInput = element.querySelectorAll('input[placeholder=""]')[1] as HTMLInputElement
+          
+          // 擷取版長
+          const plateLengthInput = element.querySelectorAll('input[placeholder=""]')[2] as HTMLInputElement
+          
+          // 擷取條碼
+          const barcodeInput = element.querySelector('input[placeholder="4712425028076"]') as HTMLInputElement
+          
+          // 擷取料膜類型
+          const materialTypeSelect = element.querySelectorAll('button[role="combobox"] span')[0] as HTMLElement
+          
+          // 擷取外購廠商名稱
+          const supplierInput = element.querySelectorAll('input[placeholder=""]')[3] as HTMLInputElement
+          
+          // 擷取材質
+          const materialSelect = element.querySelectorAll('button[role="combobox"] span')[1] as HTMLElement
+          const materialInput = element.querySelector('input[placeholder="填值"]') as HTMLInputElement
+          
+          // 擷取厚度
+          const thicknessInput = element.querySelectorAll('input[placeholder=""]')[4] as HTMLInputElement
+          
+          // 擷取膜寬
+          const widthInput = element.querySelectorAll('input[placeholder=""]')[5] as HTMLInputElement
+          
+          // 擷取數量 - 米數和卷數
+          const metersInput = element.querySelector('input[placeholder="3000"]') as HTMLInputElement
+          const rollsInput = element.querySelectorAll('input[placeholder=""]')[6] as HTMLInputElement
+          
+          // 擷取數量 - 公斤和卷數
+          const kgsInput = element.querySelectorAll('input[placeholder=""]')[7] as HTMLInputElement
+          const kgsRollsInput = element.querySelectorAll('input[placeholder=""]')[8] as HTMLInputElement
+          
+          // 擷取油墨 (6個輸入框)
+          const inkInputs = element.querySelectorAll('input[placeholder="特桔"], input[placeholder="黑"], input[placeholder=""]')
+          const ink: string[] = []
+          inkInputs.forEach((input, i) => {
+            if (i < 6) { // 只取前6個
+              ink.push((input as HTMLInputElement)?.value || '')
+            }
+          })
+          
+          // 擷取位置
+          const positionSelect = element.querySelectorAll('button[role="combobox"] span')[2] as HTMLElement
+          const positionDistanceInput = element.querySelectorAll('input[placeholder=""]')[9] as HTMLInputElement
+          const positionOtherInput = element.querySelectorAll('input[placeholder=""]')[10] as HTMLInputElement
+          
+          // 擷取捲收方向
+          const windingSelect = element.querySelectorAll('button[role="combobox"] span')[3] as HTMLElement
+          const windingInput = element.querySelectorAll('input[placeholder="填值"]')[1] as HTMLInputElement
+          
+          // 擷取其他生產條件
+          const otherConditionsElement = element.querySelector('.bg-gray-100 .text-sm')
+          const otherConditions = otherConditionsElement ? otherConditionsElement.textContent : ''
+          
+          const printingSpec = {
+            id: `printing-${orderNumber || 'K01140414001'}-${moduleNumber || '01'}`,
+            orderNumber: orderNumber || 'K01140414001',
+            createdAt: createdAt || '',
+            moduleNumber: moduleNumber || '01',
+            printing: {
+              colors: colorsInput?.value || '',
+              sides: sidesInput?.value || ''
+            },
+            circumference: circumferenceInput?.value || '',
+            plateLength: plateLengthInput?.value || '',
+            barcode: barcodeInput?.value || '',
+            material: {
+              type: materialTypeSelect?.textContent || '',
+              supplier: supplierInput?.value || '',
+              material: materialSelect?.textContent || '',
+              thickness: thicknessInput?.value || '',
+              width: widthInput?.value || ''
+            },
+            quantity: {
+              meters: metersInput?.value || '',
+              rolls: rollsInput?.value || '',
+              kgs: kgsInput?.value || '',
+              kgsRolls: kgsRollsInput?.value || ''
+            },
+            ink: ink,
+            position: {
+              type: positionSelect?.textContent || '',
+              distance: positionDistanceInput?.value || '',
+              other: positionOtherInput?.value || ''
+            },
+            windingDirection: {
+              type: windingSelect?.textContent || '',
+              value: windingInput?.value || ''
+            },
+            otherConditions: otherConditions || ''
+          }
+          
+          printingSpecs.push(printingSpec)
+        }
+        
+        // 檢查是否為貼合課的元件
+        const isLamination = element.querySelector('.bg-bag-lamination')
+        if (isLamination) {
+          // 擷取創建時間
+          const createdAtElement = element.querySelector('.text-xs.text-gray-600 span')
+          const createdAt = createdAtElement ? createdAtElement.textContent?.replace('創建時間：', '') : ''
+          
+          // 擷取模組編號
+          const moduleNumberElement = element.querySelector('.text-wrap-vertical div:last-child')
+          const moduleNumber = moduleNumberElement ? moduleNumberElement.textContent : '01'
+          
+          // 擷取料膜A相關資料
+          const materialATypeSelect = element.querySelectorAll('button[role="combobox"] span')[0] as HTMLElement
+          const materialAValueInput = element.querySelectorAll('input[placeholder=""]')[0] as HTMLInputElement
+          const materialAThicknessInput = element.querySelectorAll('input[placeholder=""]')[1] as HTMLInputElement
+          const materialAWidthInput = element.querySelectorAll('input[placeholder=""]')[2] as HTMLInputElement
+          const materialAMetersInput = element.querySelectorAll('input[placeholder=""]')[3] as HTMLInputElement
+          const materialARollsInput = element.querySelectorAll('input[placeholder=""]')[4] as HTMLInputElement
+          const materialAKgsInput = element.querySelectorAll('input[placeholder=""]')[5] as HTMLInputElement
+          const materialAKgsRollsInput = element.querySelectorAll('input[placeholder=""]')[6] as HTMLInputElement
+          
+          // 擷取料膜B相關資料
+          const materialBTypeSelect = element.querySelectorAll('button[role="combobox"] span')[1] as HTMLElement
+          const materialBValueInput = element.querySelectorAll('input[placeholder=""]')[7] as HTMLInputElement
+          const materialBThicknessInput = element.querySelectorAll('input[placeholder=""]')[8] as HTMLInputElement
+          const materialBWidthInput = element.querySelectorAll('input[placeholder=""]')[9] as HTMLInputElement
+          const materialBMetersInput = element.querySelectorAll('input[placeholder=""]')[10] as HTMLInputElement
+          const materialBRollsInput = element.querySelectorAll('input[placeholder=""]')[11] as HTMLInputElement
+          const materialBKgsInput = element.querySelectorAll('input[placeholder=""]')[12] as HTMLInputElement
+          const materialBKgsRollsInput = element.querySelectorAll('input[placeholder=""]')[13] as HTMLInputElement
+          
+          // 擷取其他生產條件
+          const otherConditionsElement = element.querySelector('.bg-gray-100 .text-sm')
+          const otherConditions = otherConditionsElement ? otherConditionsElement.textContent : ''
+          
+          const laminationSpec = {
+            id: `lamination-${orderNumber || 'K01140414001'}-${moduleNumber || '01'}`,
+            orderNumber: orderNumber || 'K01140414001',
+            createdAt: createdAt || '',
+            moduleNumber: moduleNumber || '01',
+            materialA: {
+              type: materialATypeSelect?.textContent || '',
+              value: materialAValueInput?.value || '',
+              thickness: materialAThicknessInput?.value || '',
+              width: materialAWidthInput?.value || '',
+              quantity: {
+                meters: materialAMetersInput?.value || '',
+                rolls: materialARollsInput?.value || '',
+                kgs: materialAKgsInput?.value || '',
+                kgsRolls: materialAKgsRollsInput?.value || ''
+              }
+            },
+            materialB: {
+              type: materialBTypeSelect?.textContent || '',
+              value: materialBValueInput?.value || '',
+              thickness: materialBThicknessInput?.value || '',
+              width: materialBWidthInput?.value || '',
+              quantity: {
+                meters: materialBMetersInput?.value || '',
+                rolls: materialBRollsInput?.value || '',
+                kgs: materialBKgsInput?.value || '',
+                kgsRolls: materialBKgsRollsInput?.value || ''
+              }
+            },
+            otherConditions: otherConditions || ''
+          }
+          
+          laminationSpecs.push(laminationSpec)
+        }
+        
+        // 檢查是否為分條課的元件
+        const isSlitting = element.querySelector('.bg-bag-slitting')
+        if (isSlitting) {
+          // 擷取創建時間
+          const createdAtElement = element.querySelector('.text-xs.text-gray-600 span')
+          const createdAt = createdAtElement ? createdAtElement.textContent?.replace('創建時間：', '') : ''
+          
+          // 擷取模組編號
+          const moduleNumberElement = element.querySelector('.text-wrap-vertical div:last-child')
+          const moduleNumber = moduleNumberElement ? moduleNumberElement.textContent : '01'
+          
+          // 擷取料膜
+          const materialInput = element.querySelectorAll('input[placeholder=""]')[0] as HTMLInputElement
+          
+          // 擷取工段(一)相關資料
+          const stage1TypeSelect = element.querySelectorAll('button[role="combobox"] span')[0] as HTMLElement
+          const stage1SizeInput = element.querySelectorAll('input[placeholder=""]')[1] as HTMLInputElement
+          const stage1MetersInput = element.querySelectorAll('input[placeholder=""]')[2] as HTMLInputElement
+          const stage1RollsInput = element.querySelectorAll('input[placeholder=""]')[3] as HTMLInputElement
+          
+          // 擷取工段(二)相關資料
+          const stage2TypeSelect = element.querySelectorAll('button[role="combobox"] span')[1] as HTMLElement
+          const stage2SizeInput = element.querySelectorAll('input[placeholder=""]')[4] as HTMLInputElement
+          const stage2MetersInput = element.querySelectorAll('input[placeholder=""]')[5] as HTMLInputElement
+          const stage2RollsInput = element.querySelectorAll('input[placeholder=""]')[6] as HTMLInputElement
+          
+          // 擷取捲收方向
+          const windingSelect = element.querySelectorAll('button[role="combobox"] span')[2] as HTMLElement
+          const windingInput = element.querySelector('input[placeholder="填值"]') as HTMLInputElement
+          
+          // 擷取折角相關資料
+          const bagWidthInput = element.querySelectorAll('input[placeholder=""]')[7] as HTMLInputElement
+          const faceWidthInput = element.querySelectorAll('input[placeholder=""]')[8] as HTMLInputElement
+          const foldInput = element.querySelectorAll('input[placeholder=""]')[9] as HTMLInputElement
+          const oneSideFoldInput = element.querySelectorAll('input[placeholder=""]')[10] as HTMLInputElement
+          const quantityInput = element.querySelectorAll('input[placeholder=""]')[11] as HTMLInputElement
+          
+          // 擷取其他生產條件
+          const otherConditionsElement = element.querySelector('.bg-gray-100 .text-sm')
+          const otherConditions = otherConditionsElement ? otherConditionsElement.textContent : ''
+          
+          const slittingSpec = {
+            id: `slitting-${orderNumber || 'K01140414001'}-${moduleNumber || '01'}`,
+            orderNumber: orderNumber || 'K01140414001',
+            createdAt: createdAt || '',
+            moduleNumber: moduleNumber || '01',
+            material: materialInput?.value || '',
+            stage1: {
+              type: stage1TypeSelect?.textContent || '',
+              size: stage1SizeInput?.value || '',
+              quantity: {
+                meters: stage1MetersInput?.value || '',
+                rolls: stage1RollsInput?.value || ''
+              }
+            },
+            stage2: {
+              type: stage2TypeSelect?.textContent || '',
+              size: stage2SizeInput?.value || '',
+              quantity: {
+                meters: stage2MetersInput?.value || '',
+                rolls: stage2RollsInput?.value || ''
+              }
+            },
+            windingDirection: {
+              type: windingSelect?.textContent || '',
+              value: windingInput?.value || ''
+            },
+            cornerFolding: {
+              bagWidth: bagWidthInput?.value || '',
+              faceWidth: faceWidthInput?.value || '',
+              fold: foldInput?.value || '',
+              oneSideFold: oneSideFoldInput?.value || '',
+              quantity: quantityInput?.value || ''
+            },
+            otherConditions: otherConditions || ''
+          }
+          
+          slittingSpecs.push(slittingSpec)
+        }
+        
+        // 檢查是否為裁袋課的元件
+        const isCutting = element.querySelector('.bg-bag-cutting')
+        if (isCutting) {
+          // 擷取創建時間
+          const createdAtElement = element.querySelector('.text-xs.text-gray-600 span')
+          const createdAt = createdAtElement ? createdAtElement.textContent?.replace('創建時間：', '') : ''
+          
+          // 擷取模組編號
+          const moduleNumberElement = element.querySelector('.text-wrap-vertical div:last-child')
+          const moduleNumber = moduleNumberElement ? moduleNumberElement.textContent : '01'
+          
+          // 擷取袋型
+          const bagTypeSelect = element.querySelectorAll('button[role="combobox"] span')[0] as HTMLElement
+          const bagType2Select = element.querySelectorAll('button[role="combobox"] span')[1] as HTMLElement
+          
+          // 擷取印刷圖面
+          const printingPatternSelect = element.querySelectorAll('button[role="combobox"] span')[2] as HTMLElement
+          const bagLengthInput = element.querySelectorAll('input[placeholder=""]')[0] as HTMLInputElement
+          
+          // 擷取數量
+          const quantityInput = element.querySelectorAll('input[placeholder=""]')[1] as HTMLInputElement
+          const quantityUnitSelect = element.querySelectorAll('button[role="combobox"] span')[3] as HTMLElement
+          
+          // 擷取小包裝數量
+          const smallPackageInput = element.querySelectorAll('input[placeholder=""]')[2] as HTMLInputElement
+          const smallPackageUnitSelect = element.querySelectorAll('button[role="combobox"] span')[4] as HTMLElement
+          
+          // 擷取大包裝數量
+          const largePackageInput = element.querySelectorAll('input[placeholder=""]')[3] as HTMLInputElement
+          const largePackageUnitSelect = element.querySelectorAll('button[role="combobox"] span')[5] as HTMLElement
+          
+          // 擷取膠帶顏色
+          const tapeColorSelect = element.querySelectorAll('button[role="combobox"] span')[6] as HTMLElement
+          const tapeColorInput = element.querySelector('input[placeholder="填值"]') as HTMLInputElement
+          
+          // 擷取其他生產條件
+          const otherConditionsElement = element.querySelector('.bg-gray-100 .text-sm')
+          const otherConditions = otherConditionsElement ? otherConditionsElement.textContent : ''
+          
+          const cuttingSpec = {
+            id: `cutting-${orderNumber || 'K01140414001'}-${moduleNumber || '01'}`,
+            orderNumber: orderNumber || 'K01140414001',
+            createdAt: createdAt || '',
+            moduleNumber: moduleNumber || '01',
+            bagType: bagTypeSelect?.textContent || '',
+            bagType2: bagType2Select?.textContent || '',
+            printingPattern: printingPatternSelect?.textContent || '',
+            bagLength: bagLengthInput?.value || '',
+            quantity: {
+              amount: quantityInput?.value || '',
+              unit: quantityUnitSelect?.textContent || ''
+            },
+            smallPackage: {
+              amount: smallPackageInput?.value || '',
+              unit: smallPackageUnitSelect?.textContent || ''
+            },
+            largePackage: {
+              amount: largePackageInput?.value || '',
+              unit: largePackageUnitSelect?.textContent || ''
+            },
+            tapeColor: {
+              type: tapeColorSelect?.textContent || '',
+              value: tapeColorInput?.value || ''
+            },
+            otherConditions: otherConditions || ''
+          }
+          
+          cuttingSpecs.push(cuttingSpec)
+        }
       })
       
       // 準備要儲存的數據
@@ -190,6 +660,10 @@ export default function StaffInfo() {
           sampleFile: sampleFileInput?.files?.[0]?.name || ''
         },
         bagging: baggingSpecs,
+        printing: printingSpecs,
+        lamination: laminationSpecs,
+        slitting: slittingSpecs,
+        cutting: cuttingSpecs,
         submittedAt: new Date().toISOString(),
         status: 'submitted'
       }
