@@ -279,7 +279,7 @@ export default function BaggingProductionSchedule() {
             <div className="min-w-max">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-purple-800 text-white border-b [&:hover]:bg-purple-800">
+                  <TableRow className="text-white border-b [&:hover]:bg-[#76514c]" style={{ background: '#76514c' }}>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[100px]">機台</TableHead>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程01</TableHead>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程02</TableHead>
