@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import Link from "next/link"
 
 interface OrderData {
   orderNumber: string
@@ -246,7 +247,14 @@ export default function BaggingProductionSchedule() {
                 ) : (
                   pendingOrders.map((order, index) => (
                     <TableRow key={index} className="border-b hover:bg-gray-50">
-                      <TableCell className="p-4 align-middle bg-purple-100 font-medium">{order.orderNumber}</TableCell>
+                      <TableCell className="p-4 align-middle bg-purple-100 font-medium">
+                        <Link 
+                          href={`/bagging/${order.orderNumber}`}
+                          className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                        >
+                          {order.orderNumber}
+                        </Link>
+                      </TableCell>
                       <TableCell className="p-4 align-middle">{order.productName}</TableCell>
                       <TableCell className="p-4 align-middle">{order.orderQuantity}</TableCell>
                       <TableCell className="p-4 align-middle">{order.deliveryDate}</TableCell>
@@ -322,28 +330,84 @@ export default function BaggingProductionSchedule() {
                     <TableRow key={index} className="border-b hover:bg-gray-50">
                       <TableCell className="p-4 align-middle bg-pink-200 font-medium min-w-[100px]">{schedule.machine}</TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule1 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule1 || ""}
+                        {schedule.schedule1 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule1}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule1}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule2 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule2 || ""}
+                        {schedule.schedule2 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule2}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule2}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule3 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule3 || ""}
+                        {schedule.schedule3 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule3}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule3}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule4 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule4 || ""}
+                        {schedule.schedule4 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule4}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule4}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule5 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule5 || ""}
+                        {schedule.schedule5 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule5}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule5}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule6 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule6 || ""}
+                        {schedule.schedule6 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule6}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule6}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule7 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule7 || ""}
+                        {schedule.schedule7 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule7}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule7}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                       <TableCell className={`p-4 align-middle min-w-[150px] ${schedule.schedule8 ? "bg-gray-100" : ""}`}>
-                        {schedule.schedule8 || ""}
+                        {schedule.schedule8 ? (
+                          <Link 
+                            href={`/bagging/${schedule.schedule8}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          >
+                            {schedule.schedule8}
+                          </Link>
+                        ) : ""}
                       </TableCell>
                     </TableRow>
                   ))}
