@@ -1,11 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Calendar, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+
+interface OrderData {
+  orderNumber: string
+  productName: string
+  orderQuantity: string
+  deliveryDate: string
+  machine: string
+}
 
 export default function BaggingProductionSchedule() {
   const [currentDateTime] = useState(() => {
@@ -18,30 +26,34 @@ export default function BaggingProductionSchedule() {
     return `${year}/${month}/${day} ${hours}:${minutes}`
   })
 
-  // 待生產訂製單數據
-  const [pendingOrders, setPendingOrders] = useState([
-    {
-      orderNumber: "K01140625001",
-      productName: "鮮自然224/厚62u",
-      orderQuantity: "1600KG/600捲",
-      deliveryDate: "114/07/21",
-      machine: "1號機"
-    },
-    {
-      orderNumber: "K01140626001-1",
-      productName: "2024迪士尼-M29X46.5cm",
-      orderQuantity: "1262500只",
-      deliveryDate: "114/09/04",
-      machine: "1號機"
-    },
-    {
-      orderNumber: "K01140701001-4",
-      productName: "PL-768奈芙捲衛6入袋",
-      orderQuantity: "20000只/23箱",
-      deliveryDate: "114/07/15",
-      machine: "1號機"
+  // 待生產訂製單數據 - 從 API 動態讀取
+  const [pendingOrders, setPendingOrders] = useState<OrderData[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // 從 API 讀取訂單資料
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('/api/orders')
+        const data = await response.json()
+        
+        if (data.orders && Array.isArray(data.orders)) {
+          setPendingOrders(data.orders)
+        } else {
+          console.error('API 返回的資料格式不正確:', data)
+          setPendingOrders([])
+        }
+      } catch (error) {
+        console.error('讀取訂單資料時發生錯誤:', error)
+        setPendingOrders([])
+      } finally {
+        setLoading(false)
+      }
     }
-  ])
+
+    fetchOrders()
+  }, [])
 
   // 機台生產排程數據
   const [machineSchedules, setMachineSchedules] = useState([
@@ -219,50 +231,64 @@ export default function BaggingProductionSchedule() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {pendingOrders.map((order, index) => (
-                  <TableRow key={index} className="border-b hover:bg-gray-50">
-                    <TableCell className="p-4 align-middle bg-purple-100 font-medium">{order.orderNumber}</TableCell>
-                    <TableCell className="p-4 align-middle">{order.productName}</TableCell>
-                    <TableCell className="p-4 align-middle">{order.orderQuantity}</TableCell>
-                    <TableCell className="p-4 align-middle">{order.deliveryDate}</TableCell>
-                    <TableCell className="p-4 align-middle">
-                      <Select 
-                        value={order.machine} 
-                        onValueChange={(value) => handleMachineChange(index, value)}
-                      >
-                        <SelectTrigger className="w-24 h-10">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1號機">1號機</SelectItem>
-                          <SelectItem value="2號機">2號機</SelectItem>
-                          <SelectItem value="3號機">3號機</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell className="p-4 align-middle">
-                      <div className="flex items-center space-x-2">
-                        <Button 
-                          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded h-10"
-                          onClick={() => handleConfirm(index)}
-                        >
-                          確認
-                        </Button>
-                        <div className="flex space-x-1">
-                          <Button size="sm" variant="outline" className="w-6 h-6 p-0 text-sm">+</Button>
-                          <Button 
-                            size="sm" 
-                            variant="outline" 
-                            className="w-6 h-6 p-0 text-sm"
-                            onClick={() => handleRemove(index)}
-                          >
-                            -
-                          </Button>
-                        </div>
-                      </div>
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="p-4 text-center text-gray-500">
+                      載入中...
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : pendingOrders.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="p-4 text-center text-gray-500">
+                      目前沒有待生產的訂單
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  pendingOrders.map((order, index) => (
+                    <TableRow key={index} className="border-b hover:bg-gray-50">
+                      <TableCell className="p-4 align-middle bg-purple-100 font-medium">{order.orderNumber}</TableCell>
+                      <TableCell className="p-4 align-middle">{order.productName}</TableCell>
+                      <TableCell className="p-4 align-middle">{order.orderQuantity}</TableCell>
+                      <TableCell className="p-4 align-middle">{order.deliveryDate}</TableCell>
+                      <TableCell className="p-4 align-middle">
+                        <Select 
+                          value={order.machine} 
+                          onValueChange={(value) => handleMachineChange(index, value)}
+                        >
+                          <SelectTrigger className="w-24 h-10">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1號機">1號機</SelectItem>
+                            <SelectItem value="2號機">2號機</SelectItem>
+                            <SelectItem value="3號機">3號機</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                      <TableCell className="p-4 align-middle">
+                        <div className="flex items-center space-x-2">
+                          <Button 
+                            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded h-10"
+                            onClick={() => handleConfirm(index)}
+                          >
+                            確認
+                          </Button>
+                          <div className="flex space-x-1">
+                            <Button size="sm" variant="outline" className="w-6 h-6 p-0 text-sm">+</Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="w-6 h-6 p-0 text-sm"
+                              onClick={() => handleRemove(index)}
+                            >
+                              -
+                            </Button>
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
