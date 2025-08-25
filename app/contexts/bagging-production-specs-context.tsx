@@ -9,6 +9,31 @@ interface ProductionSpecItem {
   number: string // 添加编号字段
 }
 
+interface OrderData {
+  orderNumber: string
+  date: string
+  orderInfo: {
+    customerName: string
+    customerCode: string
+    productCode: string
+    productName: string
+    orderQuantity: string
+    orderUnit1: string
+    orderQuantity2: string
+    orderUnit2: string
+    deliveryDate: string
+    formulaNumber: string
+    sampleFile: string
+  }
+  bagging: any[]
+  printing: any[]
+  lamination: any[]
+  slitting: any[]
+  cutting: any[]
+  submittedAt: string
+  status: string
+}
+
 interface ProductionSpecsContextType {
   productionSpecs: ProductionSpecItem[]
   addProductionSpec: (type: 'bag' | 'printing' | 'lamination' | 'slitting' | 'cutting') => void
@@ -16,7 +41,7 @@ interface ProductionSpecsContextType {
   editProductionSpec: (id: string) => void
   clearAllProductionSpecs: () => void
   scrollToNewForm: (id: string) => void
-  initializeFromOrderData: (orderData: any) => void
+  initializeFromOrderData: (orderData: OrderData) => void
 }
 
 const ProductionSpecsContext = createContext<ProductionSpecsContextType | undefined>(undefined)
@@ -31,84 +56,6 @@ export function BaggingProductionSpecsProvider({ children }: { children: ReactNo
       number: '01'
     }
   ])
-
-  const initializeFromOrderData = (orderData: any) => {
-    if (!orderData) return
-
-    const specs: ProductionSpecItem[] = []
-    
-    // 處理 bagging 資料
-    if (orderData.bagging && Array.isArray(orderData.bagging)) {
-      orderData.bagging.forEach((item: any, index: number) => {
-        specs.push({
-          id: item.id || `bag-${Date.now()}-${index}`,
-          type: 'bag',
-          createdAt: item.createdAt || new Date().toISOString(),
-          number: item.moduleNumber || String(index + 1).padStart(2, '0')
-        })
-      })
-    }
-
-    // 處理 printing 資料
-    if (orderData.printing && Array.isArray(orderData.printing)) {
-      orderData.printing.forEach((item: any, index: number) => {
-        specs.push({
-          id: item.id || `printing-${Date.now()}-${index}`,
-          type: 'printing',
-          createdAt: item.createdAt || new Date().toISOString(),
-          number: item.moduleNumber || String(index + 1).padStart(2, '0')
-        })
-      })
-    }
-
-    // 處理 lamination 資料
-    if (orderData.lamination && Array.isArray(orderData.lamination)) {
-      orderData.lamination.forEach((item: any, index: number) => {
-        specs.push({
-          id: item.id || `lamination-${Date.now()}-${index}`,
-          type: 'lamination',
-          createdAt: item.createdAt || new Date().toISOString(),
-          number: item.moduleNumber || String(index + 1).padStart(2, '0')
-        })
-      })
-    }
-
-    // 處理 slitting 資料
-    if (orderData.slitting && Array.isArray(orderData.slitting)) {
-      orderData.slitting.forEach((item: any, index: number) => {
-        specs.push({
-          id: item.id || `slitting-${Date.now()}-${index}`,
-          type: 'slitting',
-          createdAt: item.createdAt || new Date().toISOString(),
-          number: item.moduleNumber || String(index + 1).padStart(2, '0')
-        })
-      })
-    }
-
-    // 處理 cutting 資料
-    if (orderData.cutting && Array.isArray(orderData.cutting)) {
-      orderData.cutting.forEach((item: any, index: number) => {
-        specs.push({
-          id: item.id || `cutting-${Date.now()}-${index}`,
-          type: 'cutting',
-          createdAt: item.createdAt || new Date().toISOString(),
-          number: item.moduleNumber || String(index + 1).padStart(2, '0')
-        })
-      })
-    }
-
-    // 如果沒有資料，保持預設的 bag 模組
-    if (specs.length === 0) {
-      specs.push({
-        id: `bag-${Date.now()}`,
-        type: 'bag',
-        createdAt: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')} ${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}:${String(new Date().getSeconds()).padStart(2, '0')}`,
-        number: '01'
-      })
-    }
-
-    setProductionSpecs(specs)
-  }
 
   const addProductionSpec = (type: 'bag' | 'printing' | 'lamination' | 'slitting' | 'cutting') => {
     const now = new Date()
@@ -187,6 +134,82 @@ export function BaggingProductionSpecsProvider({ children }: { children: ReactNo
         element.classList.remove('highlight-new-form')
       }, 2000)
     }
+  }
+
+  const initializeFromOrderData = (orderData: OrderData) => {
+    const newProductionSpecs: ProductionSpecItem[] = []
+    
+    // 處理抽袋模組
+    if (orderData.bagging && orderData.bagging.length > 0) {
+      orderData.bagging.forEach((item, index) => {
+        newProductionSpecs.push({
+          id: `bag-${orderData.orderNumber}-${String(index + 1).padStart(2, '0')}`,
+          type: 'bag',
+          createdAt: item.createdAt || `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')} ${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}:${String(new Date().getSeconds()).padStart(2, '0')}`,
+          number: String(index + 1).padStart(2, '0')
+        })
+      })
+    }
+    
+    // 處理印刷模組
+    if (orderData.printing && orderData.printing.length > 0) {
+      orderData.printing.forEach((item, index) => {
+        newProductionSpecs.push({
+          id: `printing-${orderData.orderNumber}-${String(index + 1).padStart(2, '0')}`,
+          type: 'printing',
+          createdAt: item.createdAt || `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')} ${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}:${String(new Date().getSeconds()).padStart(2, '0')}`,
+          number: String(index + 1).padStart(2, '0')
+        })
+      })
+    }
+    
+    // 處理貼合模組
+    if (orderData.lamination && orderData.lamination.length > 0) {
+      orderData.lamination.forEach((item, index) => {
+        newProductionSpecs.push({
+          id: `lamination-${orderData.orderNumber}-${String(index + 1).padStart(2, '0')}`,
+          type: 'lamination',
+          createdAt: item.createdAt || `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')} ${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}:${String(new Date().getSeconds()).padStart(2, '0')}`,
+          number: String(index + 1).padStart(2, '0')
+        })
+      })
+    }
+    
+    // 處理分條模組
+    if (orderData.slitting && orderData.slitting.length > 0) {
+      orderData.slitting.forEach((item, index) => {
+        newProductionSpecs.push({
+          id: `slitting-${orderData.orderNumber}-${String(index + 1).padStart(2, '0')}`,
+          type: 'slitting',
+          createdAt: item.createdAt || `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')} ${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}:${String(new Date().getSeconds()).padStart(2, '0')}`,
+          number: String(index + 1).padStart(2, '0')
+        })
+      })
+    }
+    
+    // 處理裁袋模組
+    if (orderData.cutting && orderData.cutting.length > 0) {
+      orderData.cutting.forEach((item, index) => {
+        newProductionSpecs.push({
+          id: `cutting-${orderData.orderNumber}-${String(index + 1).padStart(2, '0')}`,
+          type: 'cutting',
+          createdAt: item.createdAt || `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')} ${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}:${String(new Date().getSeconds()).padStart(2, '0')}`,
+          number: String(index + 1).padStart(2, '0')
+        })
+      })
+    }
+    
+    // 如果沒有找到任何生產規格，至少添加一個抽袋模組
+    if (newProductionSpecs.length === 0) {
+      newProductionSpecs.push({
+        id: `bag-${orderData.orderNumber}-01`,
+        type: 'bag',
+        createdAt: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')} ${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}:${String(new Date().getSeconds()).padStart(2, '0')}`,
+        number: '01'
+      })
+    }
+    
+    setProductionSpecs(newProductionSpecs)
   }
 
   return (

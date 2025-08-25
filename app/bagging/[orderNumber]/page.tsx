@@ -117,50 +117,48 @@ function OrderDetailContent() {
     }
 
     return (
-      <BaggingProductionSpecsProvider>
-        <div 
-          className="order-record-container space-y-6 transition-all duration-300 ease-in-out"
-          style={{ opacity: pageOpacity }}
-        >
-          {/* Header */}
-          <div className="flex justify-between items-center text-white p-4" style={{ background: '#76514c' }}>
-            <div className="flex items-center space-x-4">
-              <h1 className="text-xl font-bold">抽袋課</h1>
-              <span className="text-lg">訂製單記錄</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Calendar className="w-5 h-5" />
-              <span className="text-sm">{currentDateTime}</span>
-            </div>
+      <div 
+        className="order-record-container space-y-6 transition-all duration-300 ease-in-out"
+        style={{ opacity: pageOpacity }}
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center text-white p-4" style={{ background: '#76514c' }}>
+          <div className="flex items-center space-x-4">
+            <h1 className="text-xl font-bold">抽袋課</h1>
+            <span className="text-lg">訂製單記錄</span>
           </div>
-
-          {/* Order Header */}
-          <div className="order-header-wrap">
-            <div className="bg-gray-600 text-white px-6 py-3 mb-6 flex justify-between items-center">
-              <div className="flex items-center space-x-3">
-                <span className="font-medium">訂單編號</span>
-                <input
-                  type="text"
-                  value={orderData.orderNumber}
-                  readOnly
-                  className="bg-transparent text-white px-3 py-1 border-b-2 border-white focus:outline-none font-medium cursor-default"
-                  placeholder="輸入訂單編號"
-                />
-              </div>
-            </div>
-
-            <div className="px-6 py-3 mb-6 flex justify-between items-center">
-              <span className="text-sm">日期: {orderData.date}</span>
-            </div>
+          <div className="flex items-center space-x-2">
+            <Calendar className="w-5 h-5" />
+            <span className="text-sm">{currentDateTime}</span>
           </div>
-          
-          {/* Order Form */}
-          <BaggingOrderForm orderData={orderData} />
-
-          {/* Production Specifications */}
-          <BaggingProductionSpecs />
         </div>
-      </BaggingProductionSpecsProvider>
+
+        {/* Order Header */}
+        <div className="order-header-wrap">
+          <div className="bg-gray-600 text-white px-6 py-3 mb-6 flex justify-between items-center">
+            <div className="flex items-center space-x-3">
+              <span className="font-medium">訂單編號</span>
+              <input
+                type="text"
+                value={orderData.orderNumber}
+                readOnly
+                className="bg-transparent text-white px-3 py-1 border-b-2 border-white focus:outline-none font-medium cursor-default"
+                placeholder="輸入訂單編號"
+              />
+            </div>
+          </div>
+
+          <div className="px-6 py-3 mb-6 flex justify-between items-center">
+            <span className="text-sm">日期: {orderData.date}</span>
+          </div>
+        </div>
+        
+        {/* Order Form */}
+        <BaggingOrderForm orderData={orderData} />
+
+        {/* Production Specifications */}
+        <BaggingProductionSpecs />
+      </div>
     )
   }
 

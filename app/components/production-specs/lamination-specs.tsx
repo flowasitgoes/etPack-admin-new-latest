@@ -1,8 +1,5 @@
 "use client"
 
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
 export default function LaminationSpecs() {
   return (
     <div className="grid grid-cols-[1fr_0.75fr] gap-6">
@@ -16,23 +13,21 @@ export default function LaminationSpecs() {
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center mb-2">料膜 A</div>
             <div className="space-y-2">
               <div className="flex items-center space-x-4">
-                <Select defaultValue="其他">
-                  <SelectTrigger className="w-32 h-8 text-sm select-trigger">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="其他">其他</SelectItem>
-                    <SelectItem value="標準">標準</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input className="w-32 h-8 text-sm" placeholder="" />
+                <div className="flex items-center justify-between px-3 py-2 w-32 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
+                  <span>其他</span>
+                </div>
+                <div className="flex px-3 py-2 text-sm w-32 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                  33
+                </div>
               </div>
               
               {/* 厚度 */}
               <div className="flex items-center space-x-4">
                 <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">厚度</div>
                 <div className="flex items-center space-x-2">
-                  <Input className="w-20 h-8 text-sm" placeholder="" />
+                  <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                    25
+                  </div>
                   <span className="text-sm text-gray-600">u</span>
                 </div>
               </div>
@@ -41,7 +36,9 @@ export default function LaminationSpecs() {
               <div className="flex items-center space-x-4">
                 <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">膜寬</div>
                 <div className="flex items-center space-x-2">
-                  <Input className="w-20 h-8 text-sm" placeholder="" />
+                  <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                    82
+                  </div>
                   <span className="text-sm text-gray-600">cm</span>
                 </div>
               </div>
@@ -51,17 +48,25 @@ export default function LaminationSpecs() {
                 <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center mb-2">料膜 A 數量 (擇一)</div>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
-                    <Input className="w-20 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      3000
+                    </div>
                     <span className="text-sm text-gray-600">m</span>
                     <span className="text-sm text-gray-600">X</span>
-                    <Input className="w-12 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-12 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      2
+                    </div>
                     <span className="text-sm text-gray-600">卷</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Input className="w-20 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      260
+                    </div>
                     <span className="text-sm text-gray-600">Kgs</span>
                     <span className="text-sm text-gray-600">X</span>
-                    <Input className="w-12 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-12 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      2
+                    </div>
                     <span className="text-sm text-gray-600">卷</span>
                   </div>
                 </div>
@@ -74,23 +79,21 @@ export default function LaminationSpecs() {
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center mb-2">料膜 B</div>
             <div className="space-y-2">
               <div className="flex items-center space-x-4">
-                <Select defaultValue="其他">
-                  <SelectTrigger className="w-32 h-8 text-sm select-trigger">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="其他">其他</SelectItem>
-                    <SelectItem value="標準">標準</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input className="w-32 h-8 text-sm" placeholder="" />
+                <div className="flex items-center justify-between px-3 py-2 w-32 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
+                  <span>其他</span>
+                </div>
+                <div className="flex px-3 py-2 text-sm w-32 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                  45
+                </div>
               </div>
               
               {/* 厚度 */}
               <div className="flex items-center space-x-4">
                 <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">厚度</div>
                 <div className="flex items-center space-x-2">
-                  <Input className="w-20 h-8 text-sm" placeholder="" />
+                  <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                    30
+                  </div>
                   <span className="text-sm text-gray-600">u</span>
                 </div>
               </div>
@@ -99,7 +102,9 @@ export default function LaminationSpecs() {
               <div className="flex items-center space-x-4">
                 <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">膜寬</div>
                 <div className="flex items-center space-x-2">
-                  <Input className="w-20 h-8 text-sm" placeholder="" />
+                  <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                    82
+                  </div>
                   <span className="text-sm text-gray-600">cm</span>
                 </div>
               </div>
@@ -110,17 +115,25 @@ export default function LaminationSpecs() {
                 <div className="text-xs mb-2"></div>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
-                    <Input className="w-20 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      3000
+                    </div>
                     <span className="text-sm text-gray-600">m</span>
                     <span className="text-sm text-gray-600">X</span>
-                    <Input className="w-12 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-12 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      2
+                    </div>
                     <span className="text-sm text-gray-600">卷</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Input className="w-20 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      280
+                    </div>
                     <span className="text-sm text-gray-600">Kgs</span>
                     <span className="text-sm text-gray-600">X</span>
-                    <Input className="w-12 h-8 text-sm" placeholder="" />
+                    <div className="flex px-3 py-2 text-sm w-12 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                      2
+                    </div>
                     <span className="text-sm text-gray-600">卷</span>
                   </div>
                 </div>

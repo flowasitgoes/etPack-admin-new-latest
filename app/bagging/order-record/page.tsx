@@ -18,7 +18,6 @@ export default function OrderRecordPage() {
   })
 
   const [pageOpacity, setPageOpacity] = useState(0)
-  const [orderNumber, setOrderNumber] = useState("K01140414001")
 
   useEffect(() => {
     // 組件掛載後開始淡入
@@ -46,16 +45,7 @@ export default function OrderRecordPage() {
         {/* Order Header */}
         <div className="order-header-wrap">
           <div className="bg-gray-600 text-white px-6 py-3 mb-6 flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <span className="font-medium">訂單編號</span>
-              <input
-                type="text"
-                value={orderNumber}
-                readOnly
-                className="bg-transparent text-white px-3 py-1 border-b-2 border-white focus:outline-none font-medium cursor-default"
-                placeholder="輸入訂單編號"
-              />
-            </div>
+            <span className="font-medium">訂單編號 K01140414001</span>
           </div>
 
           <div className="px-6 py-3 mb-6 flex justify-between items-center">

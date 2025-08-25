@@ -11,9 +11,9 @@ export default function StaffInfo() {
     setIsSubmitting(true)
     
     try {
-      // 擷取訂單編號 - 從 input 欄位獲取
-      const orderNumberInput = document.querySelector('.order-header-wrap input[type="text"]') as HTMLInputElement
-      const orderNumber = orderNumberInput ? orderNumberInput.value : 'K01140414001'
+      // 擷取訂單編號 - 修正選擇器
+      const orderNumberElement = document.querySelector('.order-header-wrap .bg-theme-gray span')
+      const orderNumber = orderNumberElement ? orderNumberElement.textContent?.replace('訂單編號 ', '') : ''
       
       // 擷取日期 - 修正選擇器
       const dateElement = document.querySelector('.order-header-wrap .px-6 .text-sm')

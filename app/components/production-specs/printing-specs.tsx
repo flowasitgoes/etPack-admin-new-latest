@@ -1,8 +1,5 @@
 "use client"
 
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
 export default function PrintingSpecs() {
   return (
     <div className="grid grid-cols-[1fr_0.75fr] gap-6">
@@ -15,9 +12,13 @@ export default function PrintingSpecs() {
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">印刷</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-12 h-8 text-sm" placeholder="2" />
+              <div className="flex px-3 py-2 text-sm w-12 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                2
+              </div>
               <span className="text-sm text-gray-600">色</span>
-              <Input className="w-16 h-8 text-sm" placeholder="" />
+              <div className="flex px-3 py-2 text-sm w-16 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                2
+              </div>
               <span className="text-sm text-gray-600">面</span>
             </div>
           </div>
@@ -26,7 +27,9 @@ export default function PrintingSpecs() {
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">圓周</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-20 h-8 text-sm" placeholder="" />
+              <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                420
+              </div>
               <span className="text-sm text-gray-600">mm</span>
             </div>
           </div>
@@ -35,7 +38,9 @@ export default function PrintingSpecs() {
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">版長</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-20 h-8 text-sm" placeholder="" />
+              <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                420
+              </div>
               <span className="text-sm text-gray-600">mm</span>
             </div>
           </div>
@@ -44,52 +49,48 @@ export default function PrintingSpecs() {
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">條碼</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-40 h-8 text-sm" placeholder="4712425028076" />
+              <div className="flex px-3 py-2 text-sm w-40 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                4712425028076
+              </div>
             </div>
           </div>
           
           {/* 料膜 */}
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">料膜</div>
-            <Select defaultValue="外購">
-              <SelectTrigger className="w-32 h-8 text-sm select-trigger">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="外購">外購</SelectItem>
-                <SelectItem value="自製">自製</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex items-center justify-between px-3 py-2 w-32 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
+              <span>外購</span>
+            </div>
           </div>
           
           {/* 外購廠商名稱 */}
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-24 text-center">外購廠商名稱</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-40 h-8 text-sm" placeholder="" />
+              <div className="flex px-3 py-2 text-sm w-40 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                台灣塑膠
+              </div>
             </div>
           </div>
           
           {/* 材質 */}
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">材質</div>
-            <Select defaultValue="其他">
-              <SelectTrigger className="w-32 h-8 text-sm select-trigger">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="其他">其他</SelectItem>
-                <SelectItem value="標準">標準</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input className="w-24 h-8 text-sm" placeholder="填值" />
+            <div className="flex items-center justify-between px-3 py-2 w-32 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
+              <span>其他</span>
+            </div>
+            <div className="flex px-3 py-2 text-sm w-24 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+              PE
+            </div>
           </div>
           
           {/* 厚度 */}
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">厚度</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-20 h-8 text-sm" placeholder="" />
+              <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                25
+              </div>
               <span className="text-sm text-gray-600">u</span>
             </div>
           </div>
@@ -98,7 +99,9 @@ export default function PrintingSpecs() {
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">膜寬</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-20 h-8 text-sm" placeholder="" />
+              <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                82
+              </div>
               <span className="text-sm text-gray-600">cm</span>
             </div>
           </div>
@@ -108,17 +111,25 @@ export default function PrintingSpecs() {
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center mb-2">數量 (擇一)</div>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Input className="w-20 h-8 text-sm" placeholder="3000" />
+                <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                  3000
+                </div>
                 <span className="text-sm text-gray-600">m</span>
                 <span className="text-sm text-gray-600">X</span>
-                <Input className="w-12 h-8 text-sm" placeholder="2" />
+                <div className="flex px-3 py-2 text-sm w-12 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                  2
+                </div>
                 <span className="text-sm text-gray-600">卷</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Input className="w-20 h-8 text-sm" placeholder="" />
+                <div className="flex px-3 py-2 text-sm w-20 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                  260
+                </div>
                 <span className="text-sm text-gray-600">Kgs</span>
                 <span className="text-sm text-gray-600">X</span>
-                <Input className="w-12 h-8 text-sm" placeholder="" />
+                <div className="flex px-3 py-2 text-sm w-12 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                  2
+                </div>
                 <span className="text-sm text-gray-600">卷</span>
               </div>
             </div>
@@ -130,27 +141,39 @@ export default function PrintingSpecs() {
             <div className="grid grid-cols-3 gap-2">
               <div className="flex items-center space-x-1">
                 <span className="text-xs text-gray-600">1.</span>
-                <Input className="w-16 h-6 text-sm" placeholder="特桔" />
+                <div className="flex px-3 py-2 text-sm w-16 h-6 bg-gray-100 items-center border-b-2 border-gray-400">
+                  特桔
+                </div>
               </div>
               <div className="flex items-center space-x-1">
                 <span className="text-xs text-gray-600">2.</span>
-                <Input className="w-16 h-6 text-sm" placeholder="黑" />
+                <div className="flex px-3 py-2 text-sm w-16 h-6 bg-gray-100 items-center border-b-2 border-gray-400">
+                  黑
+                </div>
               </div>
               <div className="flex items-center space-x-1">
                 <span className="text-xs text-gray-600">3.</span>
-                <Input className="w-16 h-6 text-sm" placeholder="" />
+                <div className="flex px-3 py-2 text-sm w-16 h-6 bg-gray-100 items-center border-b-2 border-gray-400">
+                  藍
+                </div>
               </div>
               <div className="flex items-center space-x-1">
                 <span className="text-xs text-gray-600">4.</span>
-                <Input className="w-16 h-6 text-sm" placeholder="" />
+                <div className="flex px-3 py-2 text-sm w-16 h-6 bg-gray-100 items-center border-b-2 border-gray-400">
+                  白
+                </div>
               </div>
               <div className="flex items-center space-x-1">
                 <span className="text-xs text-gray-600">5.</span>
-                <Input className="w-16 h-6 text-sm" placeholder="" />
+                <div className="flex px-3 py-2 text-sm w-16 h-6 bg-gray-100 items-center border-b-2 border-gray-400">
+                  
+                </div>
               </div>
               <div className="flex items-center space-x-1">
                 <span className="text-xs text-gray-600">6.</span>
-                <Input className="w-16 h-6 text-sm" placeholder="" />
+                <div className="flex px-3 py-2 text-sm w-16 h-6 bg-gray-100 items-center border-b-2 border-gray-400">
+                  
+                </div>
               </div>
             </div>
           </div>
@@ -158,16 +181,12 @@ export default function PrintingSpecs() {
           {/* 位置 */}
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-16 text-center">位置</div>
-            <Select defaultValue="距左邊">
-              <SelectTrigger className="w-32 h-8 text-sm select-trigger">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="距左邊">距左邊</SelectItem>
-                <SelectItem value="其他">其他</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input className="w-16 h-8 text-sm" placeholder="" />
+            <div className="flex items-center justify-between px-3 py-2 w-32 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
+              <span>距左邊</span>
+            </div>
+            <div className="flex px-3 py-2 text-sm w-16 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+              2.5
+            </div>
             <span className="text-sm text-gray-600">cm</span>
           </div>
           
@@ -175,23 +194,21 @@ export default function PrintingSpecs() {
           <div className="flex items-center space-x-4 bg-white p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center">位置其他</div>
             <div className="flex items-center space-x-2">
-              <Input className="w-40 h-8 text-sm" placeholder="" />
+              <div className="flex px-3 py-2 text-sm w-40 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+                標準位置
+              </div>
             </div>
           </div>
           
           {/* 捲收方向 */}
           <div className="flex items-center space-x-4 bg-gray-50 p-2 rounded">
             <div className="text-white bg-primary px-3 py-1 rounded text-sm font-medium min-w-20 text-center">捲收方向</div>
-            <Select defaultValue="其他">
-              <SelectTrigger className="w-32 h-8 text-sm select-trigger">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="其他">其他</SelectItem>
-                <SelectItem value="標準">標準</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input className="w-24 h-8 text-sm" placeholder="填值" />
+            <div className="flex items-center justify-between px-3 py-2 w-32 h-8 text-sm bg-gray-100 border-b-2 border-gray-400">
+              <span>其他</span>
+            </div>
+            <div className="flex px-3 py-2 text-sm w-24 h-8 bg-gray-100 items-center border-b-2 border-gray-400">
+              標準
+            </div>
           </div>
         </div>
       </div>
