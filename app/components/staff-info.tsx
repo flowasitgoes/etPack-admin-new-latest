@@ -12,12 +12,12 @@ export default function StaffInfo() {
     
     try {
       // 擷取訂單編號 - 修正選擇器
-      const orderNumberElement = document.querySelector('.order-header-wrap .bg-theme-gray span')
-      const orderNumber = orderNumberElement ? orderNumberElement.textContent?.replace('訂單編號 ', '') : ''
+      const orderNumberInput = document.querySelector('.order-header-wrap .bg-theme-gray input') as HTMLInputElement
+      const orderNumber = orderNumberInput ? orderNumberInput.value : ''
       
       // 擷取日期 - 修正選擇器
-      const dateElement = document.querySelector('.order-header-wrap .px-6 .text-sm')
-      const date = dateElement ? dateElement.textContent?.replace('日期: ', '') : ''
+      const dateInput = document.querySelector('.order-header-wrap .px-6 input[placeholder="請輸入日期"]') as HTMLInputElement
+      const date = dateInput ? dateInput.value : ''
       
       // 擷取表單欄位
       const customerNameInput = document.querySelector('input[placeholder="輸入客戶名稱"]') as HTMLInputElement
