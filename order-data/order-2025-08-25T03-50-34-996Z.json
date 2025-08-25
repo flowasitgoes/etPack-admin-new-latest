@@ -1,0 +1,63 @@
+{
+  "orderNumber": "K01140414003",
+  "date": "114/03/20",
+  "orderInfo": {
+    "customerName": "全聯",
+    "customerCode": "",
+    "productCode": "",
+    "productName": "全聯-PL-768",
+    "orderQuantity": "20000",
+    "orderUnit1": "只",
+    "orderQuantity2": "23",
+    "orderUnit2": "箱",
+    "deliveryDate": "114/12/12",
+    "formulaNumber": "",
+    "sampleFile": ""
+  },
+  "bagging": [
+    {
+      "id": "bag-K01140414003-01",
+      "orderNumber": "K01140414003",
+      "createdAt": "2025-08-25 11:50:07",
+      "moduleNumber": "01",
+      "thickness": "333",
+      "width": "333",
+      "cornerFolding": {
+        "totalWidth": "11",
+        "face": "22",
+        "fold": "33",
+        "oneSideFold": "33"
+      },
+      "formula": "",
+      "dyeing": {
+        "type": "染色",
+        "value": "AA"
+      },
+      "processing": {
+        "type": "中間",
+        "value": "BB"
+      },
+      "cutting": {
+        "type": "其他",
+        "value": "CC"
+      },
+      "trimming": {
+        "type": "其他",
+        "value": "DD"
+      },
+      "printing": {
+        "print": "2",
+        "color": "3",
+        "plateLength": "4",
+        "circumference": "5"
+      },
+      "otherConditions": "厚度"
+    }
+  ],
+  "printing": [],
+  "lamination": [],
+  "slitting": [],
+  "cutting": [],
+  "submittedAt": "2025-08-25T03:50:34.977Z",
+  "status": "submitted"
+}

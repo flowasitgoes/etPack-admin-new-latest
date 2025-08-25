@@ -1,0 +1,140 @@
+{
+  "orderNumber": "K01140414006",
+  "date": "114/08/25",
+  "orderInfo": {
+    "customerName": "666",
+    "customerCode": "66",
+    "productCode": "666SSS",
+    "productName": "全家便利商店中秋袋子",
+    "orderQuantity": "222",
+    "orderUnit1": "只",
+    "orderQuantity2": "33",
+    "orderUnit2": "箱",
+    "deliveryDate": "114/12/20",
+    "formulaNumber": "SSS666",
+    "sampleFile": ""
+  },
+  "bagging": [
+    {
+      "id": "bag-K01140414006-01",
+      "orderNumber": "K01140414006",
+      "createdAt": "2025-08-25 18:44:24",
+      "moduleNumber": "01",
+      "thickness": "2",
+      "width": "",
+      "cornerFolding": {
+        "totalWidth": "",
+        "face": "",
+        "fold": "",
+        "oneSideFold": ""
+      },
+      "formula": "",
+      "dyeing": {
+        "type": "染色",
+        "value": ""
+      },
+      "processing": {
+        "type": "中間",
+        "value": ""
+      },
+      "cutting": {
+        "type": "其他",
+        "value": ""
+      },
+      "trimming": {
+        "type": "其他",
+        "value": ""
+      },
+      "printing": {
+        "print": "",
+        "color": "",
+        "plateLength": "",
+        "circumference": ""
+      },
+      "otherConditions": "厚度"
+    }
+  ],
+  "printing": [
+    {
+      "id": "printing-K01140414006-01",
+      "orderNumber": "K01140414006",
+      "createdAt": "2025-08-25 18:44:26",
+      "moduleNumber": "01",
+      "printing": {
+        "colors": "",
+        "sides": "333"
+      },
+      "circumference": "33",
+      "plateLength": "",
+      "barcode": "",
+      "material": {
+        "type": "外購",
+        "supplier": "",
+        "material": "其他",
+        "thickness": "",
+        "width": ""
+      },
+      "quantity": {
+        "meters": "",
+        "rolls": "",
+        "kgs": "",
+        "kgsRolls": ""
+      },
+      "ink": [
+        "333",
+        "33",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "position": {
+        "type": "距左邊",
+        "distance": "",
+        "other": ""
+      },
+      "windingDirection": {
+        "type": "其他",
+        "value": ""
+      },
+      "otherConditions": "印刷"
+    }
+  ],
+  "lamination": [
+    {
+      "id": "lamination-K01140414006-01",
+      "orderNumber": "K01140414006",
+      "createdAt": "2025-08-25 18:44:30",
+      "moduleNumber": "01",
+      "materialA": {
+        "type": "其他",
+        "value": "",
+        "thickness": "",
+        "width": "",
+        "quantity": {
+          "meters": "",
+          "rolls": "",
+          "kgs": "",
+          "kgsRolls": ""
+        }
+      },
+      "materialB": {
+        "type": "其他",
+        "value": "",
+        "thickness": "",
+        "width": "",
+        "quantity": {
+          "meters": "",
+          "rolls": "",
+          "kgs": "",
+          "kgsRolls": ""
+        }
+      },
+      "otherConditions": "料膜 A"
+    }
+  ],
+  "slitting": [],
+  "cutting": [],
+  "submittedAt": "2025-08-25T10:44:43.783Z",
+  "status": "submitted"
+}

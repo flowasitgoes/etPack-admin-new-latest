@@ -1,5 +1,5 @@
-# 忽略所有 JSON 檔案
-*.json
+# 保留所有訂單 JSON 檔案
+# *.json
 
 # 但保留 .gitkeep 檔案
 !.gitkeep

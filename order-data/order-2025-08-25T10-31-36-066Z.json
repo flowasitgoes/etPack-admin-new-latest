@@ -1,0 +1,136 @@
+{
+  "orderNumber": "K01140414005",
+  "date": "114/08/25",
+  "orderInfo": {
+    "customerName": "555",
+    "customerCode": "55",
+    "productCode": "555ABC",
+    "productName": "7-11便利商店",
+    "orderQuantity": "300",
+    "orderUnit1": "只",
+    "orderQuantity2": "500",
+    "orderUnit2": "箱",
+    "deliveryDate": "117/08/25",
+    "formulaNumber": "AAA555AAA",
+    "sampleFile": ""
+  },
+  "bagging": [
+    {
+      "id": "bag-K01140414005-01",
+      "orderNumber": "K01140414005",
+      "createdAt": "2025-08-25 18:30:09",
+      "moduleNumber": "01",
+      "thickness": "55",
+      "width": "55",
+      "cornerFolding": {
+        "totalWidth": "55",
+        "face": "55",
+        "fold": "55",
+        "oneSideFold": "55"
+      },
+      "formula": "",
+      "dyeing": {
+        "type": "染色",
+        "value": ""
+      },
+      "processing": {
+        "type": "中間",
+        "value": ""
+      },
+      "cutting": {
+        "type": "其他",
+        "value": ""
+      },
+      "trimming": {
+        "type": "其他",
+        "value": ""
+      },
+      "printing": {
+        "print": "",
+        "color": "",
+        "plateLength": "",
+        "circumference": ""
+      },
+      "otherConditions": "厚度"
+    }
+  ],
+  "printing": [
+    {
+      "id": "printing-K01140414005-01",
+      "orderNumber": "K01140414005",
+      "createdAt": "2025-08-25 18:31:14",
+      "moduleNumber": "01",
+      "printing": {
+        "colors": "",
+        "sides": "66"
+      },
+      "circumference": "",
+      "plateLength": "",
+      "barcode": "",
+      "material": {
+        "type": "外購",
+        "supplier": "",
+        "material": "其他",
+        "thickness": "",
+        "width": ""
+      },
+      "quantity": {
+        "meters": "",
+        "rolls": "",
+        "kgs": "",
+        "kgsRolls": ""
+      },
+      "ink": [
+        "66",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "position": {
+        "type": "距左邊",
+        "distance": "",
+        "other": ""
+      },
+      "windingDirection": {
+        "type": "其他",
+        "value": ""
+      },
+      "otherConditions": "印刷"
+    }
+  ],
+  "lamination": [],
+  "slitting": [],
+  "cutting": [
+    {
+      "id": "cutting-K01140414005-01",
+      "orderNumber": "K01140414005",
+      "createdAt": "2025-08-25 18:31:19",
+      "moduleNumber": "01",
+      "bagType": "醫療平口袋",
+      "bagType2": "請選擇",
+      "printingPattern": "請選擇",
+      "bagLength": "",
+      "quantity": {
+        "amount": "",
+        "unit": "磅/捆"
+      },
+      "smallPackage": {
+        "amount": "",
+        "unit": "束"
+      },
+      "largePackage": {
+        "amount": "",
+        "unit": "塑膠袋"
+      },
+      "tapeColor": {
+        "type": "其他",
+        "value": "77"
+      },
+      "otherConditions": "袋型"
+    }
+  ],
+  "submittedAt": "2025-08-25T10:31:36.045Z",
+  "status": "submitted"
+}
