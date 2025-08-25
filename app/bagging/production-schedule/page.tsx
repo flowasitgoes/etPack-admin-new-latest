@@ -6,16 +6,19 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useRouter } from "next/navigation"
 
 interface OrderData {
   orderNumber: string
   productName: string
   orderQuantity: string
   deliveryDate: string
-  machine: string
+  machine?: string // 可選，在頁面中動態分配
 }
 
 export default function BaggingProductionSchedule() {
+  const router = useRouter()
+  
   const [currentDateTime] = useState(() => {
     const now = new Date()
     const year = now.getFullYear() - 1911 // 民國年
@@ -39,7 +42,12 @@ export default function BaggingProductionSchedule() {
         const data = await response.json()
         
         if (data.orders && Array.isArray(data.orders)) {
-          setPendingOrders(data.orders)
+          // 為每個訂單設置預設機台
+          const ordersWithMachine = data.orders.map((order: any) => ({
+            ...order,
+            machine: order.machine || '1號機' // 如果沒有機台資訊，預設為1號機
+          }))
+          setPendingOrders(ordersWithMachine)
         } else {
           console.error('API 返回的資料格式不正確:', data)
           setPendingOrders([])
@@ -246,7 +254,18 @@ export default function BaggingProductionSchedule() {
                 ) : (
                   pendingOrders.map((order, index) => (
                     <TableRow key={index} className="border-b hover:bg-gray-50">
-                      <TableCell className="p-4 align-middle bg-purple-100 font-medium">{order.orderNumber}</TableCell>
+                      <TableCell className="p-4 align-middle bg-purple-100 font-medium">
+                        <a 
+                          href={`/bagging/${order.orderNumber}`}
+                          className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            router.push(`/bagging/${order.orderNumber}`)
+                          }}
+                        >
+                          {order.orderNumber}
+                        </a>
+                      </TableCell>
                       <TableCell className="p-4 align-middle">{order.productName}</TableCell>
                       <TableCell className="p-4 align-middle">{order.orderQuantity}</TableCell>
                       <TableCell className="p-4 align-middle">{order.deliveryDate}</TableCell>

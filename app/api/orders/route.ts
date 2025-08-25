@@ -54,6 +54,13 @@ export async function GET() {
         const fileContent = fs.readFileSync(filePath, 'utf8')
         const orderData = JSON.parse(fileContent)
         
+        // 驗證機制：只有當 bagging 陣列有內容時才讀取該檔案的資料
+        // 這表示該訂單已經經過抽袋課類別的處理
+        if (!orderData.bagging || !Array.isArray(orderData.bagging) || orderData.bagging.length === 0) {
+          console.log(`跳過檔案 ${file}：bagging 陣列為空或不存在，表示該訂單尚未經過抽袋課類別處理`)
+          continue
+        }
+        
         // 提取需要的資料
         const orderQuantity1 = orderData.orderInfo?.orderQuantity || ''
         const orderUnit1 = orderData.orderInfo?.orderUnit1 || ''
@@ -73,8 +80,7 @@ export async function GET() {
           orderNumber: orderData.orderNumber || '',
           productName: orderData.orderInfo?.productName || '',
           orderQuantity: orderQuantity,
-          deliveryDate: orderData.orderInfo?.deliveryDate || '',
-          machine: '1號機' // 預設機台
+          deliveryDate: orderData.orderInfo?.deliveryDate || ''
         }
         
         orders.push(orderInfo)

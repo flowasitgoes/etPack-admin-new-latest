@@ -6,18 +6,36 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 
-export default function BaggingOrderForm() {
+interface BaggingOrderFormProps {
+  orderData?: {
+    orderInfo: {
+      customerName: string
+      customerCode: string
+      productCode: string
+      productName: string
+      orderQuantity: string
+      orderUnit1: string
+      orderQuantity2: string
+      orderUnit2: string
+      deliveryDate: string
+      formulaNumber: string
+      sampleFile: string
+    }
+  }
+}
+
+export default function BaggingOrderForm({ orderData }: BaggingOrderFormProps = {}) {
   const [formData, setFormData] = useState({
-    customerName: "譯加/KP0510",
-    customerCode: "KP0510",
-    productCode: "P0510-A03022",
-    productName: "鮮自然2024/厚62u",
-    orderQuantity: "12800",
-    orderUnit1: "只",
-    orderQuantity2: "20",
-    orderUnit2: "箱",
-    deliveryDate: "114/07/21",
-    formulaNumber: "EW-28-1",
+    customerName: orderData?.orderInfo?.customerName || "譯加/KP0510",
+    customerCode: orderData?.orderInfo?.customerCode || "KP0510",
+    productCode: orderData?.orderInfo?.productCode || "P0510-A03022",
+    productName: orderData?.orderInfo?.productName || "鮮自然2024/厚62u",
+    orderQuantity: orderData?.orderInfo?.orderQuantity || "12800",
+    orderUnit1: orderData?.orderInfo?.orderUnit1 || "只",
+    orderQuantity2: orderData?.orderInfo?.orderQuantity2 || "20",
+    orderUnit2: orderData?.orderInfo?.orderUnit2 || "箱",
+    deliveryDate: orderData?.orderInfo?.deliveryDate || "114/07/21",
+    formulaNumber: orderData?.orderInfo?.formulaNumber || "EW-28-1",
     sampleFile: null as File | null
   })
 
