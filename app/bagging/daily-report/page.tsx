@@ -163,10 +163,10 @@ export default function DailyReportPage() {
                         return (
                           <button
                             key={machine}
-                            className={`w-8 h-8 border-2 border-green-500 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-300 ${
+                            className={`w-8 h-8 border-2 border-green-500 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-300 cursor-default ${
                               isActive 
-                                ? 'bg-green-500 text-white hover:bg-green-600' 
-                                : 'text-green-600 hover:bg-green-50'
+                                ? 'bg-green-500 text-white' 
+                                : 'text-green-600'
                             }`}
                           >
                             {machine}
