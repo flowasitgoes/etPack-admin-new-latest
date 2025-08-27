@@ -681,7 +681,7 @@ export default function StaffInfo() {
       
       if (result.success) {
         console.log('訂單數據已儲存:', result)
-        alert(`訂單數據已成功儲存到 order-data 資料夾！\n檔案名稱: ${result.fileName}`)
+        alert(`訂單數據已成功儲存到 public/order-data 資料夾！\n檔案名稱: ${result.fileName}`)
       } else {
         throw new Error(result.message)
       }

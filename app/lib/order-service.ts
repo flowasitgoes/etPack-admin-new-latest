@@ -36,7 +36,7 @@ export interface ScheduleItem {
 
 export async function getAllOrders(): Promise<OrderData[]> {
   try {
-    const orderDataPath = path.join(process.cwd(), 'order-data')
+    const orderDataPath = path.join(process.cwd(), 'public', 'order-data')
     const files = fs.readdirSync(orderDataPath)
     
     const orderFiles = files.filter(file => 

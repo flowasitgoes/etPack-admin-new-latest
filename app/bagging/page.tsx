@@ -5,6 +5,7 @@ import BaggingSidebar from "../components/bagging-sidebar"
 import BaggingProductionSchedule from "./production-schedule/page"
 import MaterialRecordPage from "./material-record/page"
 import OrderRecordPage from "./order-record/page"
+import DailyReportPage from "./daily-report/page"
 import "../../styles/admin-colors.css"
 import "../../styles/admin.css"
 
@@ -43,7 +44,7 @@ export default function BaggingPage() {
       case "order-record":
         return <OrderRecordPage />
       case "daily-report":
-        return <div className="p-6">生產/檢驗日報表 - 開發中</div>
+        return <DailyReportPage />
       case "recipe-database":
         return <div className="p-6">配方資料庫 - 開發中</div>
       default:

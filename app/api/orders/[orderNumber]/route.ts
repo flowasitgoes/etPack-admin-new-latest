@@ -16,7 +16,7 @@ export async function GET(
       )
     }
 
-    const orderDataDir = path.join(process.cwd(), 'order-data')
+    const orderDataDir = path.join(process.cwd(), 'public', 'order-data')
     if (!fs.existsSync(orderDataDir)) {
       return NextResponse.json(
         { success: false, message: '訂單資料夾不存在' },

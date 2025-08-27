@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const orderData = await request.json()
     
     // 確保 order-data 資料夾存在
-    const orderDataDir = path.join(process.cwd(), 'order-data')
+    const orderDataDir = path.join(process.cwd(), 'public', 'order-data')
     if (!fs.existsSync(orderDataDir)) {
       fs.mkdirSync(orderDataDir, { recursive: true })
     }
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const orderDataDir = path.join(process.cwd(), 'order-data')
+    const orderDataDir = path.join(process.cwd(), 'public', 'order-data')
     if (!fs.existsSync(orderDataDir)) {
       return NextResponse.json({ orders: [] })
     }
