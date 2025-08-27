@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Package, User, Edit, Plus, Minus } from "lucide-react"
 import BaggingSidebar from "../../../components/bagging-sidebar"
+import "../../../../styles/admin-colors.css"
+import "../../../../styles/admin.css"
 
 interface OrderData {
   orderNumber: string
@@ -89,6 +91,18 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
 
   const handleModuleChange = (newModule: string) => {
     setActiveModule(newModule)
+    // 導航到對應的頁面
+    if (newModule === "production-schedule") {
+      window.location.href = "/bagging"
+    } else if (newModule === "order-record") {
+      window.location.href = "/bagging"
+    } else if (newModule === "material-record") {
+      window.location.href = "/bagging"
+    } else if (newModule === "daily-report") {
+      // 保持在當前頁面
+    } else if (newModule === "recipe-database") {
+      window.location.href = "/bagging"
+    }
   }
 
   const addBagRoll = () => {
@@ -168,13 +182,13 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
                     <Card className="shadow-lg">
                       <CardContent className="p-6">
                         <div className="mb-4">
-                          <Badge className="text-white text-lg px-4 py-2" style={{ backgroundColor: 'rgb(118, 81, 76)' }}>
-                            訂單編號 {order.orderNumber}
-                          </Badge>
+                          <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[280px]" style={{ background: '#7c7d99' }}>
+                            <h2 className="text-base font-semibold leading-tight">訂單編號 {order.orderNumber}</h2>
+                          </div>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="flex items-center space-x-2 col-span-2">
+                        <div className="space-y-4">
+                          <div className="flex items-center space-x-2">
                             <Badge variant="outline" className="bg-gray-100">操作日期:</Badge>
                             <span>{order.date}</span>
                             <Badge variant="outline" className="bg-gray-100 ml-4">機台:</Badge>

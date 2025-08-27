@@ -120,12 +120,12 @@ export default function DailyReportPage() {
                 {orders.map((order, index) => (
                   <TableRow key={order.orderNumber} className="border-b hover:bg-gray-50">
                     <TableCell className="py-3 px-4">
-                      <button 
-                        className="text-purple-600 hover:text-purple-800 font-medium hover:underline transition-colors"
-                        onClick={() => window.location.href = `/bagging/${order.orderNumber}/daily`}
+                      <a 
+                        href={`/bagging/${order.orderNumber}/daily`}
+                        className="text-purple-600 hover:text-purple-800 font-medium hover:underline transition-colors cursor-pointer"
                       >
                         {order.orderNumber}
-                      </button>
+                      </a>
                     </TableCell>
                     <TableCell className="font-medium text-gray-800 py-3 px-4">
                       {order.orderInfo.productName}
