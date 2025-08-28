@@ -3,6 +3,9 @@
 import { Search, Edit, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import RecentOrdersSection from "./recent-orders-section"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 interface SidebarProps {
   activeModule?: string
@@ -10,9 +13,49 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ activeModule = "orders", onModuleChange }: SidebarProps) {
+  const [activeDepartment, setActiveDepartment] = useState("business")
+  const router = useRouter()
+
+  // 課別資料
+  const departments = [
+    { id: "business", name: "業務課", shortName: "業", path: "/" },
+    { id: "extraction", name: "抽袋課", shortName: "抽", path: "/bagging" },
+    { id: "printing", name: "印刷課", shortName: "印", path: "/printing" },
+    { id: "laminating", name: "貼合課", shortName: "貼", path: "/laminating" },
+    { id: "slitting", name: "分條課", shortName: "分", path: "/slitting" },
+    { id: "cutting", name: "裁袋課", shortName: "裁", path: "/cutting" }
+  ]
+
+  const handleDepartmentClick = (deptId: string) => {
+    setActiveDepartment(deptId)
+    const department = departments.find(d => d.id === deptId)
+    if (department) {
+      router.push(department.path)
+    }
+  }
+
   return (
-    <div className="admin-left-sidebar bg-gray-50">
-      <div className="user-and-search-section p-6">
+    <div className="admin-left-sidebar bg-gray-50 flex flex-col h-full">
+      {/* 課別分頁 - 移到最上方 */}
+      <div className="p-4 border-b border-gray-200" style={{ minHeight: '95px' }}>
+        <div className="grid grid-cols-3 gap-2">
+          {departments.map((dept) => (
+            <button
+              key={dept.id}
+              onClick={() => handleDepartmentClick(dept.id)}
+              className={`p-1.5 text-sm font-medium rounded transition-all duration-200 ${
+                activeDepartment === dept.id
+                  ? "bg-[#2BBAA5] text-white shadow-md"
+                  : "bg-[#93D3AE]/30 text-gray-700 hover:bg-[#93D3AE]/50"
+              }`}
+            >
+              {dept.shortName}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="user-and-search-section p-6 pb-0">
         {/* User Profile */}
         <div className="flex flex-col items-center mb-8">
           <div className="relative mb-4">
@@ -38,7 +81,7 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
       </div>
 
       {/* Navigation Menu */}
-      <nav className="space-y-2">
+      <nav className="space-y-2 px-4">
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
             activeModule === "schedule" 
@@ -90,6 +133,15 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
           配方資料庫
         </div>
       </nav>
+
+      {/* 分隔線 */}
+      <div className="flex-1"></div>
+      <div className="border-t border-gray-200 mx-4 my-2"></div>
+
+      {/* 最近新增訂單區域 */}
+      <div className="flex-shrink-0">
+        <RecentOrdersSection />
+      </div>
     </div>
   )
 }

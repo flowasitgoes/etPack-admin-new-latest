@@ -81,7 +81,7 @@ export default function ERPAdmin() {
                 }}
               >
                 {/* Header with User Info and Logout */}
-                <div className="flex justify-between items-center p-4 border-b bg-white">
+                <div className="flex justify-between items-center p-4 border-b bg-white" style={{ minHeight: '95px' }}>
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                       <User className="w-4 h-4 text-white" />
