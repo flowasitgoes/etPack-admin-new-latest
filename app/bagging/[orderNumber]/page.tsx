@@ -122,7 +122,7 @@ function OrderDetailContent() {
         style={{ opacity: pageOpacity }}
       >
         {/* Header */}
-        <div className="flex justify-between items-center text-white p-4" style={{ background: '#76514c' }}>
+        <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(228, 156, 192)' }}>
           <div className="flex items-center space-x-4">
             <h1 className="text-xl font-bold">抽袋課</h1>
             <span className="text-lg">訂製單記錄</span>

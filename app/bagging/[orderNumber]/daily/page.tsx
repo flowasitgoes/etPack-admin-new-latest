@@ -156,7 +156,7 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
             <div className="flex-1 transition-opacity duration-150 ease-in-out overflow-y-auto">
               <div className="bagging-container space-y-6 p-6">
                 {/* 頁面標題 */}
-                <div className="flex justify-between items-center text-white p-4" style={{ background: '#76514c' }}>
+                <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(228, 156, 192)' }}>
                   <div className="flex items-center space-x-4">
                     <h1 className="text-xl font-bold">抽袋課</h1>
                     <span className="text-lg">生產/檢驗日報表</span>
@@ -227,14 +227,14 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
 
                     {/* 2. 成品計量/檢驗結果 */}
                     <Card className="shadow-lg">
-                                              <CardHeader className="text-white" style={{ backgroundColor: 'rgb(118, 81, 76)' }}>
+                                              <CardHeader className="text-white" style={{ backgroundColor: 'rgb(228, 156, 192)' }}>
                           <CardTitle>成品計量 / 檢驗結果</CardTitle>
                         </CardHeader>
                       <CardContent className="p-6 space-y-4">
                         {bagRolls.map((roll, index) => (
                                                       <div key={roll.id} className="border rounded-lg p-4 w-full">
                               <div className="flex justify-between items-center mb-4">
-                                <div className="inline-flex items-center border px-3 py-1 text-base font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-gray-600 text-white" style={{ backgroundColor: 'rgb(118, 81, 76)' }}>
+                                <div className="inline-flex items-center border px-3 py-1 text-base font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-gray-600 text-white" style={{ backgroundColor: 'rgb(228, 156, 192)' }}>
                                   袋捲編號: {roll.rollNumber}
                                 </div>
                               <Button
@@ -355,7 +355,7 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
                           </div>
                         ))}
                         
-                        <Button onClick={addBagRoll} className="w-full text-white" style={{ backgroundColor: 'rgb(118, 81, 76)' }}>
+                        <Button onClick={addBagRoll} className="w-full text-white" style={{ backgroundColor: 'rgb(228, 156, 192)' }}>
                           <Plus className="w-4 h-4 mr-2" />
                           新增袋捲
                         </Button>

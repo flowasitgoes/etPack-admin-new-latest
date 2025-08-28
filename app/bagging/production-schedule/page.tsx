@@ -197,7 +197,7 @@ export default function BaggingProductionSchedule() {
   return (
     <div className="bagging-container space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center text-white p-4" style={{ background: '#76514c' }}>
+      <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(228, 156, 192)' }}>
         <div className="flex items-center space-x-4">
           <h1 className="text-xl font-bold">抽袋課</h1>
           <span className="text-lg">生產排程</span>
@@ -222,13 +222,13 @@ export default function BaggingProductionSchedule() {
           <div className="relative w-full overflow-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-100 border-b">
-                  <TableHead className="h-12 px-4 text-left align-middle text-gray-700 font-semibold">訂單編號</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-gray-700 font-semibold">產品名稱</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-gray-700 font-semibold">訂製數量</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-gray-700 font-semibold">交貨日期</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-gray-700 font-semibold">生產機台</TableHead>
-                  <TableHead className="h-12 px-4 text-left align-middle text-gray-700 font-semibold">操作</TableHead>
+                <TableRow className="transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-white border-b [&:hover]:bg-[rgb(228, 156, 192)]" style={{ background: 'rgb(118, 81, 99)' }}>
+                  <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">訂單編號</TableHead>
+                  <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">產品名稱</TableHead>
+                  <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">訂製數量</TableHead>
+                  <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">交貨日期</TableHead>
+                  <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">生產機台</TableHead>
+                  <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -313,7 +313,7 @@ export default function BaggingProductionSchedule() {
             <div className="min-w-max">
               <Table>
                 <TableHeader>
-                  <TableRow className="text-white border-b [&:hover]:bg-[#76514c]" style={{ background: '#76514c' }}>
+                  <TableRow className="text-white border-b [&:hover]:bg-[rgb(228, 156, 192)]" style={{ background: 'rgb(118, 81, 99)' }}>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[100px]">機台</TableHead>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程01</TableHead>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程02</TableHead>
