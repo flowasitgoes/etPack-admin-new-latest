@@ -161,7 +161,7 @@ export default function SlittingSidebar({ activeModule = "production-schedule", 
           }`}
           onClick={() => onModuleChange?.("production-schedule")}
         >
-          分條排程
+          生產排程
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
@@ -181,7 +181,7 @@ export default function SlittingSidebar({ activeModule = "production-schedule", 
           }`}
           onClick={() => onModuleChange?.("material-record")}
         >
-          刀具記錄
+          領料記錄
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
@@ -191,7 +191,7 @@ export default function SlittingSidebar({ activeModule = "production-schedule", 
           }`}
           onClick={() => onModuleChange?.("daily-report")}
         >
-          分條日報表
+          生產/檢驗日報表
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${

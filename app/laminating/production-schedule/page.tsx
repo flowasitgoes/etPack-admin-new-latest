@@ -197,7 +197,7 @@ export default function LaminatingProductionSchedule() {
   return (
     <div className="bagging-container space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(228, 180, 156)' }}>
+      <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(218 163 136)' }}>
         <div className="flex items-center space-x-4">
           <h1 className="text-xl font-bold">貼合課</h1>
           <span className="text-lg">生產排程</span>
@@ -222,7 +222,7 @@ export default function LaminatingProductionSchedule() {
           <div className="relative w-full overflow-auto">
             <Table>
               <TableHeader>
-                <TableRow className="transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-white border-b [&:hover]:bg-[rgb(228, 156, 192)]" style={{ background: 'rgb(118, 81, 99)' }}>
+                <TableRow className="transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-white border-b [&:hover]:bg-[rgb(209 138 173)]" style={{ background: 'rgb(118, 81, 99)' }}>
                   <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">訂單編號</TableHead>
                   <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">產品名稱</TableHead>
                   <TableHead className="[&:has([role=checkbox])]:pr-0 h-12 px-4 text-left align-middle text-white font-semibold">訂製數量</TableHead>
@@ -313,7 +313,7 @@ export default function LaminatingProductionSchedule() {
             <div className="min-w-max">
               <Table>
                 <TableHeader>
-                  <TableRow className="text-white border-b [&:hover]:bg-[rgb(228, 156, 192)]" style={{ background: 'rgb(118, 81, 99)' }}>
+                  <TableRow className="text-white border-b [&:hover]:bg-[rgb(209 138 173)]" style={{ background: 'rgb(118, 81, 99)' }}>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[100px]">機台</TableHead>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程01</TableHead>
                     <TableHead className="h-12 px-4 text-left align-middle text-white font-semibold min-w-[150px]">排程02</TableHead>

@@ -41,7 +41,7 @@ const mockUsers = [
     password: 'admin123',
     name: '系統管理員',
     role: '管理員',
-    department: '資訊部'
+    department: '業務部'
   },
   {
     id: '2',

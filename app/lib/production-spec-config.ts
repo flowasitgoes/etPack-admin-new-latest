@@ -32,15 +32,15 @@ export const productionSpecConfigs: ProductionSpecConfig[] = [
     type: 'slitting',
     title: '分條',
     bgColor: 'bg-bag-slitting',
-    borderColor: 'border-[#9ee7a6]',
-    iconColor: 'text-[#9ee7a6]'
+    borderColor: 'border-[#87bf8d]',
+    iconColor: 'text-[#87bf8d]'
   },
   {
     type: 'cutting',
     title: '裁袋',
     bgColor: 'bg-bag-cutting',
     borderColor: 'border-yellow-400',
-    iconColor: 'text-[#dab346]'
+    iconColor: 'text-[rgb(188 171 103)]'
   }
 ]
 

@@ -159,7 +159,7 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="text-center mt-6">
           <p className="text-sm text-gray-500">
-            © 2024 工廠ERP系統. 保留所有權利.
+            © 2025 工廠ERP系統. 保留所有權利.
           </p>
         </div>
       </div>

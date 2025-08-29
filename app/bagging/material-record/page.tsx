@@ -40,7 +40,7 @@ export default function MaterialRecordPage() {
   return (
     <div className="material-record-container space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(228, 156, 192)' }}>
+      <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(209 138 173)' }}>
         <div className="flex items-center space-x-4">
           <h1 className="text-xl font-bold">抽袋課</h1>
           <span className="text-lg">領料記錄</span>
@@ -67,7 +67,7 @@ export default function MaterialRecordPage() {
               </div>
               
               {/* 領料單號 */}
-              <div className="text-white p-3 rounded mb-4" style={{ background: 'rgb(228, 156, 192)' }}>
+              <div className="text-white p-3 rounded mb-4" style={{ background: 'rgb(209 138 173)' }}>
                 <span className="font-medium">領料單號: </span>
                 <span className="font-semibold">{record.slipNumber}</span>
               </div>

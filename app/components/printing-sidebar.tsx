@@ -161,7 +161,7 @@ export default function PrintingSidebar({ activeModule = "production-schedule", 
           }`}
           onClick={() => onModuleChange?.("production-schedule")}
         >
-          印刷排程
+          生產排程
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
@@ -181,7 +181,7 @@ export default function PrintingSidebar({ activeModule = "production-schedule", 
           }`}
           onClick={() => onModuleChange?.("material-record")}
         >
-          油墨記錄
+          領料記錄
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
@@ -191,7 +191,7 @@ export default function PrintingSidebar({ activeModule = "production-schedule", 
           }`}
           onClick={() => onModuleChange?.("daily-report")}
         >
-          印刷日報表
+          生產/檢驗日報表
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
