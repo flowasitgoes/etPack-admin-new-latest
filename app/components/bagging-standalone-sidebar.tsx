@@ -26,6 +26,7 @@ export default function BaggingStandaloneSidebar() {
     if (pathname === '/bagging/order-record') return 'order-record'
     if (pathname === '/bagging/material-record') return 'material-record'
     if (pathname === '/bagging/daily-report') return 'daily-report'
+    if (pathname.startsWith('/bagging/') && pathname.endsWith('/daily')) return 'daily-report'
     return 'production-schedule'
   }
 

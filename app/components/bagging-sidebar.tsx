@@ -192,7 +192,7 @@ export default function BaggingSidebar({ activeModule = "production-schedule", o
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("daily-report")}
+          onClick={() => router.push('/bagging/daily-report')}
         >
           生產/檢驗日報表
         </div>
