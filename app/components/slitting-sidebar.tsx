@@ -189,7 +189,7 @@ export default function SlittingSidebar({ activeModule = "production-schedule", 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("daily-report")}
+          onClick={() => router.push('/slitting/daily-report')}
         >
           生產/檢驗日報表
         </div>
