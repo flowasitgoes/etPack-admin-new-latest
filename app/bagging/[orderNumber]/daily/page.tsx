@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Package, User, Edit, Plus, Minus, ArrowLeft } from "lucide-react"
-import BaggingSidebar from "../../../components/bagging-sidebar"
+import BaggingStandaloneSidebar from "../../../components/bagging-standalone-sidebar"
 import { useRouter } from "next/navigation"
 import "../../../../styles/admin-colors.css"
 import "../../../../styles/admin.css"
@@ -61,7 +61,6 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
   const router = useRouter()
   const [order, setOrder] = useState<OrderData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeModule, setActiveModule] = useState("daily-report")
   const [bagRolls, setBagRolls] = useState<BagRollData[]>([
     { id: '1', rollNumber: 'C.151826', weight: '297', thickness: '', faceWidth: '', folding: '', printing: '', treatmentStrength: '', dyeing: '', openness: '', bagBodyStrength: '' },
     { id: '2', rollNumber: 'C.151827', weight: '297', thickness: '', faceWidth: '', folding: '', printing: '', treatmentStrength: '', dyeing: '', openness: '', bagBodyStrength: '' },
@@ -76,10 +75,17 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
   useEffect(() => {
     const loadOrder = async () => {
       try {
+        setLoading(true)
         const response = await fetch(`/api/orders/${orderNumber}`)
         if (response.ok) {
           const data = await response.json()
-          setOrder(data.orderData)
+          if (data.success && data.orderData) {
+            setOrder(data.orderData)
+          } else {
+            console.error('Failed to load order data:', data)
+          }
+        } else {
+          console.error('Failed to fetch order:', response.status)
         }
       } catch (error) {
         console.error('Error loading order:', error)
@@ -88,24 +94,11 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
       }
     }
 
-    loadOrder()
+    if (orderNumber) {
+      loadOrder()
+    }
   }, [orderNumber])
 
-  const handleModuleChange = (newModule: string) => {
-    setActiveModule(newModule)
-    // 導航到對應的頁面
-    if (newModule === "production-schedule") {
-      window.location.href = "/bagging"
-    } else if (newModule === "order-record") {
-      window.location.href = "/bagging"
-    } else if (newModule === "material-record") {
-      window.location.href = "/bagging"
-    } else if (newModule === "daily-report") {
-      // 保持在當前頁面
-    } else if (newModule === "recipe-database") {
-      window.location.href = "/bagging"
-    }
-  }
 
   const addBagRoll = () => {
     const newId = (bagRolls.length + 1).toString()
@@ -155,7 +148,7 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
       <div className="max-w-[1600px] mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="flex h-screen">
           {/* Left Sidebar */}
-          <BaggingSidebar activeModule={activeModule} onModuleChange={handleModuleChange} />
+          <BaggingStandaloneSidebar />
 
           {/* Main Content */}
           <div className="middle-col-section flex-1 flex transition-all duration-300 ease-in-out overflow-hidden">
