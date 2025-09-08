@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar } from "lucide-react"
+import { Calendar, ArrowLeft } from "lucide-react"
 import BaggingOrderForm from "../../components/bagging-order-form"
 import BaggingProductionSpecs from "../../components/bagging-production-specs"
 import { BaggingProductionSpecsProvider, useBaggingProductionSpecs } from "../../contexts/bagging-production-specs-context"
 import BaggingSidebar from "../../components/bagging-sidebar"
+import { Button } from "@/components/ui/button"
 import { useParams, useRouter } from "next/navigation"
 import "../../../styles/admin-colors.css"
 import "../../../styles/admin.css"
@@ -60,6 +61,10 @@ function OrderDetailContent() {
     // 組件掛載後開始淡入
     setTimeout(() => setPageOpacity(1), 50)
   }, [])
+
+  const handleBackToOrderRecord = () => {
+    router.push('/bagging/order-record')
+  }
 
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -124,8 +129,19 @@ function OrderDetailContent() {
         {/* Header */}
         <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(209 138 173)' }}>
           <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-bold">抽袋課</h1>
-            <span className="text-lg">訂製單記錄</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleBackToOrderRecord}
+              className="text-white hover:bg-white/20 p-2"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              返回訂製單記錄
+            </Button>
+            <div className="flex items-center space-x-4">
+              <h1 className="text-xl font-bold">抽袋課</h1>
+              <span className="text-lg">訂製單記錄</span>
+            </div>
           </div>
           <div className="flex items-center space-x-2">
             <Calendar className="w-5 h-5" />

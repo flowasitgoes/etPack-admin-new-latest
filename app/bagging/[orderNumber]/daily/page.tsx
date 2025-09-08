@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Package, User, Edit, Plus, Minus } from "lucide-react"
+import { Calendar, Package, User, Edit, Plus, Minus, ArrowLeft } from "lucide-react"
 import BaggingSidebar from "../../../components/bagging-sidebar"
+import { useRouter } from "next/navigation"
 import "../../../../styles/admin-colors.css"
 import "../../../../styles/admin.css"
 
@@ -57,6 +58,7 @@ interface LossRecord {
 
 export default function DailyReportDetailPage({ params }: { params: Promise<{ orderNumber: string }> }) {
   const { orderNumber } = use(params)
+  const router = useRouter()
   const [order, setOrder] = useState<OrderData | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeModule, setActiveModule] = useState("daily-report")
@@ -132,6 +134,10 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
     setLossRecord({ ...lossRecord, [field]: value })
   }
 
+  const handleBackToDailyReport = () => {
+    router.push('/bagging/daily-report')
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -158,8 +164,19 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
                 {/* 頁面標題 */}
                 <div className="flex justify-between items-center text-white p-4" style={{ background: 'rgb(209 138 173)' }}>
                   <div className="flex items-center space-x-4">
-                    <h1 className="text-xl font-bold">抽袋課</h1>
-                    <span className="text-lg">生產/檢驗日報表</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBackToDailyReport}
+                      className="text-white hover:bg-white/20 p-2"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      返回生產/檢驗日報表
+                    </Button>
+                    <div className="flex items-center space-x-4">
+                      <h1 className="text-xl font-bold">抽袋課</h1>
+                      <span className="text-lg">生產/檢驗日報表</span>
+                    </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Calendar className="w-5 h-5" />
