@@ -7,11 +7,6 @@ import { Badge } from "@/components/ui/badge"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
-interface BaggingSidebarProps {
-  activeModule?: string
-  onModuleChange?: (module: string) => void
-}
-
 interface RecentOrder {
   id: string
   orderNumber: string
@@ -21,7 +16,7 @@ interface RecentOrder {
   status: string
 }
 
-export default function BaggingSidebar({ activeModule = "production-schedule", onModuleChange }: BaggingSidebarProps) {
+export default function BaggingStandaloneSidebar() {
   const [activeDepartment, setActiveDepartment] = useState("extraction")
   const router = useRouter()
 
@@ -154,55 +149,30 @@ export default function BaggingSidebar({ activeModule = "production-schedule", o
       {/* Navigation Menu */}
       <nav className="space-y-2 px-4">
         <div 
-          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "production-schedule" 
-              ? "bg-gradient-primary text-white" 
-              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-          }`}
-          onClick={() => onModuleChange?.("production-schedule")}
+          className="text-center px-4 py-3 cursor-pointer transition-colors text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+          onClick={() => router.push('/bagging')}
         >
           生產排程
         </div>
         <div 
-          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "order-record"
-              ? "bg-gradient-primary text-white" 
-              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-          }`}
-          onClick={() => {
-            // 跳转到独立路由页面
-            router.push('/bagging/order-record')
-          }}
+          className="text-center px-4 py-3 cursor-pointer transition-colors bg-gradient-primary text-white"
         >
           訂製單記錄
         </div>
         <div 
-          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "material-record" 
-              ? "bg-gradient-primary text-white" 
-              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-          }`}
-          onClick={() => onModuleChange?.("material-record")}
+          className="text-center px-4 py-3 cursor-pointer transition-colors text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+          onClick={() => router.push('/bagging/material-record')}
         >
           領料記錄
         </div>
         <div 
-          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "daily-report" 
-              ? "bg-gradient-primary text-white" 
-              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-          }`}
-          onClick={() => onModuleChange?.("daily-report")}
+          className="text-center px-4 py-3 cursor-pointer transition-colors text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+          onClick={() => router.push('/bagging/daily-report')}
         >
           生產/檢驗日報表
         </div>
         <div 
-          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "recipe-database" 
-              ? "bg-gradient-primary text-white" 
-              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-          }`}
-          onClick={() => onModuleChange?.("recipe-database")}
+          className="text-center px-4 py-3 cursor-pointer transition-colors text-gray-600 hover:text-purple-600 hover:bg-purple-50"
         >
           配方資料庫
         </div>
