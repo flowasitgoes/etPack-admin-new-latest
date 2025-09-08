@@ -4,13 +4,8 @@ import { Search, Edit, User, FileText, Clock, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-
-interface CuttingSidebarProps {
-  activeModule?: string
-  onModuleChange?: (module: string) => void
-}
+import { useState, useEffect } from "react"
+import { useRouter, usePathname } from "next/navigation"
 
 interface RecentOrder {
   id: string
@@ -21,9 +16,18 @@ interface RecentOrder {
   status: string
 }
 
-export default function CuttingSidebar({ activeModule = "production-schedule", onModuleChange }: CuttingSidebarProps) {
-  const [activeDepartment, setActiveDepartment] = useState("cutting")
+export default function PrintingStandaloneSidebar() {
+  const [activeDepartment, setActiveDepartment] = useState("printing")
   const router = useRouter()
+  const pathname = usePathname()
+
+  // 根据当前路径确定active状态
+  const getActiveModule = () => {
+    if (pathname === '/printing/order-record') return 'order-record'
+    if (pathname === '/printing/material-record') return 'material-record'
+    if (pathname === '/printing/daily-report') return 'daily-report'
+    return 'production-schedule'
+  }
 
   // 課別資料
   const departments = [
@@ -95,13 +99,13 @@ export default function CuttingSidebar({ activeModule = "production-schedule", o
   const handleOrderClick = (order: RecentOrder) => {
     // 根據訂單編號決定要跳轉到哪個頁面
     if (order.orderNumber === "K01140414001") {
-      window.open(`http://localhost:3004/cutting/${order.orderNumber}`, '_blank')
+      window.open(`http://localhost:3004/printing/${order.orderNumber}`, '_blank')
     } else if (order.orderNumber === "K01140414002") {
-      window.open(`http://localhost:3004/cutting/${order.orderNumber}`, '_blank')
+      window.open(`http://localhost:3004/printing/${order.orderNumber}`, '_blank')
     } else if (order.orderNumber === "K01140414003") {
-      window.open(`http://localhost:3004/cutting/${order.orderNumber}`, '_blank')
+      window.open(`http://localhost:3004/printing/${order.orderNumber}`, '_blank')
     } else if (order.orderNumber === "K01140414004") {
-      window.open(`http://localhost:3004/cutting/${order.orderNumber}`, '_blank')
+      window.open(`http://localhost:3004/printing/${order.orderNumber}`, '_blank')
     }
   }
 
@@ -155,51 +159,51 @@ export default function CuttingSidebar({ activeModule = "production-schedule", o
       <nav className="space-y-2 px-4">
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "production-schedule" 
+            getActiveModule() === 'production-schedule'
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("production-schedule")}
+          onClick={() => router.push('/printing')}
         >
           生產排程
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "order-record" 
+            getActiveModule() === 'order-record'
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => router.push("/cutting/order-record")}
+          onClick={() => router.push('/printing/order-record')}
         >
           訂製單記錄
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "material-record" 
+            getActiveModule() === 'material-record'
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => router.push('/cutting/material-record')}
+          onClick={() => router.push('/printing/material-record')}
         >
           領料記錄
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "daily-report" 
+            getActiveModule() === 'daily-report'
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("daily-report")}
+          onClick={() => router.push('/printing/daily-report')}
         >
           生產/檢驗日報表
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "recipe-database" 
+            getActiveModule() === 'recipe-database'
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("recipe-database")}
+          onClick={() => router.push('/printing/recipe-database')}
         >
           配方資料庫
         </div>

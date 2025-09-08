@@ -179,7 +179,7 @@ export default function PrintingSidebar({ activeModule = "production-schedule", 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("material-record")}
+          onClick={() => router.push('/printing/material-record')}
         >
           領料記錄
         </div>
