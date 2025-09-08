@@ -169,7 +169,7 @@ export default function LaminatingSidebar({ activeModule = "production-schedule"
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
-          onClick={() => onModuleChange?.("order-record")}
+          onClick={() => router.push("/laminating/order-record")}
         >
           訂製單記錄
         </div>
