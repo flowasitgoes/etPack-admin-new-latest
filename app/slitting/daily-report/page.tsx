@@ -133,7 +133,7 @@ export default function DailyReportPage() {
                             <TableRow key={order.orderNumber} className="border-b hover:bg-gray-50">
                               <TableCell className="py-3 px-4">
                                 <a 
-                                  href={`/slitting/${order.orderNumber}/daily`}
+                                  href={`#${order.orderNumber}`}
                                   className="text-purple-600 hover:text-purple-800 font-medium hover:underline transition-colors cursor-pointer"
                                 >
                                   {order.orderNumber}
