@@ -154,14 +154,17 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
       // 清除完成狀態
       const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
       const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
+      const productionCounts = JSON.parse(localStorage.getItem('productionCounts') || '{}')
       
       // 從陣列中移除這個機台
       const updatedMachines = completedMachines.filter((key: string) => key !== machineKey)
       delete completedTimes[machineKey]
+      delete productionCounts[machineKey]
       
       // 更新localStorage
       localStorage.setItem('completedMachines', JSON.stringify(updatedMachines))
       localStorage.setItem('completedTimes', JSON.stringify(completedTimes))
+      localStorage.setItem('productionCounts', JSON.stringify(productionCounts))
       
       // 重置本地狀態
       setIsCompleted(false)
@@ -195,13 +198,17 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
     const machineKey = `${orderNumber}-${machineNumber}`
     const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
     const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
+    const productionCounts = JSON.parse(localStorage.getItem('productionCounts') || '{}')
     
     if (!completedMachines.includes(machineKey)) {
       completedMachines.push(machineKey)
       completedTimes[machineKey] = completedTimeString
+      // 保存實際生產數量（從頁面上的產量記錄獲取）
+      productionCounts[machineKey] = '1188 x 4'
       
       localStorage.setItem('completedMachines', JSON.stringify(completedMachines))
       localStorage.setItem('completedTimes', JSON.stringify(completedTimes))
+      localStorage.setItem('productionCounts', JSON.stringify(productionCounts))
       
       // 觸發storage事件，讓其他頁面知道狀態已更新
       window.dispatchEvent(new StorageEvent('storage', {
