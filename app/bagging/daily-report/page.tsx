@@ -21,9 +21,21 @@ interface OrderData {
   }
 }
 
+interface CompletedOrderInfo {
+  orderNumber: string
+  machineNumber: string
+  productName: string
+  productionCount: string
+  lossCount: string
+  completedTime: string
+  department: string
+}
+
 export default function DailyReportPage() {
   const [orders, setOrders] = useState<OrderData[]>([])
   const [loading, setLoading] = useState(true)
+  const [completedMachines, setCompletedMachines] = useState<Set<string>>(new Set())
+  const [completedOrders, setCompletedOrders] = useState<CompletedOrderInfo[]>([])
 
   useEffect(() => {
     const loadOrders = async () => {
@@ -56,7 +68,72 @@ export default function DailyReportPage() {
     }
 
     loadOrders()
+
+    // 載入已完成的訂單資訊
+    const loadCompletedOrders = () => {
+      const completed = localStorage.getItem('completedMachines')
+      const completedTimes = localStorage.getItem('completedTimes')
+      
+      if (completed) {
+        const completedMachines = JSON.parse(completed)
+        const times = completedTimes ? JSON.parse(completedTimes) : {}
+        setCompletedMachines(new Set(completedMachines))
+        
+        // 建立已完成的訂單資訊
+        const completedOrdersList: CompletedOrderInfo[] = []
+        completedMachines.forEach((machineKey: string) => {
+          const [orderNumber, machineNumber] = machineKey.split('-')
+          // 這裡需要等待orders載入完成後才能建立完整的資訊
+          // 所以我們先建立基本資訊，在orders載入後再更新
+          completedOrdersList.push({
+            orderNumber,
+            machineNumber,
+            productName: '載入中...',
+            productionCount: '1188 x 4',
+            lossCount: '52',
+            completedTime: times[machineKey] || '未知時間',
+            department: '抽袋課'
+          })
+        })
+        setCompletedOrders(completedOrdersList)
+      }
+    }
+
+    // 更新已完成訂單的產品名稱
+    const updateCompletedOrdersWithProductNames = () => {
+      setCompletedOrders(prev => prev.map(order => {
+        const foundOrder = orders.find(o => o.orderNumber === order.orderNumber)
+        return {
+          ...order,
+          productName: foundOrder ? foundOrder.orderInfo.productName : order.productName
+        }
+      }))
+    }
+
+    // 監聽來自其他頁面的完成狀態更新
+    const handleStorageChange = () => {
+      loadCompletedOrders()
+    }
+
+    // 初始載入完成狀態
+    loadCompletedOrders()
+
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
+
+  // 當orders載入完成後，更新已完成訂單的產品名稱
+  useEffect(() => {
+    if (orders.length > 0 && completedOrders.length > 0) {
+      setCompletedOrders(prev => prev.map(order => {
+        const foundOrder = orders.find(o => o.orderNumber === order.orderNumber)
+        return {
+          ...order,
+          productName: foundOrder ? foundOrder.orderInfo.productName : order.productName
+        }
+      }))
+    }
+  }, [orders, completedOrders.length])
 
   const formatQuantity = (order: OrderData) => {
     const { orderQuantity, orderUnit1, orderQuantity2, orderUnit2 } = order.orderInfo
@@ -107,6 +184,64 @@ export default function DailyReportPage() {
                   </div>
                 </div>
 
+                {/* 佈告欄 - 已完成訂單資訊 */}
+                {completedOrders.length > 0 && (
+                  <div className="bg-white rounded-lg shadow-md">
+                    <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: '#7c7d99' }}>
+                      <h2 className="text-base font-semibold leading-tight">已完成訂單佈告欄</h2>
+                    </div>
+                    <div className="p-4">
+                      <div className="relative w-full overflow-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow className="bg-green-100 border-b">
+                              <TableHead className="font-semibold text-gray-700 py-3 px-4">訂單編號</TableHead>
+                              <TableHead className="font-semibold text-gray-700 py-3 px-4">機台</TableHead>
+                              <TableHead className="font-semibold text-gray-700 py-3 px-4">品名</TableHead>
+                              <TableHead className="font-semibold text-gray-700 py-3 px-4">生產數量</TableHead>
+                              <TableHead className="font-semibold text-gray-700 py-3 px-4">耗損總量</TableHead>
+                              <TableHead className="font-semibold text-gray-700 py-3 px-4">簽核單位</TableHead>
+                              <TableHead className="font-semibold text-gray-700 py-3 px-4">完成時間</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {completedOrders.map((order, index) => (
+                              <TableRow key={index} className="border-b hover:bg-green-50">
+                                <TableCell className="py-3 px-4">
+                                  <span className="text-gray-800 font-medium">{order.orderNumber}</span>
+                                </TableCell>
+                                <TableCell className="py-3 px-4">
+                                  <span className="font-medium text-white px-2 py-1 rounded" style={{ backgroundColor: 'rgb(234 179 8 / var(--tw-bg-opacity, 1))' }}>{order.machineNumber}號機</span>
+                                </TableCell>
+                                <TableCell className="py-3 px-4">
+                                  <span className="text-sm">{order.productName}</span>
+                                </TableCell>
+                                <TableCell className="py-3 px-4">
+                                  <span className="font-medium text-green-600">{order.productionCount}</span>
+                                </TableCell>
+                                <TableCell className="py-3 px-4">
+                                  <span className="text-red-600 font-medium">{order.lossCount}</span>
+                                </TableCell>
+                                <TableCell className="py-3 px-4">
+                                  <span className="text-blue-600 font-medium">{order.department}</span>
+                                </TableCell>
+                                <TableCell className="py-3 px-4">
+                                  <div className="inline-flex items-center px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
+                                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                                    <span className="text-xs text-green-700 font-medium">
+                                      {order.completedTime}
+                                    </span>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* 說明文字 */}
                 <div className="bg-white rounded-lg shadow-md">
                   <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: '#7c7d99' }}>
@@ -116,6 +251,25 @@ export default function DailyReportPage() {
                     <p className="text-sm text-gray-600 mb-4">
                       點選 <span className="text-red-500 font-semibold">訂單編號</span> 進入生產/檢驗日報表填寫作業
                     </p>
+                    
+                    {/* 生產機台狀態解釋區域 */}
+                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                      <h3 className="text-sm font-semibold text-gray-700 mb-3 text-right">生產機台狀態說明</h3>
+                      <div className="flex items-center justify-end space-x-6">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-6 h-6 border-2 border-green-500 rounded bg-white"></div>
+                          <span className="text-sm text-gray-600">白色：未排程</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-6 h-6 border-2 border-green-500 rounded bg-green-500"></div>
+                          <span className="text-sm text-gray-600">綠色：已排程</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-6 h-6 border-2 border-yellow-500 rounded bg-yellow-500"></div>
+                          <span className="text-sm text-gray-600">黃色：已完成</span>
+                        </div>
+                      </div>
+                    </div>
                     
                     <div className="relative w-full overflow-auto">
                       <Table>
@@ -132,12 +286,9 @@ export default function DailyReportPage() {
                           {orders.map((order, index) => (
                             <TableRow key={order.orderNumber} className="border-b hover:bg-gray-50">
                               <TableCell className="py-3 px-4">
-                                <a 
-                                  href={`/bagging/${order.orderNumber}/daily`}
-                                  className="text-purple-600 hover:text-purple-800 font-medium hover:underline transition-colors cursor-pointer"
-                                >
+                                <span className="text-gray-800 font-medium">
                                   {order.orderNumber}
-                                </a>
+                                </span>
                               </TableCell>
                               <TableCell className="font-medium text-gray-800 py-3 px-4">
                                 {order.orderInfo.productName}
@@ -172,18 +323,43 @@ export default function DailyReportPage() {
                                       isActive = machine === 1;
                                     }
                                     
-                                    return (
-                                      <button
-                                        key={machine}
-                                        className={`w-8 h-8 border-2 border-green-500 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-300 cursor-default ${
-                                          isActive 
-                                            ? 'bg-green-500 text-white' 
-                                            : 'text-green-600'
-                                        }`}
-                                      >
-                                        {machine}
-                                      </button>
-                                    );
+                                    // 檢查機台是否已完成
+                                    const machineKey = `${order.orderNumber}-${machine}`
+                                    const isCompleted = completedMachines.has(machineKey)
+                                    
+                                    // 只有1號機台有超連結
+                                    if (machine === 1) {
+                                      return (
+                                        <a
+                                          key={machine}
+                                          href={`/bagging/${order.orderNumber}/daily?machine=${machine}`}
+                                          className={`w-8 h-8 border-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 cursor-pointer inline-flex items-center justify-center ${
+                                            isCompleted
+                                              ? 'border-yellow-500 bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-300'
+                                              : isActive 
+                                                ? 'border-green-500 bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
+                                                : 'border-green-500 text-green-600 hover:bg-green-50 focus:ring-green-300'
+                                          }`}
+                                        >
+                                          {machine}
+                                        </a>
+                                      );
+                                    } else {
+                                      return (
+                                        <button
+                                          key={machine}
+                                          className={`w-8 h-8 border-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 cursor-default ${
+                                            isCompleted
+                                              ? 'border-yellow-500 bg-yellow-500 text-white'
+                                              : isActive 
+                                                ? 'border-green-500 bg-green-500 text-white' 
+                                                : 'border-green-500 text-green-600'
+                                          }`}
+                                        >
+                                          {machine}
+                                        </button>
+                                      );
+                                    }
                                   })}
                                 </div>
                               </TableCell>

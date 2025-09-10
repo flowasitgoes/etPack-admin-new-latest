@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Package, User, Edit, Plus, Minus, ArrowLeft } from "lucide-react"
 import BaggingStandaloneSidebar from "../../../components/bagging-standalone-sidebar"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import "../../../../styles/admin-colors.css"
 import "../../../../styles/admin.css"
 
@@ -59,8 +59,12 @@ interface LossRecord {
 export default function DailyReportDetailPage({ params }: { params: Promise<{ orderNumber: string }> }) {
   const { orderNumber } = use(params)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const machineNumber = searchParams.get('machine')
   const [order, setOrder] = useState<OrderData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isCompleted, setIsCompleted] = useState(false)
+  const [completedTime, setCompletedTime] = useState<string | null>(null)
   const [bagRolls, setBagRolls] = useState<BagRollData[]>([
     { id: '1', rollNumber: 'C.151826', weight: '297', thickness: '', faceWidth: '', folding: '', printing: '', treatmentStrength: '', dyeing: '', openness: '', bagBodyStrength: '' },
     { id: '2', rollNumber: 'C.151827', weight: '297', thickness: '', faceWidth: '', folding: '', printing: '', treatmentStrength: '', dyeing: '', openness: '', bagBodyStrength: '' },
@@ -94,10 +98,22 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
       }
     }
 
+    // 檢查該機台是否已經完成
+    if (orderNumber && machineNumber) {
+      const machineKey = `${orderNumber}-${machineNumber}`
+      const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
+      const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
+      
+      if (completedMachines.includes(machineKey)) {
+        setIsCompleted(true)
+        setCompletedTime(completedTimes[machineKey] || null)
+      }
+    }
+
     if (orderNumber) {
       loadOrder()
     }
-  }, [orderNumber])
+  }, [orderNumber, machineNumber])
 
 
   const addBagRoll = () => {
@@ -129,6 +145,72 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
 
   const handleBackToDailyReport = () => {
     router.push('/bagging/daily-report')
+  }
+
+  const handleResetOrder = () => {
+    if (orderNumber && machineNumber) {
+      const machineKey = `${orderNumber}-${machineNumber}`
+      
+      // 清除完成狀態
+      const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
+      const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
+      
+      // 從陣列中移除這個機台
+      const updatedMachines = completedMachines.filter((key: string) => key !== machineKey)
+      delete completedTimes[machineKey]
+      
+      // 更新localStorage
+      localStorage.setItem('completedMachines', JSON.stringify(updatedMachines))
+      localStorage.setItem('completedTimes', JSON.stringify(completedTimes))
+      
+      // 重置本地狀態
+      setIsCompleted(false)
+      setCompletedTime(null)
+      
+      // 觸發storage事件，讓其他頁面知道狀態已更新
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'completedMachines',
+        newValue: JSON.stringify(updatedMachines)
+      }))
+      
+      console.log(`訂單 ${orderNumber} 的機台 ${machineNumber} 已重置為未完成狀態`)
+    }
+  }
+
+  const handleCompleteOrder = () => {
+    const now = new Date()
+    const completedTimeString = now.toLocaleString('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    })
+    
+    setIsCompleted(true)
+    setCompletedTime(completedTimeString)
+    
+    // 保存完成狀態到localStorage
+    const machineKey = `${orderNumber}-${machineNumber}`
+    const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
+    const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
+    
+    if (!completedMachines.includes(machineKey)) {
+      completedMachines.push(machineKey)
+      completedTimes[machineKey] = completedTimeString
+      
+      localStorage.setItem('completedMachines', JSON.stringify(completedMachines))
+      localStorage.setItem('completedTimes', JSON.stringify(completedTimes))
+      
+      // 觸發storage事件，讓其他頁面知道狀態已更新
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'completedMachines',
+        newValue: JSON.stringify(completedMachines)
+      }))
+    }
+    
+    console.log(`訂單 ${orderNumber} 的機台 ${machineNumber} 已完成，完成時間：${completedTimeString}`)
   }
 
   if (loading) {
@@ -550,6 +632,44 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
                         />
                       </CardContent>
                     </Card>
+                  </div>
+                </div>
+
+                {/* Footer 控制列 */}
+                <div className="border-t-1 p-12">
+                  {/* 完成時間顯示區域 */}
+                  {isCompleted && completedTime && (
+                    <div className="mb-6 text-center">
+                      <div className="inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                        <span className="text-sm text-green-700 font-medium">
+                          完成時間：{completedTime}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex justify-center gap-4">
+                    <Button 
+                      onClick={handleCompleteOrder}
+                      disabled={isCompleted}
+                      className={`inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-white px-12 py-8 rounded h-10 ${
+                        isCompleted 
+                          ? 'bg-gray-500 cursor-not-allowed' 
+                          : 'bg-purple-600 hover:bg-purple-700'
+                      }`}
+                    >
+                      {isCompleted ? '已標記完成' : '已完成訂單'}
+                    </Button>
+                    
+                    {isCompleted && (
+                      <Button 
+                        onClick={handleResetOrder}
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-white px-8 py-8 rounded h-10 bg-orange-500 hover:bg-orange-600"
+                      >
+                        重置狀態
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
