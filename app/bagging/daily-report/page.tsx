@@ -253,23 +253,27 @@ export default function DailyReportPage() {
                     </p>
                     
                     {/* 生產機台狀態解釋區域 */}
-                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                      <h3 className="text-sm font-semibold text-gray-700 mb-3 text-right">生產機台狀態說明</h3>
-                      <div className="flex items-center justify-end space-x-6">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 border-2 border-green-500 rounded bg-white"></div>
-                          <span className="text-sm text-gray-600">白色：未排程</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 border-2 border-green-500 rounded bg-green-500"></div>
-                          <span className="text-sm text-gray-600">綠色：已排程</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 border-2 border-yellow-500 rounded bg-yellow-500"></div>
-                          <span className="text-sm text-gray-600">黃色：已完成</span>
-                        </div>
-                      </div>
-                    </div>
+                     <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                       <h3 className="text-sm font-semibold text-gray-700 mb-3 text-right">生產機台狀態說明</h3>
+                       <div className="flex items-center justify-end space-x-6">
+                         <div className="flex items-center space-x-2">
+                           <div className="w-6 h-6 border-2 border-green-500 rounded bg-white"></div>
+                           <span className="text-sm text-gray-600">白色：未排程</span>
+                         </div>
+                         <div className="flex items-center space-x-2">
+                           <div className="w-6 h-6 border-2 border-green-500 rounded bg-green-500"></div>
+                           <span className="text-sm text-gray-600">綠色：已排程</span>
+                         </div>
+                         <div className="flex items-center space-x-2">
+                           <div className="w-6 h-6 border-2 border-yellow-500 rounded bg-yellow-500"></div>
+                           <span className="text-sm text-gray-600">黃色：已完成</span>
+                         </div>
+                         <div className="flex items-center space-x-2">
+                           <div className="w-6 h-6 border-2 border-blue-500 rounded bg-blue-500"></div>
+                           <span className="text-sm text-gray-600">藍色：已派單</span>
+                         </div>
+                       </div>
+                     </div>
                     
                     <div className="relative w-full overflow-auto">
                       <Table className="w-full">
@@ -377,37 +381,53 @@ export default function DailyReportPage() {
                                     
                                     if (completedMachinesForOrder.length > 0) {
                                       return (
-                                        <div className="flex items-center gap-2 bg-[#969696] rounded px-3 py-2 w-fit">
-                                          {/* 機台號碼 */}
-                                          <div className="flex flex-wrap gap-2">
-                                            {completedMachinesForOrder.map(machineKey => {
-                                              const machineNumber = machineKey.split('-')[1];
-                                              return (
-                                                <span 
-                                                  key={machineKey}
-                                                  className="font-medium text-white px-2 py-1 rounded"
-                                                  style={{ backgroundColor: 'rgb(234 179 8 / var(--tw-bg-opacity, 1))' }}
-                                                >
-                                                  {machineNumber}號機
-                                                </span>
-                                              );
-                                            })}
+                                        <div className="flex items-center justify-between w-full">
+                                          {/* 標籤區域 */}
+                                          <div className="flex items-center gap-2 bg-[#ababab] rounded px-3 py-2 w-fit">
+                                            {/* Checkbox */}
+                                            <input 
+                                              type="checkbox" 
+                                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                            />
+                                            
+                                            {/* 機台號碼 */}
+                                            <div className="flex flex-wrap gap-2">
+                                              {completedMachinesForOrder.map(machineKey => {
+                                                const machineNumber = machineKey.split('-')[1];
+                                                return (
+                                                  <span 
+                                                    key={machineKey}
+                                                    className="font-medium text-white px-2 py-1 rounded"
+                                                    style={{ backgroundColor: 'rgb(234 179 8 / var(--tw-bg-opacity, 1))' }}
+                                                  >
+                                                    {machineNumber}號機
+                                                  </span>
+                                                );
+                                              })}
+                                            </div>
+                                            
+                                            {/* 完成數量 */}
+                                            <div>
+                                              {(() => {
+                                                // 從localStorage獲取實際生產數量
+                                                const productionCounts = JSON.parse(localStorage.getItem('productionCounts') || '{}');
+                                                const firstCompletedMachine = completedMachinesForOrder[0];
+                                                const actualProductionCount = productionCounts[firstCompletedMachine] || formatQuantity(order);
+                                                
+                                                return (
+                                                  <span className="font-medium text-white">
+                                                    {actualProductionCount}
+                                                  </span>
+                                                );
+                                              })()}
+                                            </div>
                                           </div>
                                           
-                                          {/* 完成數量 */}
-                                          <div>
-                                            {(() => {
-                                              // 從localStorage獲取實際生產數量
-                                              const productionCounts = JSON.parse(localStorage.getItem('productionCounts') || '{}');
-                                              const firstCompletedMachine = completedMachinesForOrder[0];
-                                              const actualProductionCount = productionCounts[firstCompletedMachine] || formatQuantity(order);
-                                              
-                                              return (
-                                                <span className="font-medium text-white">
-                                                  {actualProductionCount}
-                                                </span>
-                                              );
-                                            })()}
+                                          {/* 控制元件區域 */}
+                                          <div className="w-[60px] flex justify-end">
+                                            <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-1 rounded transition-colors">
+                                              派單
+                                            </button>
                                           </div>
                                         </div>
                                       );
