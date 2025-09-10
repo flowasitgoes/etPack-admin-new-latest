@@ -37,7 +37,6 @@ export default function DailyReportPage() {
   const [completedMachines, setCompletedMachines] = useState<Set<string>>(new Set())
   const [completedOrders, setCompletedOrders] = useState<CompletedOrderInfo[]>([])
   const [dispatchedMachines, setDispatchedMachines] = useState<Set<string>>(new Set())
-  const [dispatchedOrders, setDispatchedOrders] = useState<CompletedOrderInfo[]>([])
   const [notification, setNotification] = useState<{message: string, visible: boolean}>({message: '', visible: false})
 
   useEffect(() => {
@@ -87,22 +86,6 @@ export default function DailyReportPage() {
         if (dispatched) {
           const dispatchedMachines = JSON.parse(dispatched)
           setDispatchedMachines(new Set(dispatchedMachines))
-          
-          // 建立已派單的訂單資訊
-          const dispatchedOrdersList: CompletedOrderInfo[] = []
-          dispatchedMachines.forEach((machineKey: string) => {
-            const [orderNumber, machineNumber] = machineKey.split('-')
-            dispatchedOrdersList.push({
-              orderNumber,
-              machineNumber,
-              productName: '載入中...',
-              productionCount: '1188 x 4',
-              lossCount: '52',
-              completedTime: times[machineKey] || '未知時間',
-              department: '抽袋課'
-            })
-          })
-          setDispatchedOrders(dispatchedOrdersList)
         }
         
         // 建立已完成的訂單資訊
@@ -136,17 +119,6 @@ export default function DailyReportPage() {
       }))
     }
 
-    // 更新已派單訂單的產品名稱
-    const updateDispatchedOrdersWithProductNames = () => {
-      setDispatchedOrders(prev => prev.map(order => {
-        const foundOrder = orders.find(o => o.orderNumber === order.orderNumber)
-        return {
-          ...order,
-          productName: foundOrder ? foundOrder.orderInfo.productName : order.productName
-        }
-      }))
-    }
-
     // 監聽來自其他頁面的完成狀態更新
     const handleStorageChange = () => {
       loadCompletedOrders()
@@ -171,19 +143,6 @@ export default function DailyReportPage() {
       }))
     }
   }, [orders, completedOrders.length])
-
-  // 當orders載入完成後，更新已派單訂單的產品名稱
-  useEffect(() => {
-    if (orders.length > 0 && dispatchedOrders.length > 0) {
-      setDispatchedOrders(prev => prev.map(order => {
-        const foundOrder = orders.find(o => o.orderNumber === order.orderNumber)
-        return {
-          ...order,
-          productName: foundOrder ? foundOrder.orderInfo.productName : order.productName
-        }
-      }))
-    }
-  }, [orders, dispatchedOrders.length])
 
   const formatQuantity = (order: OrderData) => {
     const { orderQuantity, orderUnit1, orderQuantity2, orderUnit2 } = order.orderInfo
@@ -218,22 +177,6 @@ export default function DailyReportPage() {
     const updatedDispatched = [...currentDispatched, ...selectedMachines]
     localStorage.setItem('dispatchedMachines', JSON.stringify(updatedDispatched))
     setDispatchedMachines(new Set(updatedDispatched))
-    
-    // 更新已派單訂單列表
-    const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
-    const newDispatchedOrders: CompletedOrderInfo[] = selectedMachines.map(machineKey => {
-      const [orderNumber, machineNumber] = machineKey.split('-')
-      return {
-        orderNumber,
-        machineNumber,
-        productName: '載入中...',
-        productionCount: '1188 x 4',
-        lossCount: '52',
-        completedTime: completedTimes[machineKey] || '未知時間',
-        department: '抽袋課'
-      }
-    })
-    setDispatchedOrders(prev => [...prev, ...newDispatchedOrders])
     
     // 取消勾選所有checkbox
     checkboxes.forEach((checkbox) => {
@@ -287,37 +230,35 @@ export default function DailyReportPage() {
                   </div>
                 </div>
 
-                {/* 佈告欄 - 已派單訂單資訊 */}
-                {dispatchedOrders.length > 0 && (
-                  <div className="bg-white rounded-lg shadow-md mb-4">
-                    <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: 'rgb(59, 130, 246)' }}>
-                      <h2 className="text-base font-semibold leading-tight">已派單訂單佈告欄</h2>
+                {/* 佈告欄 - 已完成訂單資訊 */}
+                {completedOrders.length > 0 && (
+                  <div className="bg-white rounded-lg shadow-md">
+                    <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: '#7c7d99' }}>
+                      <h2 className="text-base font-semibold leading-tight">已完成訂單佈告欄</h2>
                     </div>
                     <div className="p-4">
                       <div className="relative w-full overflow-auto">
-                        <Table className="w-full">
+                        <Table>
                           <TableHeader>
-                            <TableRow className="bg-gray-100 border-b">
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">訂單編號</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">機台</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">品名</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">生產數量</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">耗損總量</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">簽核單位</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">派單與否</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">完成時間</TableHead>
-                            </TableRow>
+                             <TableRow className="bg-green-100 border-b">
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">訂單編號</TableHead>
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">機台</TableHead>
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">品名</TableHead>
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">生產數量</TableHead>
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">耗損總量</TableHead>
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">簽核單位</TableHead>
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">派單與否</TableHead>
+                               <TableHead className="font-semibold text-gray-700 py-3 px-4">完成時間</TableHead>
+                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {dispatchedOrders.map((order, index) => (
-                              <TableRow key={`${order.orderNumber}-${order.machineNumber}-${index}`} className="border-b hover:bg-blue-50">
+                            {completedOrders.map((order, index) => (
+                              <TableRow key={index} className="border-b hover:bg-green-50">
                                 <TableCell className="py-3 px-4">
                                   <span className="text-gray-800 font-medium">{order.orderNumber}</span>
                                 </TableCell>
                                 <TableCell className="py-3 px-4">
-                                  <span className="font-medium text-white px-2 py-1 rounded" style={{backgroundColor: 'rgb(59 130 246 / var(--tw-bg-opacity, 1))'}}>
-                                    {order.machineNumber}號機
-                                  </span>
+                                  <span className="font-medium text-white px-2 py-1 rounded" style={{ backgroundColor: 'rgb(234 179 8 / var(--tw-bg-opacity, 1))' }}>{order.machineNumber}號機</span>
                                 </TableCell>
                                 <TableCell className="py-3 px-4">
                                   <span className="text-sm">{order.productName}</span>
@@ -332,15 +273,26 @@ export default function DailyReportPage() {
                                   <span className="text-blue-600 font-medium">{order.department}</span>
                                 </TableCell>
                                 <TableCell className="py-3 px-4">
-                                  <div className="inline-flex items-center px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
-                                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                                    <span className="text-xs text-green-700 font-medium">已派單</span>
-                                  </div>
+                                  {(() => {
+                                    const machineKey = `${order.orderNumber}-${order.machineNumber}`;
+                                    const isDispatched = dispatchedMachines.has(machineKey);
+                                    return (
+                                      <span className={`font-medium px-2 py-1 rounded text-sm ${
+                                        isDispatched 
+                                          ? 'bg-blue-100 text-blue-800' 
+                                          : 'bg-yellow-100 text-yellow-800'
+                                      }`}>
+                                        {isDispatched ? '已派單' : '未派單'}
+                                      </span>
+                                    );
+                                  })()}
                                 </TableCell>
                                 <TableCell className="py-3 px-4">
-                                  <div className="inline-flex items-center px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                                    <span className="text-xs text-blue-700 font-medium">{order.completedTime}</span>
+                                  <div className="inline-flex items-center px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
+                                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                                    <span className="text-xs text-green-700 font-medium">
+                                      {order.completedTime}
+                                    </span>
                                   </div>
                                 </TableCell>
                               </TableRow>
@@ -351,85 +303,6 @@ export default function DailyReportPage() {
                     </div>
                   </div>
                 )}
-
-                {/* 佈告欄 - 已完成訂單資訊 */}
-                {completedOrders.length > 0 && (
-                  <div className="bg-white rounded-lg shadow-md">
-                    <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: '#eab308' }}>
-                      <h2 className="text-base font-semibold leading-tight">已完成訂單佈告欄</h2>
-                    </div>
-                    <div className="p-4">
-                      <div className="relative w-full overflow-auto">
-                        <Table className="w-full">
-                          <TableHeader>
-                            <TableRow className="bg-gray-100 border-b">
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">訂單編號</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">機台</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">品名</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">生產數量</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">耗損總量</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">簽核單位</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">派單與否</TableHead>
-                              <TableHead className="h-12 text-left align-middle font-semibold text-gray-700 py-3 px-4">完成時間</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {completedOrders.map((order, index) => {
-                              const machineKey = `${order.orderNumber}-${order.machineNumber}`;
-                              const isDispatched = dispatchedMachines.has(machineKey);
-                              return (
-                                <TableRow key={`${order.orderNumber}-${order.machineNumber}-${index}`} className="border-b hover:bg-blue-50">
-                                  <TableCell className="py-3 px-4">
-                                    <span className="text-gray-800 font-medium">{order.orderNumber}</span>
-                                  </TableCell>
-                                  <TableCell className="py-3 px-4">
-                                    <span className="font-medium text-white px-2 py-1 rounded" style={{backgroundColor: 'rgb(234 179 8 / var(--tw-bg-opacity, 1))'}}>
-                                      {order.machineNumber}號機
-                                    </span>
-                                  </TableCell>
-                                  <TableCell className="py-3 px-4">
-                                    <span className="text-sm">{order.productName}</span>
-                                  </TableCell>
-                                  <TableCell className="py-3 px-4">
-                                    <span className="font-medium text-green-600">{order.productionCount}</span>
-                                  </TableCell>
-                                  <TableCell className="py-3 px-4">
-                                    <span className="text-red-600 font-medium">{order.lossCount}</span>
-                                  </TableCell>
-                                  <TableCell className="py-3 px-4">
-                                    <span className="text-blue-600 font-medium">{order.department}</span>
-                                  </TableCell>
-                                  <TableCell className="py-3 px-4">
-                                    <div className="inline-flex items-center px-3 py-2 border rounded-lg" style={{
-                                      backgroundColor: isDispatched ? 'rgb(34 197 94 / 0.1)' : 'rgb(239 68 68 / 0.1)',
-                                      borderColor: isDispatched ? 'rgb(34 197 94 / 0.3)' : 'rgb(239 68 68 / 0.3)'
-                                    }}>
-                                      <div className="w-2 h-2 rounded-full mr-2" style={{
-                                        backgroundColor: isDispatched ? 'rgb(34 197 94)' : 'rgb(239 68 68)'
-                                      }}></div>
-                                      <span className="text-xs font-medium" style={{
-                                        color: isDispatched ? 'rgb(22 101 52)' : 'rgb(153 27 27)'
-                                      }}>
-                                        {isDispatched ? '已派單' : '未派單'}
-                                      </span>
-                                    </div>
-                                  </TableCell>
-                                  <TableCell className="py-3 px-4">
-                                    <div className="inline-flex items-center px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                                      <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                                      <span className="text-xs text-blue-700 font-medium">{order.completedTime}</span>
-                                    </div>
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
 
                 {/* 說明文字 */}
                 <div className="bg-white rounded-lg shadow-md">
