@@ -36,6 +36,8 @@ export default function DailyReportPage() {
   const [loading, setLoading] = useState(true)
   const [completedMachines, setCompletedMachines] = useState<Set<string>>(new Set())
   const [completedOrders, setCompletedOrders] = useState<CompletedOrderInfo[]>([])
+  const [dispatchedMachines, setDispatchedMachines] = useState<Set<string>>(new Set())
+  const [notification, setNotification] = useState<{message: string, visible: boolean}>({message: '', visible: false})
 
   useEffect(() => {
     const loadOrders = async () => {
@@ -73,11 +75,18 @@ export default function DailyReportPage() {
     const loadCompletedOrders = () => {
       const completed = localStorage.getItem('completedMachines')
       const completedTimes = localStorage.getItem('completedTimes')
+      const dispatched = localStorage.getItem('dispatchedMachines')
       
       if (completed) {
         const completedMachines = JSON.parse(completed)
         const times = completedTimes ? JSON.parse(completedTimes) : {}
         setCompletedMachines(new Set(completedMachines))
+        
+        // 載入已派單的機台
+        if (dispatched) {
+          const dispatchedMachines = JSON.parse(dispatched)
+          setDispatchedMachines(new Set(dispatchedMachines))
+        }
         
         // 建立已完成的訂單資訊
         const completedOrdersList: CompletedOrderInfo[] = []
@@ -141,6 +150,43 @@ export default function DailyReportPage() {
       return `${orderQuantity}${orderUnit1}/${orderQuantity2}${orderUnit2}`
     }
     return `${orderQuantity}${orderUnit1}`
+  }
+
+  // 派單功能
+  const handleDispatch = (orderNumber: string) => {
+    // 找到當前行的所有checkbox
+    const checkboxes = document.querySelectorAll(`input[type="checkbox"][data-order="${orderNumber}"]:checked`)
+    const selectedMachines: string[] = []
+    
+    checkboxes.forEach((checkbox) => {
+      const machineNumber = checkbox.getAttribute('data-machine')
+      if (machineNumber) {
+        const machineKey = `${orderNumber}-${machineNumber}`
+        selectedMachines.push(machineKey)
+      }
+    })
+    
+    if (selectedMachines.length === 0) {
+      setNotification({message: '請先選擇要派單的機台', visible: true})
+      setTimeout(() => setNotification({message: '', visible: false}), 3000)
+      return
+    }
+    
+    // 更新已派單狀態
+    const currentDispatched = JSON.parse(localStorage.getItem('dispatchedMachines') || '[]')
+    const updatedDispatched = [...currentDispatched, ...selectedMachines]
+    localStorage.setItem('dispatchedMachines', JSON.stringify(updatedDispatched))
+    setDispatchedMachines(new Set(updatedDispatched))
+    
+    // 取消勾選所有checkbox
+    checkboxes.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false
+    })
+    
+    // 顯示通知
+    const machineNumbers = selectedMachines.map(key => key.split('-')[1] + '號機').join('、')
+    setNotification({message: `已派出 ${machineNumbers} 的訂單`, visible: true})
+    setTimeout(() => setNotification({message: '', visible: false}), 3000)
   }
 
   if (loading) {
@@ -384,24 +430,31 @@ export default function DailyReportPage() {
                                         <div className="flex items-center justify-between w-full">
                                           {/* 標籤區域 */}
                                           <div className="flex items-center gap-2 bg-[#ababab] rounded px-3 py-2 w-fit">
-                                            {/* Checkbox */}
-                                            <input 
-                                              type="checkbox" 
-                                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                                            />
-                                            
-                                            {/* 機台號碼 */}
+                                            {/* 機台號碼和對應的Checkbox */}
                                             <div className="flex flex-wrap gap-2">
                                               {completedMachinesForOrder.map(machineKey => {
                                                 const machineNumber = machineKey.split('-')[1];
+                                                const isDispatched = dispatchedMachines.has(machineKey);
                                                 return (
-                                                  <span 
-                                                    key={machineKey}
-                                                    className="font-medium text-white px-2 py-1 rounded"
-                                                    style={{ backgroundColor: 'rgb(234 179 8 / var(--tw-bg-opacity, 1))' }}
-                                                  >
-                                                    {machineNumber}號機
-                                                  </span>
+                                                  <div key={machineKey} className="flex items-center gap-1">
+                                                    <input 
+                                                      type="checkbox" 
+                                                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                                      data-order={order.orderNumber}
+                                                      data-machine={machineNumber}
+                                                      disabled={isDispatched}
+                                                    />
+                                                    <span 
+                                                      className="font-medium text-white px-2 py-1 rounded"
+                                                      style={{ 
+                                                        backgroundColor: isDispatched 
+                                                          ? 'rgb(59 130 246 / var(--tw-bg-opacity, 1))' 
+                                                          : 'rgb(234 179 8 / var(--tw-bg-opacity, 1))' 
+                                                      }}
+                                                    >
+                                                      {machineNumber}號機
+                                                    </span>
+                                                  </div>
                                                 );
                                               })}
                                             </div>
@@ -425,7 +478,10 @@ export default function DailyReportPage() {
                                           
                                           {/* 控制元件區域 */}
                                           <div className="w-[60px] flex justify-end">
-                                            <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-1 rounded transition-colors">
+                                            <button 
+                                              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-1 rounded transition-colors"
+                                              onClick={() => handleDispatch(order.orderNumber)}
+                                            >
                                               派單
                                             </button>
                                           </div>
@@ -448,6 +504,13 @@ export default function DailyReportPage() {
           </div>
         </div>
       </div>
+      
+      {/* 通知組件 */}
+      {notification.visible && (
+        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+          {notification.message}
+        </div>
+      )}
     </div>
   )
 }
