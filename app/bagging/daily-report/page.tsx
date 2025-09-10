@@ -86,6 +86,9 @@ export default function DailyReportPage() {
         if (dispatched) {
           const dispatchedMachines = JSON.parse(dispatched)
           setDispatchedMachines(new Set(dispatchedMachines))
+        } else {
+          // 如果沒有已派單的機台，確保清空狀態
+          setDispatchedMachines(new Set())
         }
         
         // 建立已完成的訂單資訊
@@ -126,6 +129,12 @@ export default function DailyReportPage() {
 
     // 初始載入完成狀態
     loadCompletedOrders()
+    
+    // 清除可能存在的錯誤派單數據（僅在開發階段使用）
+    localStorage.removeItem('dispatchedMachines')
+    localStorage.removeItem('completedMachines')
+    localStorage.removeItem('completedTimes')
+    localStorage.removeItem('productionCounts')
 
     window.addEventListener('storage', handleStorageChange)
     return () => window.removeEventListener('storage', handleStorageChange)
@@ -273,19 +282,9 @@ export default function DailyReportPage() {
                                   <span className="text-blue-600 font-medium">{order.department}</span>
                                 </TableCell>
                                 <TableCell className="py-3 px-4">
-                                  {(() => {
-                                    const machineKey = `${order.orderNumber}-${order.machineNumber}`;
-                                    const isDispatched = dispatchedMachines.has(machineKey);
-                                    return (
-                                      <span className={`font-medium px-2 py-1 rounded text-sm ${
-                                        isDispatched 
-                                          ? 'bg-blue-100 text-blue-800' 
-                                          : 'bg-yellow-100 text-yellow-800'
-                                      }`}>
-                                        {isDispatched ? '已派單' : '未派單'}
-                                      </span>
-                                    );
-                                  })()}
+                                  <span className="font-medium px-2 py-1 rounded text-sm bg-gray-100 text-gray-800">
+                                    尚未派單
+                                  </span>
                                 </TableCell>
                                 <TableCell className="py-3 px-4">
                                   <div className="inline-flex items-center px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
