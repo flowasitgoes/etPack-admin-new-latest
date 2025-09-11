@@ -646,7 +646,7 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
                 <div className="border-t-1 p-12">
                   {/* 完成時間顯示區域 */}
                   {isCompleted && completedTime && (
-                    <div className="mb-6 text-center">
+                    <div className="mb-6 text-center" style={{ display: 'none' }}>
                       <div className="inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
                         <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                         <span className="text-sm text-green-700 font-medium">

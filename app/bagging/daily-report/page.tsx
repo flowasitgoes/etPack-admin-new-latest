@@ -199,8 +199,8 @@ export default function DailyReportPage() {
                               <TableHead className="font-semibold text-gray-700 py-3 px-4">機台</TableHead>
                               <TableHead className="font-semibold text-gray-700 py-3 px-4">品名</TableHead>
                               <TableHead className="font-semibold text-gray-700 py-3 px-4">生產數量</TableHead>
-                              <TableHead className="font-semibold text-gray-700 py-3 px-4">耗損總量</TableHead>
-                              <TableHead className="font-semibold text-gray-700 py-3 px-4">簽核單位</TableHead>
+                              {/* <TableHead className="font-semibold text-gray-700 py-3 px-4">耗損總量</TableHead> */}
+                              {/* <TableHead className="font-semibold text-gray-700 py-3 px-4">簽核單位</TableHead> */}
                               <TableHead className="font-semibold text-gray-700 py-3 px-4">完成時間</TableHead>
                             </TableRow>
                           </TableHeader>
@@ -219,12 +219,12 @@ export default function DailyReportPage() {
                                 <TableCell className="py-3 px-4">
                                   <span className="font-medium text-green-600">{order.productionCount}</span>
                                 </TableCell>
-                                <TableCell className="py-3 px-4">
+                                {/* <TableCell className="py-3 px-4">
                                   <span className="text-red-600 font-medium">{order.lossCount}</span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
+                                </TableCell> */}
+                                {/* <TableCell className="py-3 px-4">
                                   <span className="text-blue-600 font-medium">{order.department}</span>
-                                </TableCell>
+                                </TableCell> */}
                                 <TableCell className="py-3 px-4">
                                   <div className="inline-flex items-center px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
                                     <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
