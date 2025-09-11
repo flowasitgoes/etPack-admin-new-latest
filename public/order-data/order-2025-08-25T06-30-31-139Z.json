@@ -200,5 +200,17 @@
     }
   ],
   "submittedAt": "2025-08-25T06:30:31.109Z",
+  "dailyReport": {
+    "bagging": {
+      "K01140414004-1": {
+        "machine": "1",
+        "productionCount": "1188 x 4",
+        "lossCount": "52",
+        "dispatchStatus": "尚未派單",
+        "completedTime": null,
+        "isCompleted": false
+      }
+    }
+  },
   "status": "submitted"
 }

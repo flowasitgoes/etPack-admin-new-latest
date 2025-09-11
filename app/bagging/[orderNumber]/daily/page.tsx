@@ -61,6 +61,7 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
   const router = useRouter()
   const searchParams = useSearchParams()
   const machineNumber = searchParams.get('machine')
+  
   const [order, setOrder] = useState<OrderData | null>(null)
   const [loading, setLoading] = useState(true)
   const [isCompleted, setIsCompleted] = useState(false)
@@ -99,18 +100,28 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
     }
 
     // 檢查該機台是否已經完成
-    if (orderNumber && machineNumber) {
-      const machineKey = `${orderNumber}-${machineNumber}`
-      const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
-      const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
-      
-      if (completedMachines.includes(machineKey)) {
-        setIsCompleted(true)
-        setCompletedTime(completedTimes[machineKey] || null)
+    const loadDailyReport = async () => {
+      if (orderNumber && machineNumber) {
+        try {
+          const response = await fetch(`/api/orders/${orderNumber}/daily-report?department=bagging`)
+          if (response.ok) {
+            const data = await response.json()
+            const machineKey = `${orderNumber}-${machineNumber}`
+            const machineData = data.dailyReport[machineKey]
+            
+            if (machineData && machineData.isCompleted) {
+              setIsCompleted(true)
+              setCompletedTime(machineData.completedTime || null)
+            }
+          }
+        } catch (error) {
+          console.error('Error loading daily report:', error)
+        }
       }
     }
-
-    if (orderNumber) {
+    
+    if (orderNumber && machineNumber) {
+      loadDailyReport()
       loadOrder()
     }
   }, [orderNumber, machineNumber])
@@ -147,40 +158,40 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
     router.push('/bagging/daily-report')
   }
 
-  const handleResetOrder = () => {
+  const handleResetOrder = async () => {
     if (orderNumber && machineNumber) {
-      const machineKey = `${orderNumber}-${machineNumber}`
-      
-      // 清除完成狀態
-      const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
-      const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
-      const productionCounts = JSON.parse(localStorage.getItem('productionCounts') || '{}')
-      
-      // 從陣列中移除這個機台
-      const updatedMachines = completedMachines.filter((key: string) => key !== machineKey)
-      delete completedTimes[machineKey]
-      delete productionCounts[machineKey]
-      
-      // 更新localStorage
-      localStorage.setItem('completedMachines', JSON.stringify(updatedMachines))
-      localStorage.setItem('completedTimes', JSON.stringify(completedTimes))
-      localStorage.setItem('productionCounts', JSON.stringify(productionCounts))
-      
-      // 重置本地狀態
-      setIsCompleted(false)
-      setCompletedTime(null)
-      
-      // 觸發storage事件，讓其他頁面知道狀態已更新
-      window.dispatchEvent(new StorageEvent('storage', {
-        key: 'completedMachines',
-        newValue: JSON.stringify(updatedMachines)
-      }))
-      
-      console.log(`訂單 ${orderNumber} 的機台 ${machineNumber} 已重置為未完成狀態`)
+      try {
+        // 調用 API 重置 daily report
+        const response = await fetch(`/api/orders/${orderNumber}/daily-report?department=bagging`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            machine: machineNumber,
+            productionCount: '1188 x 4',
+            lossCount: '52',
+            dispatchStatus: '尚未派單',
+            completedTime: null,
+            isCompleted: false
+          })
+        })
+        
+        if (response.ok) {
+          // 重置本地狀態
+          setIsCompleted(false)
+          setCompletedTime(null)
+          console.log(`訂單 ${orderNumber} 的機台 ${machineNumber} 已重置為未完成狀態`)
+        } else {
+          console.error('Failed to reset daily report')
+        }
+      } catch (error) {
+        console.error('Error resetting daily report:', error)
+      }
     }
   }
 
-  const handleCompleteOrder = () => {
+  const handleCompleteOrder = async () => {
     const now = new Date()
     const completedTimeString = now.toLocaleString('zh-TW', {
       year: 'numeric',
@@ -191,33 +202,33 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
       second: '2-digit'
     })
     
-    setIsCompleted(true)
-    setCompletedTime(completedTimeString)
-    
-    // 保存完成狀態到localStorage
-    const machineKey = `${orderNumber}-${machineNumber}`
-    const completedMachines = JSON.parse(localStorage.getItem('completedMachines') || '[]')
-    const completedTimes = JSON.parse(localStorage.getItem('completedTimes') || '{}')
-    const productionCounts = JSON.parse(localStorage.getItem('productionCounts') || '{}')
-    
-    if (!completedMachines.includes(machineKey)) {
-      completedMachines.push(machineKey)
-      completedTimes[machineKey] = completedTimeString
-      // 保存實際生產數量（從頁面上的產量記錄獲取）
-      productionCounts[machineKey] = '1188 x 4'
+    try {
+      // 調用 API 更新 daily report
+      const response = await fetch(`/api/orders/${orderNumber}/daily-report?department=bagging`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          machine: machineNumber,
+          productionCount: '1188 x 4',
+          lossCount: '52',
+          dispatchStatus: '尚未派單',
+          completedTime: completedTimeString,
+          isCompleted: true
+        })
+      })
       
-      localStorage.setItem('completedMachines', JSON.stringify(completedMachines))
-      localStorage.setItem('completedTimes', JSON.stringify(completedTimes))
-      localStorage.setItem('productionCounts', JSON.stringify(productionCounts))
-      
-      // 觸發storage事件，讓其他頁面知道狀態已更新
-      window.dispatchEvent(new StorageEvent('storage', {
-        key: 'completedMachines',
-        newValue: JSON.stringify(completedMachines)
-      }))
+      if (response.ok) {
+        setIsCompleted(true)
+        setCompletedTime(completedTimeString)
+        console.log(`訂單 ${orderNumber} 的機台 ${machineNumber} 已完成，完成時間：${completedTimeString}`)
+      } else {
+        console.error('Failed to update daily report')
+      }
+    } catch (error) {
+      console.error('Error updating daily report:', error)
     }
-    
-    console.log(`訂單 ${orderNumber} 的機台 ${machineNumber} 已完成，完成時間：${completedTimeString}`)
   }
 
   if (loading) {

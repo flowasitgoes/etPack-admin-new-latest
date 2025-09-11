@@ -199,6 +199,18 @@
       "otherConditions": "袋型"
     }
   ],
+  "dailyReport": {
+    "bagging": {
+      "K01140414001-1": {
+        "machine": "1",
+        "productionCount": "1188 x 4",
+        "lossCount": "52",
+        "dispatchStatus": "尚未派單",
+        "completedTime": "2025/09/11 上午10:55:20",
+        "isCompleted": true
+      }
+    }
+  },
   "submittedAt": "2025-08-25T03:21:14.856Z",
   "status": "submitted"
 }

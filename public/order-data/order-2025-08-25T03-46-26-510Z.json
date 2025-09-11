@@ -58,6 +58,18 @@
   "lamination": [],
   "slitting": [],
   "cutting": [],
-  "submittedAt": "2025-08-25T03:46:26.223Z",
+  "dailyReport": {
+    "bagging": {
+      "K01140414002-1": {
+        "machine": "1",
+        "productionCount": "1188 x 4",
+        "lossCount": "52",
+        "dispatchStatus": "尚未派單",
+        "completedTime": null,
+        "isCompleted": false
+      }
+    }
+  },
+  "submittedAt": "2025-08-25T03-46-26.223Z",
   "status": "submitted"
 }

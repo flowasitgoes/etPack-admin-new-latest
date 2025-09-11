@@ -38,6 +38,7 @@ export default function DailyReportPage() {
   const [completedOrders, setCompletedOrders] = useState<CompletedOrderInfo[]>([])
   const [dispatchedMachines, setDispatchedMachines] = useState<Set<string>>(new Set())
   const [notification, setNotification] = useState<{message: string, visible: boolean}>({message: '', visible: false})
+  const [dailyReports, setDailyReports] = useState<{[key: string]: any}>({})
 
   useEffect(() => {
     const loadOrders = async () => {
@@ -62,6 +63,9 @@ export default function DailyReportPage() {
 
         const orderData = await Promise.all(orderPromises)
         setOrders(orderData)
+        
+        // 載入訂單完成後，載入已完成訂單資訊
+        loadCompletedOrders()
       } catch (error) {
         console.error('Error loading orders:', error)
       } finally {
@@ -72,42 +76,61 @@ export default function DailyReportPage() {
     loadOrders()
 
     // 載入已完成的訂單資訊
-    const loadCompletedOrders = () => {
-      const completed = localStorage.getItem('completedMachines')
-      const completedTimes = localStorage.getItem('completedTimes')
-      const dispatched = localStorage.getItem('dispatchedMachines')
-      
-      if (completed) {
-        const completedMachines = JSON.parse(completed)
-        const times = completedTimes ? JSON.parse(completedTimes) : {}
-        setCompletedMachines(new Set(completedMachines))
-        
-        // 載入已派單的機台
-        if (dispatched) {
-          const dispatchedMachines = JSON.parse(dispatched)
-          setDispatchedMachines(new Set(dispatchedMachines))
-        } else {
-          // 如果沒有已派單的機台，確保清空狀態
-          setDispatchedMachines(new Set())
-        }
-        
-        // 建立已完成的訂單資訊
-        const completedOrdersList: CompletedOrderInfo[] = []
-        completedMachines.forEach((machineKey: string) => {
-          const [orderNumber, machineNumber] = machineKey.split('-')
-          // 這裡需要等待orders載入完成後才能建立完整的資訊
-          // 所以我們先建立基本資訊，在orders載入後再更新
-          completedOrdersList.push({
-            orderNumber,
-            machineNumber,
-            productName: '載入中...',
-            productionCount: '1188 x 4',
-            lossCount: '52',
-            completedTime: times[machineKey] || '未知時間',
-            department: '抽袋課'
+    const loadCompletedOrders = async () => {
+      try {
+        const response = await fetch('/api/orders/daily-reports')
+        if (response.ok) {
+          const data = await response.json()
+          const dailyReports = data.dailyReports || {}
+          
+          // 分離已完成的機台和已派單的機台
+          const completedMachinesList: string[] = []
+          const dispatchedMachinesList: string[] = []
+          const completedOrdersList: CompletedOrderInfo[] = []
+          
+          // 遍歷所有部門的 dailyReport
+          Object.entries(dailyReports).forEach(([department, departmentReports]: [string, any]) => {
+            if (typeof departmentReports === 'object' && departmentReports !== null) {
+              Object.entries(departmentReports).forEach(([machineKey, reportData]: [string, any]) => {
+                if (reportData.isCompleted) {
+                  completedMachinesList.push(machineKey)
+                  
+                  const [orderNumber, machineNumber] = machineKey.split('-')
+                  
+                  // 嘗試從已載入的 orders 中獲取產品名稱
+                  let productName = '載入中...'
+                  if (orders.length > 0) {
+                    const foundOrder = orders.find(o => o.orderNumber === orderNumber)
+                    if (foundOrder) {
+                      productName = foundOrder.orderInfo.productName
+                    }
+                  }
+                  
+                  completedOrdersList.push({
+                    orderNumber,
+                    machineNumber,
+                    productName,
+                    productionCount: reportData.productionCount || '1188 x 4',
+                    lossCount: reportData.lossCount || '52',
+                    completedTime: reportData.completedTime || '未知時間',
+                    department: department === 'bagging' ? '抽袋課' : department
+                  })
+                }
+                
+                if (reportData.dispatchStatus === '已派單') {
+                  dispatchedMachinesList.push(machineKey)
+                }
+              })
+            }
           })
-        })
-        setCompletedOrders(completedOrdersList)
+          
+          setCompletedMachines(new Set(completedMachinesList))
+          setDispatchedMachines(new Set(dispatchedMachinesList))
+          setCompletedOrders(completedOrdersList)
+          setDailyReports(dailyReports)
+        }
+      } catch (error) {
+        console.error('Error loading daily reports:', error)
       }
     }
 
@@ -127,31 +150,29 @@ export default function DailyReportPage() {
       loadCompletedOrders()
     }
 
-    // 初始載入完成狀態
-    loadCompletedOrders()
-    
-    // 清除可能存在的錯誤派單數據（僅在開發階段使用）
-    localStorage.removeItem('dispatchedMachines')
-    localStorage.removeItem('completedMachines')
-    localStorage.removeItem('completedTimes')
-    localStorage.removeItem('productionCounts')
+    // 初始載入完成狀態 - 現在在 loadOrders 完成後調用
 
-    window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
+    // 不再需要 localStorage 和 storage 事件監聽
+    // window.addEventListener('storage', handleStorageChange)
+    // return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
   // 當orders載入完成後，更新已完成訂單的產品名稱
   useEffect(() => {
     if (orders.length > 0 && completedOrders.length > 0) {
-      setCompletedOrders(prev => prev.map(order => {
-        const foundOrder = orders.find(o => o.orderNumber === order.orderNumber)
-        return {
-          ...order,
-          productName: foundOrder ? foundOrder.orderInfo.productName : order.productName
-        }
-      }))
+      // 檢查是否還有「載入中...」的項目
+      const hasLoadingItems = completedOrders.some(order => order.productName === '載入中...')
+      if (hasLoadingItems) {
+        setCompletedOrders(prev => prev.map(order => {
+          const foundOrder = orders.find(o => o.orderNumber === order.orderNumber)
+          return {
+            ...order,
+            productName: foundOrder ? foundOrder.orderInfo.productName : order.productName
+          }
+        }))
+      }
     }
-  }, [orders, completedOrders.length])
+  }, [orders, completedOrders])
 
   const formatQuantity = (order: OrderData) => {
     const { orderQuantity, orderUnit1, orderQuantity2, orderUnit2 } = order.orderInfo
@@ -162,7 +183,7 @@ export default function DailyReportPage() {
   }
 
   // 派單功能
-  const handleDispatch = (orderNumber: string) => {
+  const handleDispatch = async (orderNumber: string) => {
     // 找到當前行的所有checkbox
     const checkboxes = document.querySelectorAll(`input[type="checkbox"][data-order="${orderNumber}"]:checked`)
     const selectedMachines: string[] = []
@@ -181,21 +202,52 @@ export default function DailyReportPage() {
       return
     }
     
-    // 更新已派單狀態
-    const currentDispatched = JSON.parse(localStorage.getItem('dispatchedMachines') || '[]')
-    const updatedDispatched = [...currentDispatched, ...selectedMachines]
-    localStorage.setItem('dispatchedMachines', JSON.stringify(updatedDispatched))
-    setDispatchedMachines(new Set(updatedDispatched))
-    
-    // 取消勾選所有checkbox
-    checkboxes.forEach((checkbox) => {
-      (checkbox as HTMLInputElement).checked = false
-    })
-    
-    // 顯示通知
-    const machineNumbers = selectedMachines.map(key => key.split('-')[1] + '號機').join('、')
-    setNotification({message: `已派出 ${machineNumbers} 的訂單`, visible: true})
-    setTimeout(() => setNotification({message: '', visible: false}), 3000)
+    try {
+      // 為每個選中的機台更新派單狀態
+      const updatePromises = selectedMachines.map(async (machineKey) => {
+        const [orderNum, machineNum] = machineKey.split('-')
+        const response = await fetch(`/api/orders/${orderNum}/daily-report?department=bagging`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            machine: machineNum,
+            productionCount: '1188 x 4',
+            lossCount: '52',
+            dispatchStatus: '已派單',
+            completedTime: null,
+            isCompleted: true
+          })
+        })
+        return response.ok
+      })
+      
+      const results = await Promise.all(updatePromises)
+      
+      if (results.every(result => result)) {
+        // 更新本地狀態
+        const updatedDispatched = new Set([...dispatchedMachines, ...selectedMachines])
+        setDispatchedMachines(updatedDispatched)
+        
+        // 取消勾選所有checkbox
+        checkboxes.forEach((checkbox) => {
+          (checkbox as HTMLInputElement).checked = false
+        })
+        
+        // 顯示通知
+        const machineNumbers = selectedMachines.map(key => key.split('-')[1] + '號機').join('、')
+        setNotification({message: `已派出 ${machineNumbers} 的訂單`, visible: true})
+        setTimeout(() => setNotification({message: '', visible: false}), 3000)
+      } else {
+        setNotification({message: '派單失敗，請重試', visible: true})
+        setTimeout(() => setNotification({message: '', visible: false}), 3000)
+      }
+    } catch (error) {
+      console.error('Error dispatching orders:', error)
+      setNotification({message: '派單失敗，請重試', visible: true})
+      setTimeout(() => setNotification({message: '', visible: false}), 3000)
+    }
   }
 
   if (loading) {
@@ -477,10 +529,11 @@ export default function DailyReportPage() {
                                             {/* 完成數量 */}
                                             <div>
                                               {(() => {
-                                                // 從localStorage獲取實際生產數量
-                                                const productionCounts = JSON.parse(localStorage.getItem('productionCounts') || '{}');
+                                                // 從 dailyReports 獲取實際生產數量
                                                 const firstCompletedMachine = completedMachinesForOrder[0];
-                                                const actualProductionCount = productionCounts[firstCompletedMachine] || formatQuantity(order);
+                                                const baggingReports = dailyReports.bagging || {};
+                                                const machineData = baggingReports[firstCompletedMachine];
+                                                const actualProductionCount = machineData?.productionCount || formatQuantity(order);
                                                 
                                                 return (
                                                   <span className="font-medium text-white">
