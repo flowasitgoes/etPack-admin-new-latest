@@ -126,7 +126,7 @@ export default function ApiTestUserPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 py-8 px-4" suppressHydrationWarning>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
