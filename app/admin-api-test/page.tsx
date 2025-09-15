@@ -9,22 +9,36 @@ import { Alert, AlertDescription } from "../../components/ui/alert"
 import { Loader2, CheckCircle, XCircle, User, Users, Key, Clock } from "lucide-react"
 
 export default function AdminApiTestPage() {
+  // 登入表單數據狀態：存儲用戶名和密碼
   const [loginData, setLoginData] = useState({
     username: "W64888",
     password: "test01"
   })
   
+  // 認證相關狀態：存儲 access token（僅在記憶體中，安全考量）
   const [accessToken, setAccessToken] = useState("")
+  // 用戶 ID 狀態：存儲當前登入用戶的 ID
   const [userId, setUserId] = useState("")
+  // 登入狀態：追蹤用戶是否已登入
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  // 刷新 token 狀態：用於自動刷新 access token
+  const [refreshToken, setRefreshToken] = useState("")
   
+  // API 回應數據狀態：存儲用戶資料 API 的回應
   const [userResponse, setUserResponse] = useState<any>(null)
+  // API 回應數據狀態：存儲客戶資料 API 的回應
   const [customersResponse, setCustomersResponse] = useState<any>(null)
+  // 載入狀態：追蹤登入請求是否正在進行
   const [isLoading, setIsLoading] = useState(false)
+  // 載入狀態：追蹤用戶資料請求是否正在進行
   const [isLoadingUser, setIsLoadingUser] = useState(false)
+  // 載入狀態：追蹤客戶資料請求是否正在進行
   const [isLoadingCustomers, setIsLoadingCustomers] = useState(false)
+  // 錯誤訊息狀態：存儲和顯示錯誤訊息
   const [error, setError] = useState("")
+  // 成功訊息狀態：存儲和顯示成功訊息
   const [success, setSuccess] = useState("")
+  // 服務狀態：存儲 Render 服務的線上狀態和相關資訊
   const [serviceStatus, setServiceStatus] = useState<{
     isOnline: boolean
     responseTime?: number
@@ -33,8 +47,10 @@ export default function AdminApiTestPage() {
     rootStatus?: number
     status?: number
   } | null>(null)
+  // 狀態檢查載入：追蹤服務狀態檢查是否正在進行
   const [isCheckingStatus, setIsCheckingStatus] = useState(false)
 
+  // 處理登入表單輸入變化：更新用戶名或密碼
   const handleLoginInputChange = (field: string, value: string) => {
     setLoginData(prev => ({
       ...prev,
@@ -42,6 +58,7 @@ export default function AdminApiTestPage() {
     }))
   }
 
+  // 處理登入請求：發送登入資料並獲取 access token
   const handleLogin = async () => {
     setIsLoading(true)
     setError("")
@@ -64,12 +81,13 @@ export default function AdminApiTestPage() {
 
       if (data.success && data.data) {
         setAccessToken(data.data.access)
+        setRefreshToken(data.data.refresh)
         setUserId(data.data.user_id)
         setIsLoggedIn(true)
         setSuccess("登入成功！已獲取 access token")
         
-        // 保存登入狀態到 localStorage，同步到其他視窗
-        saveAuthState(data.data.access, data.data.user_id, true)
+        // 安全地保存登入狀態到 localStorage（只存儲 refresh token），同步到其他視窗
+        saveAuthState(data.data.access, data.data.refresh, data.data.user_id, true)
         
         // 自動獲取用戶資料
         await fetchUserData(data.data.access, data.data.user_id)
@@ -83,6 +101,7 @@ export default function AdminApiTestPage() {
     }
   }
 
+  // 獲取用戶資料：使用 access token 調用用戶 API
   const fetchUserData = async (token?: string, user_id?: string) => {
     const currentToken = token || accessToken
     const currentUserId = user_id || userId
@@ -118,6 +137,7 @@ export default function AdminApiTestPage() {
     }
   }
 
+  // 獲取客戶資料：使用 access token 調用客戶 API
   const fetchCustomers = async () => {
     if (!accessToken) {
       setError("請先登入獲取 access token")
@@ -150,8 +170,10 @@ export default function AdminApiTestPage() {
     }
   }
 
+  // 處理登出：清除所有認證狀態和數據
   const handleLogout = () => {
     setAccessToken("")
+    setRefreshToken("")
     setUserId("")
     setIsLoggedIn(false)
     setUserResponse(null)
@@ -163,6 +185,7 @@ export default function AdminApiTestPage() {
     clearAuthState()
   }
 
+  // 檢查服務狀態：檢查 Render 服務是否在線
   const checkServiceStatus = async () => {
     setIsCheckingStatus(true)
     setError("")
@@ -198,17 +221,20 @@ export default function AdminApiTestPage() {
     }
   }
 
-  // 跨視窗狀態同步功能
+  // 安全的跨視窗狀態同步功能
   useEffect(() => {
-    // 從 localStorage 恢復登入狀態
+    // 只從 localStorage 恢復 refresh token 和用戶 ID（不存儲 access token）
     const savedAuthData = localStorage.getItem('admin_auth_data')
     if (savedAuthData) {
       try {
-        const { accessToken: savedToken, userId: savedUserId, isLoggedIn: savedLoginState } = JSON.parse(savedAuthData)
-        if (savedToken && savedUserId && savedLoginState) {
-          setAccessToken(savedToken)
+        const { refreshToken: savedRefreshToken, userId: savedUserId, isLoggedIn: savedLoginState } = JSON.parse(savedAuthData)
+        if (savedRefreshToken && savedUserId && savedLoginState) {
+          setRefreshToken(savedRefreshToken)
           setUserId(savedUserId)
           setIsLoggedIn(true)
+          
+          // 使用 refresh token 獲取新的 access token
+          refreshAccessToken(savedRefreshToken)
         }
       } catch (error) {
         console.error('Failed to parse saved auth data:', error)
@@ -220,15 +246,19 @@ export default function AdminApiTestPage() {
       if (e.key === 'admin_auth_data') {
         if (e.newValue) {
           try {
-            const { accessToken: newToken, userId: newUserId, isLoggedIn: newLoginState } = JSON.parse(e.newValue)
-            setAccessToken(newToken || "")
+            const { refreshToken: newRefreshToken, userId: newUserId, isLoggedIn: newLoginState } = JSON.parse(e.newValue)
+            setRefreshToken(newRefreshToken || "")
             setUserId(newUserId || "")
             setIsLoggedIn(newLoginState || false)
             
             // 如果其他視窗登出了，清除本地狀態
             if (!newLoginState) {
+              setAccessToken("")
               setUserResponse(null)
               setCustomersResponse(null)
+            } else if (newRefreshToken) {
+              // 使用新的 refresh token 獲取 access token
+              refreshAccessToken(newRefreshToken)
             }
           } catch (error) {
             console.error('Failed to parse storage change:', error)
@@ -236,6 +266,7 @@ export default function AdminApiTestPage() {
         } else {
           // 其他視窗清除了登入狀態
           setAccessToken("")
+          setRefreshToken("")
           setUserId("")
           setIsLoggedIn(false)
           setUserResponse(null)
@@ -248,10 +279,35 @@ export default function AdminApiTestPage() {
     return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
-  // 保存登入狀態到 localStorage
-  const saveAuthState = (token: string, user_id: string, loggedIn: boolean) => {
+  // 使用 refresh token 獲取新的 access token：實現無縫 token 刷新
+  const refreshAccessToken = async (refreshTokenValue: string) => {
+    try {
+      const response = await fetch('/api/proxy/token/refresh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh: refreshTokenValue })
+      })
+
+      const data = await response.json()
+      if (data.success && data.data) {
+        setAccessToken(data.data.access)
+        return true
+      } else {
+        console.error('Token refresh failed:', data.error)
+        return false
+      }
+    } catch (error) {
+      console.error('Token refresh error:', error)
+      return false
+    }
+  }
+
+  // 安全地保存登入狀態到 localStorage：只存儲 refresh token，同步到其他視窗
+  const saveAuthState = (accessTokenValue: string, refreshTokenValue: string, user_id: string, loggedIn: boolean) => {
     const authData = {
-      accessToken: token,
+      refreshToken: refreshTokenValue, // 只存儲 refresh token
       userId: user_id,
       isLoggedIn: loggedIn,
       timestamp: Date.now()
@@ -268,7 +324,7 @@ export default function AdminApiTestPage() {
     }))
   }
 
-  // 清除登入狀態
+  // 清除登入狀態：從 localStorage 移除認證數據並同步到其他視窗
   const clearAuthState = () => {
     localStorage.removeItem('admin_auth_data')
     
@@ -661,6 +717,20 @@ export default function AdminApiTestPage() {
                 <li>• 在一個標籤頁登出後，其他標籤頁也會自動登出</li>
                 <li>• 重新打開瀏覽器後，登入狀態會自動恢復</li>
                 <li>• 支援多個標籤頁同時使用，狀態完全同步</li>
+              </ul>
+            </div>
+            
+            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <h4 className="font-medium text-red-800 mb-2">🔒 安全性最佳實踐</h4>
+              <p className="text-sm text-red-700 mb-2">
+                此實現遵循前端安全最佳實踐：
+              </p>
+              <ul className="text-sm text-red-700 space-y-1 ml-4">
+                <li>• <strong>Access Token 僅存儲在記憶體中</strong>：避免 XSS 攻擊持久化</li>
+                <li>• <strong>Refresh Token 存儲在 localStorage</strong>：用於自動刷新 access token</li>
+                <li>• <strong>頁面刷新時自動刷新 token</strong>：確保無縫用戶體驗</li>
+                <li>• <strong>避免 CSRF 風險</strong>：不使用 Cookie 存儲敏感 token</li>
+                <li>• <strong>短期生命週期</strong>：access token 在標籤頁關閉時自動清除</li>
               </ul>
             </div>
           </CardContent>
