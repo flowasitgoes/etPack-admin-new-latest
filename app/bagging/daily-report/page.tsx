@@ -318,10 +318,10 @@ export default function DailyReportPage() {
                            <div className="w-6 h-6 border-2 border-yellow-500 rounded bg-yellow-500"></div>
                            <span className="text-sm text-gray-600">黃色：已完成</span>
                          </div>
-                         <div className="flex items-center space-x-2">
+                         {/* <div className="flex items-center space-x-2">
                            <div className="w-6 h-6 border-2 border-blue-500 rounded bg-blue-500"></div>
                            <span className="text-sm text-gray-600">藍色：已派單</span>
-                         </div>
+                         </div> */}
                        </div>
                      </div>
                     
@@ -483,12 +483,12 @@ export default function DailyReportPage() {
                                           
                                           {/* 控制元件區域 */}
                                           <div className="w-[60px] flex justify-end">
-                                            <button 
+                                            {/* <button 
                                               className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-1 rounded transition-colors"
                                               onClick={() => handleDispatch(order.orderNumber)}
                                             >
                                               派單
-                                            </button>
+                                            </button> */}
                                           </div>
                                         </div>
                                       );
