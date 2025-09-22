@@ -291,69 +291,6 @@ export default function DailyReportPage() {
                   </div>
                 </div>
 
-                {/* 佈告欄 - 已完成訂單資訊 */}
-                {completedOrders.length > 0 && (
-                  <div className="bg-white rounded-lg shadow-md">
-                    <div className="text-white p-3 rounded-tr-lg rounded-br-lg w-[200px]" style={{ background: '#7c7d99' }}>
-                      <h2 className="text-base font-semibold leading-tight">已完成訂單佈告欄</h2>
-                    </div>
-                    <div className="p-4">
-                      <div className="relative w-full overflow-auto">
-                        <Table>
-                          <TableHeader>
-                             <TableRow className="bg-green-100 border-b">
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">訂單編號</TableHead>
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">機台</TableHead>
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">品名</TableHead>
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">生產數量</TableHead>
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">耗損總量</TableHead>
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">簽核單位</TableHead>
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">派單與否</TableHead>
-                               <TableHead className="font-semibold text-gray-700 py-3 px-4">完成時間</TableHead>
-                             </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {completedOrders.map((order, index) => (
-                              <TableRow key={index} className="border-b hover:bg-green-50">
-                                <TableCell className="py-3 px-4">
-                                  <span className="text-gray-800 font-medium">{order.orderNumber}</span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
-                                  <span className="font-medium text-white px-2 py-1 rounded" style={{ backgroundColor: 'rgb(234 179 8 / var(--tw-bg-opacity, 1))' }}>{order.machineNumber}號機</span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
-                                  <span className="text-sm">{order.productName}</span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
-                                  <span className="font-medium text-green-600">{order.productionCount}</span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
-                                  <span className="text-red-600 font-medium">{order.lossCount}</span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
-                                  <span className="text-blue-600 font-medium">{order.department}</span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
-                                  <span className="font-medium px-2 py-1 rounded text-sm bg-gray-100 text-gray-800">
-                                    尚未派單
-                                  </span>
-                                </TableCell>
-                                <TableCell className="py-3 px-4">
-                                  <div className="inline-flex items-center px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
-                                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                                    <span className="text-xs text-green-700 font-medium">
-                                      {order.completedTime}
-                                    </span>
-                                  </div>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    </div>
-                  </div>
-                )}
 
                 {/* 說明文字 */}
                 <div className="bg-white rounded-lg shadow-md">

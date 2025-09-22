@@ -65,8 +65,8 @@
         "productionCount": "1188 x 4",
         "lossCount": "52",
         "dispatchStatus": "尚未派單",
-        "completedTime": null,
-        "isCompleted": false
+        "completedTime": "2025/09/22 上午11:17:19",
+        "isCompleted": true
       }
     }
   },
