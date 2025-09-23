@@ -130,16 +130,11 @@ export default function LaminatingSidebar({ activeModule = "production-schedule"
         {/* User Profile */}
         <div className="flex flex-col items-center mb-8">
           <div className="relative mb-4">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center">
-              <User className="w-10 h-10 text-white" />
-            </div>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-white shadow-md"
-            >
-              <Edit className="w-3 h-3" />
-            </Button>
+            <a href="/employee-info" className="block">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center hover:opacity-80 transition-opacity">
+                <User className="w-10 h-10 text-white" />
+              </div>
+            </a>
           </div>
           <h3 className="font-medium text-gray-800">陳某某</h3>
         </div>
