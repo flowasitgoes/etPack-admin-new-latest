@@ -442,18 +442,63 @@ export default function EmployeeInfoPage() {
                         />
                       </div>
 
-                      {/* Save Button */}
-                      <div className="mt-6 flex justify-end">
-                        <Button 
-                          onClick={handleSave}
-                          className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-                        >
-                          保存
-                        </Button>
-                      </div>
                     </CardContent>
                   </Card>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Control Panel */}
+          <div className="admin-right-col-section w-64 bg-gray-50 p-6 shadow-[-4px_0_8px_rgba(0,0,0,0.1)]" style={{ position: 'sticky', top: '0px', height: '100vh', overflowY: 'auto' }}>
+            <div className="flex flex-col h-full">
+              <div className="space-y-6 flex-1">
+                {/* 製單 */}
+                <div className="right-col-item text-center">
+                  <div className="bg-gray-200 px-4 py-2 border-br-bl-none rounded-lg mb-4 font-medium">製單</div>
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center mx-auto mb-2">
+                    <User className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-sm font-medium">陳某某</div>
+                </div>
+
+                {/* 經理 */}
+                <div className="right-col-item text-center">
+                  <div className="bg-gray-200 px-4 py-2 border-br-bl-none rounded-lg mb-4 font-medium">經理</div>
+                  <div className="w-16 h-16 rounded-full bg-theme-gray flex items-center justify-center mx-auto mb-2">
+                    <User className="w-8 h-8 text-gray-500" />
+                  </div>
+                </div>
+
+                {/* 總經理 */}
+                <div className="right-col-item text-center">
+                  <div className="bg-gray-200 px-4 py-2 border-br-bl-none rounded-lg mb-4 font-medium">總經理</div>
+                  <div className="w-16 h-16 rounded-full bg-theme-gray flex items-center justify-center mx-auto mb-2">
+                    <User className="w-8 h-8 text-gray-500" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Buttons */}
+              <div className="mt-auto pt-6 space-y-3">
+                <Button 
+                  onClick={() => {
+                    if (confirm('確定要刪除這位員工的資料嗎？此操作無法復原。')) {
+                      console.log('刪除員工資料:', employee.id)
+                      // 這裡可以調用 API 刪除員工資料
+                    }
+                  }}
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 w-full bg-red-600 hover:bg-red-700 text-white py-3 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  刪除員工資料
+                </Button>
+                
+                <Button 
+                  onClick={handleSave}
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-primary/90 h-10 px-4 w-full bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white py-3 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  確認送出
+                </Button>
               </div>
             </div>
           </div>
