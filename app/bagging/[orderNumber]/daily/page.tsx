@@ -161,6 +161,8 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
   const handleResetOrder = async () => {
     if (orderNumber && machineNumber) {
       try {
+        console.log('開始重置訂單:', { orderNumber, machineNumber })
+        
         // 調用 API 重置 daily report
         const response = await fetch(`/api/orders/${orderNumber}/daily-report?department=bagging`, {
           method: 'PUT',
@@ -177,17 +179,31 @@ export default function DailyReportDetailPage({ params }: { params: Promise<{ or
           })
         })
         
+        console.log('API 響應狀態:', response.status)
+        
         if (response.ok) {
+          const responseData = await response.json()
+          console.log('API 響應數據:', responseData)
+          
           // 重置本地狀態
           setIsCompleted(false)
           setCompletedTime(null)
           console.log(`訂單 ${orderNumber} 的機台 ${machineNumber} 已重置為未完成狀態`)
+          
+          // 顯示成功提示
+          alert('重置成功！訂單狀態已恢復為未完成')
         } else {
-          console.error('Failed to reset daily report')
+          const errorData = await response.text()
+          console.error('Failed to reset daily report:', response.status, errorData)
+          alert(`重置失敗：${response.status} - ${errorData}`)
         }
       } catch (error) {
         console.error('Error resetting daily report:', error)
+        alert(`重置失敗：${error}`)
       }
+    } else {
+      console.error('Missing orderNumber or machineNumber:', { orderNumber, machineNumber })
+      alert('缺少必要參數')
     }
   }
 
