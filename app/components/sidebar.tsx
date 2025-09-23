@@ -25,6 +25,9 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
     if (pathname === '/employee-info') {
       return 'employee-database'
     }
+    if (pathname === '/employee-preview') {
+      return 'employee-database'
+    }
     if (pathname === '/formulas') {
       return 'formulas'
     }

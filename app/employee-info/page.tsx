@@ -246,16 +246,18 @@ export default function EmployeeInfoPage() {
 
             {/* Main Content Area */}
             <div className="flex-1 pb-6 px-6">
+              {/* Page Title */}
+              <div className="mb-6 flex items-center gap-3">
+                <h1 className="text-2xl font-bold text-gray-800">員工個人資料</h1>
+                <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                  <Edit className="w-4 h-4" />
+                </Button>
+              </div>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left Section - Employee Photo */}
                 <div className="lg:col-span-1">
                   <Card>
-                    {/* <CardHeader>
-                      <CardTitle className="text-lg font-semibold text-gray-800">
-                        編輯員工基本資料
-                      </CardTitle>
-                    </CardHeader> */}
-                    <CardContent className="text-center mt-8">
+                    <CardContent className="text-center p-6">
                       {/* Employee Photo */}
                       <div className="mb-4 relative">
                         <div className="w-48 h-48 mx-auto bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden relative">
@@ -310,13 +312,13 @@ export default function EmployeeInfoPage() {
                 {/* Right Section - Employee Details Form */}
                 <div className="lg:col-span-2">
                   <Card>
-                    <CardHeader>
+                    {/* <CardHeader>
                       <CardTitle className="text-lg font-semibold text-gray-800">
                         員工詳細資料
                       </CardTitle>
-                    </CardHeader>
+                    </CardHeader> */}
                     <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
                         {/* Left Column */}
                         <div className="space-y-4">
                           <div>
