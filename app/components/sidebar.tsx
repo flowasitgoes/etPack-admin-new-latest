@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import RecentOrdersSection from "./recent-orders-section"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 
 interface SidebarProps {
   activeModule?: string
@@ -15,6 +15,32 @@ interface SidebarProps {
 export default function Sidebar({ activeModule = "orders", onModuleChange }: SidebarProps) {
   const [activeDepartment, setActiveDepartment] = useState("business")
   const router = useRouter()
+  const pathname = usePathname()
+
+  // 根據當前路由自動設置活躍模組
+  const getActiveModuleFromPath = () => {
+    if (pathname === '/employee-table') {
+      return 'employee-database'
+    }
+    if (pathname === '/employee-info') {
+      return 'employee-database'
+    }
+    if (pathname === '/formulas') {
+      return 'formulas'
+    }
+    if (pathname === '/vendors') {
+      return 'vendors'
+    }
+    if (pathname === '/products') {
+      return 'products'
+    }
+    if (pathname === '/orders') {
+      return 'orders'
+    }
+    return activeModule
+  }
+
+  const currentActiveModule = getActiveModuleFromPath()
 
   // 課別資料
   const departments = [
@@ -89,7 +115,7 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "orders" 
+            currentActiveModule === "orders" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
@@ -99,7 +125,7 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "vendors" 
+            currentActiveModule === "vendors" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
@@ -109,7 +135,7 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "products" 
+            currentActiveModule === "products" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
@@ -119,13 +145,23 @@ export default function Sidebar({ activeModule = "orders", onModuleChange }: Sid
         </div>
         <div 
           className={`text-center px-4 py-3 cursor-pointer transition-colors ${
-            activeModule === "formulas" 
+            currentActiveModule === "formulas" 
               ? "bg-gradient-primary text-white" 
               : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           }`}
           onClick={() => onModuleChange?.("formulas")}
         >
           配方資料庫
+        </div>
+        <div 
+          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
+            currentActiveModule === "employee-database" 
+              ? "bg-gradient-primary text-white" 
+              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+          }`}
+          onClick={() => window.location.href = '/employee-table'}
+        >
+          員工資料庫
         </div>
       </nav>
 
