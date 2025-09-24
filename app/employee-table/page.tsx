@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { Clock } from "lucide-react"
 import EmployeeList from "../components/employee-list"
-import EmployeeDetailForm from "../components/employee-detail-form"
 import Sidebar from "../components/sidebar"
 import "../../styles/admin-colors.css"
 import "../../styles/admin.css"
@@ -22,7 +21,6 @@ interface Employee {
 export default function EmployeeTablePage() {
   const [employees, setEmployees] = useState<Employee[]>([])
   const [selectedEmployee, setSelectedEmployee] = useState("")
-  const [selectedEmployeeData, setSelectedEmployeeData] = useState<Employee | null>(null)
   const [sortBy, setSortBy] = useState("name")
   const [loading, setLoading] = useState(true)
   const [pageOpacity, setPageOpacity] = useState(0)
@@ -140,24 +138,6 @@ export default function EmployeeTablePage() {
   // 處理員工選擇
   const handleEmployeeSelect = (employeeId: string) => {
     setSelectedEmployee(employeeId)
-    const employee = employees.find(e => e.id === employeeId)
-    setSelectedEmployeeData(employee || null)
-  }
-
-  // 處理保存編輯
-  const handleSaveEdit = (updatedEmployee: Employee) => {
-    try {
-      // 更新本地員工列表
-      const updatedEmployees = employees.map(e => 
-        e.id === selectedEmployee ? updatedEmployee : e
-      )
-      setEmployees(updatedEmployees)
-      
-      // 更新選中的員工數據
-      setSelectedEmployeeData(updatedEmployee)
-    } catch (error) {
-      console.error("保存員工失敗:", error)
-    }
   }
 
   if (loading) {
@@ -216,13 +196,6 @@ export default function EmployeeTablePage() {
                 onSortChange={handleSortChange}
               />
 
-              {/* Employee Detail Form - 只在選擇員工後顯示 */}
-              {selectedEmployeeData && (
-                <EmployeeDetailForm
-                  employee={selectedEmployeeData}
-                  onSave={handleSaveEdit}
-                />
-              )}
             </div>
           </div>
         </div>

@@ -42,6 +42,7 @@ export default function EmployeeInfoPage() {
   const [pageOpacity, setPageOpacity] = useState(0)
   const [profileImage, setProfileImage] = useState<string | null>(null)
   const [isUploading, setIsUploading] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // 獲取當前日期時間
@@ -199,6 +200,18 @@ export default function EmployeeInfoPage() {
     // 這裡可以調用 API 保存數據，包括圖片
   }
 
+  // 處理刪除確認
+  const handleDeleteConfirm = () => {
+    console.log("刪除員工資料:", employee.id)
+    setShowDeleteModal(false)
+    // 這裡可以調用 API 刪除員工資料
+  }
+
+  // 處理刪除取消
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false)
+  }
+
   if (loading) {
     return (
       <div className="admin-container min-h-screen bg-gradient-to-br p-4">
@@ -249,9 +262,10 @@ export default function EmployeeInfoPage() {
               {/* Page Title */}
               <div className="mb-6 flex items-center gap-3">
                 <h1 className="text-2xl font-bold text-gray-800">員工個人資料</h1>
-                <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                <Button size="sm" variant="outline" className="h-8 w-8 p-0 border-gray-300 text-gray-500 hover:bg-gray-100 cursor-default">
                   <Edit className="w-4 h-4" />
                 </Button>
+                <span className="text-sm text-gray-500 font-medium">編輯中..</span>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left Section - Employee Photo */}
@@ -482,12 +496,7 @@ export default function EmployeeInfoPage() {
               {/* Bottom Buttons */}
               <div className="mt-auto pt-6 space-y-3">
                 <Button 
-                  onClick={() => {
-                    if (confirm('確定要刪除這位員工的資料嗎？此操作無法復原。')) {
-                      console.log('刪除員工資料:', employee.id)
-                      // 這裡可以調用 API 刪除員工資料
-                    }
-                  }}
+                  onClick={() => setShowDeleteModal(true)}
                   className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 px-4 w-full bg-red-600 hover:bg-red-700 text-white py-3 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                 >
                   刪除員工資料
@@ -504,6 +513,49 @@ export default function EmployeeInfoPage() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4">
+            {/* Modal Header */}
+            <div className="bg-pink-500 text-white px-6 py-4 rounded-t-lg">
+              <h3 className="text-lg font-semibold">刪除員工資料</h3>
+            </div>
+            
+            {/* Modal Content */}
+            <div className="px-6 py-6">
+              <div className="text-center">
+                <p className="text-gray-800 mb-2">
+                  是否確認<span className="text-red-600 font-semibold">「刪除」</span>
+                </p>
+                <p className="text-gray-800 mb-4">
+                  本員工的員工基本資料?
+                </p>
+                <p className="text-red-600 text-sm font-medium">
+                  刪除將會清除本員工在資料庫中的所有記錄!!
+                </p>
+              </div>
+            </div>
+            
+            {/* Modal Buttons */}
+            <div className="px-6 py-4 bg-gray-50 rounded-b-lg flex space-x-3">
+              <Button
+                onClick={handleDeleteCancel}
+                className="flex-1 bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded"
+              >
+                取消
+              </Button>
+              <Button
+                onClick={handleDeleteConfirm}
+                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
+              >
+                確定
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

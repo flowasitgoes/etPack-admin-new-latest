@@ -1,9 +1,10 @@
 "use client"
 
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Edit, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useRouter } from "next/navigation"
 
 interface Employee {
   id: string
@@ -31,6 +32,18 @@ export default function EmployeeList({
   onEmployeeSelect,
   onSortChange
 }: EmployeeListProps) {
+  const router = useRouter()
+
+  // 處理編輯按鈕點擊
+  const handleEditClick = (employeeId: string) => {
+    router.push('/employee-pre-info')
+  }
+
+  // 處理添加按鈕點擊
+  const handleAddClick = () => {
+    router.push('/employee-info')
+  }
+
   // 獲取排序選項顯示文字
   const getSortOptionText = (option: string) => {
     switch (option) {
@@ -128,24 +141,44 @@ export default function EmployeeList({
                       size="sm"
                       variant="outline"
                       className="text-xs px-2 py-1"
-                      onClick={() => onEmployeeSelect(employee.id)}
+                      onClick={() => handleEditClick(employee.id)}
                     >
-                      查看
+                      <Edit className="w-3 h-3" />
                     </Button>
                   </div>
                 </div>
               )
             })}
           </div>
+          
+          {/* 空行 - 添加新員工 */}
+          <div className="grid grid-cols-5 border-b transition-colors hover:bg-gray-50">
+            <div className="px-4 py-3 text-sm border-r text-gray-400">
+              -
+            </div>
+            <div className="px-4 py-3 text-sm border-r text-gray-400">
+              -
+            </div>
+            <div className="px-4 py-3 text-sm border-r text-gray-400">
+              -
+            </div>
+            <div className="px-4 py-3 text-sm border-r text-gray-400">
+              -
+            </div>
+            <div className="px-4 py-3 text-sm flex items-center justify-center">
+              <Button
+                size="sm"
+                variant="outline"
+                className="text-xs px-2 py-1"
+                onClick={handleAddClick}
+              >
+                <Plus className="w-3 h-3" />
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
       
-      {/* 提示信息 - 只在沒有選擇員工時顯示 */}
-      {!selectedEmployee && employees.length > 0 && (
-        <div className="text-center py-8 text-gray-500">
-          <p className="text-sm">點擊上方員工來查看詳細信息</p>
-        </div>
-      )}
     </div>
   )
 }
