@@ -87,7 +87,8 @@ export default function ERPAdmin() {
         return <OrdersPage />
     }
   }
-
+// '共享組件共享組件, URL傳遞參數傳遞參數
+// , navigation單一判斷單一判斷, 主頁面調整主頁面調整router URL, ok'
   return (
     <AuthGuard>
       <div className="admin-container min-h-screen bg-gradient-to-br p-4">
