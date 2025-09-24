@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Clock } from "lucide-react"
-import EmployeeList from "../components/employee-list"
-import Sidebar from "../components/sidebar"
+import EmployeeList from "./employee-list"
 import "../../styles/admin-colors.css"
 import "../../styles/admin.css"
 
@@ -72,7 +71,7 @@ export default function EmployeeTablePage() {
       id: "4",
       employeeNumber: "W67",
       name: "李某某",
-      department: "切片課",
+      department: "印刷課",
       title: "技術員",
       email: "li@example.com",
       phone: "0912-345-681",
@@ -82,7 +81,7 @@ export default function EmployeeTablePage() {
       id: "5",
       employeeNumber: "W68",
       name: "張某某",
-      department: "複合課",
+      department: "印刷課",
       title: "主管",
       email: "zhang@example.com",
       phone: "0912-345-682",
@@ -142,63 +141,45 @@ export default function EmployeeTablePage() {
 
   if (loading) {
     return (
-      <div className="admin-container min-h-screen bg-gradient-to-br p-4">
-        <div className="max-w-[1600px] mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-          <div className="flex h-screen">
-            <Sidebar />
-            <div className="middle-col-outer-wrap flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">載入中...</p>
-              </div>
-            </div>
-          </div>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">載入中...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="admin-container min-h-screen bg-gradient-to-br p-4">
-      <div className="max-w-[1600px] mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <div className="flex h-screen">
-          {/* Left Sidebar */}
-          <Sidebar />
-
-          {/* Main Content */}
-          <div 
-            className="middle-col-outer-wrap flex-1 transition-all duration-300 ease-in-out overflow-y-auto"
-            style={{ opacity: pageOpacity }}
-          >
-            {/* Header */}
-            <div className="bg-gray-600 text-white px-6 py-4 mb-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2 text-sm">
-                  <span>業務課</span>
-                  <span>{">"}</span>
-                  <span>員工資料庫</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Clock className="w-4 h-4" />
-                  <span>{getCurrentDateTime()}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Main Content Area */}
-            <div className="flex-1 pb-6">
-              {/* Employee List Section */}
-              <EmployeeList
-                employees={employees}
-                selectedEmployee={selectedEmployee}
-                sortBy={sortBy}
-                onEmployeeSelect={handleEmployeeSelect}
-                onSortChange={handleSortChange}
-              />
-
-            </div>
+    <div 
+      className="transition-opacity duration-150 ease-in-out"
+      style={{ opacity: pageOpacity }}
+    >
+      {/* Header */}
+      <div className="bg-gray-600 text-white px-6 py-4 mb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-sm">
+            <span>業務課</span>
+            <span>{">"}</span>
+            <span>員工資料庫</span>
+          </div>
+          <div className="flex items-center space-x-2 text-sm">
+            <Clock className="w-4 h-4" />
+            <span>{getCurrentDateTime()}</span>
           </div>
         </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 pb-6">
+        {/* Employee List Section */}
+        <EmployeeList
+          employees={employees}
+          selectedEmployee={selectedEmployee}
+          sortBy={sortBy}
+          onEmployeeSelect={handleEmployeeSelect}
+          onSortChange={handleSortChange}
+        />
       </div>
     </div>
   )

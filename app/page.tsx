@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useAuth } from "./contexts/auth-context"
+import { useSearchParams } from "next/navigation"
 import AuthGuard from "./components/auth-guard"
 import Sidebar from "./components/sidebar"
 import StaffInfo from "./components/staff-info"
@@ -10,6 +11,7 @@ import SchedulePage from "./schedule/page"
 import VendorsPage from "./vendors/page"
 import ProductsPage from "./products/page"
 import FormulasPage from "./formulas/page"
+import EmployeeTablePage from "./components/employee-table-page"
 import { Button } from "@/components/ui/button"
 import { LogOut, User } from "lucide-react"
 import "../styles/admin-colors.css"
@@ -20,10 +22,11 @@ export default function ERPAdmin() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [fadeOpacity, setFadeOpacity] = useState(1)
   const { user, logout } = useAuth()
+  const searchParams = useSearchParams()
 
   // 處理模組切換的淡入淡出效果
   const handleModuleChange = async (newModule: string) => {
-    if (newModule === activeModule) return
+    if (newModule === activeModule) return Promise.resolve()
     
     setIsTransitioning(true)
     setFadeOpacity(0)
@@ -42,6 +45,26 @@ export default function ERPAdmin() {
     setIsTransitioning(false)
   }
 
+  // 處理 URL 參數中的模組切換
+  useEffect(() => {
+    const moduleParam = searchParams.get('module')
+    console.log('URL 參數檢查:', { moduleParam, activeModule, searchParams: searchParams.toString() })
+    if (moduleParam) {
+      if (moduleParam !== activeModule) {
+        console.log('開始切換模組:', moduleParam)
+        handleModuleChange(moduleParam).then(() => {
+          console.log('模組切換完成，清除 URL 參數')
+          // 模組切換完成後清除 URL 參數，保持 URL 乾淨
+          window.history.replaceState({}, '', '/')
+        })
+      } else {
+        console.log('模組已匹配，直接清除 URL 參數')
+        // 模組已經匹配，直接清除 URL 參數
+        window.history.replaceState({}, '', '/')
+      }
+    }
+  }, [searchParams, activeModule])
+
   const handleLogout = () => {
     logout()
   }
@@ -58,6 +81,8 @@ export default function ERPAdmin() {
         return <ProductsPage />
       case "formulas":
         return <FormulasPage />
+      case "employee-database":
+        return <EmployeeTablePage />
       default:
         return <OrdersPage />
     }
