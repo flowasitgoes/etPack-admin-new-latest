@@ -198,12 +198,12 @@ export default function CuttingSidebar({ activeModule = "production-schedule", o
         >
           配方資料庫
         </div>
-        <div 
+        {/* <div
           className="text-center px-4 py-3 cursor-pointer transition-colors text-gray-600 hover:text-purple-600 hover:bg-purple-50"
           onClick={() => window.location.href = '/employee-table'}
         >
           員工資料庫
-        </div>
+        </div> */}
       </nav>
 
       {/* 分隔線 */}
