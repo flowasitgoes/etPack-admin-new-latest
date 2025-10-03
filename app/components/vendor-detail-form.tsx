@@ -40,7 +40,17 @@ export default function VendorDetailForm({
 
   useEffect(() => {
     if (vendor) {
-      setFormData(vendor)
+      // 只填入指定的欄位：客戶名稱, 連絡窗口, 連絡電話
+      setFormData(prev => ({
+        ...prev,
+        name: vendor.name,
+        contactPerson: {
+          name: vendor.contactPerson.name,
+          title: "", // 保持空白
+          phone: vendor.contactPerson.phone
+        }
+        // 其他欄位保持空白
+      }))
     }
   }, [vendor])
 

@@ -17,6 +17,7 @@ export default function VendorsPage() {
   const [loading, setLoading] = useState(true)
   const [pageOpacity, setPageOpacity] = useState(0)
   const [isAdding, setIsAdding] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
 
   // 獲取當前日期時間
   const getCurrentDateTime = () => {
@@ -60,6 +61,8 @@ export default function VendorsPage() {
     setSelectedVendor(vendorId)
     const vendor = vendors.find(v => v.id === vendorId)
     setSelectedVendorData(vendor || null)
+    setIsEditing(true) // 點擊行時進入編輯模式
+    setIsAdding(false) // 隱藏新增模式
   }
 
   // 處理保存編輯
@@ -75,6 +78,9 @@ export default function VendorsPage() {
       
       // 更新選中的客戶數據
       setSelectedVendorData(savedVendor)
+      
+      // 儲存變更後退出編輯模式，恢復新增按鈕
+      setIsEditing(false)
     } catch (error) {
       console.error("保存客戶失敗:", error)
     }
@@ -104,6 +110,7 @@ export default function VendorsPage() {
     setIsAdding(true)
     setSelectedVendor("")
     setSelectedVendorData(null)
+    setIsEditing(false) // 隱藏編輯模式
   }
 
   // 處理取消新增
@@ -171,7 +178,7 @@ export default function VendorsPage() {
           onSortChange={handleSortChange}
           onEditClick={() => {}} // 移除編輯功能，改為直接選擇
           onAddClick={handleAddClick}
-          isEditing={false}
+          isEditing={isEditing}
           editingVendorId=""
         />
 
@@ -184,7 +191,7 @@ export default function VendorsPage() {
         )}
 
         {/* Vendor Detail Form - 只在選擇客戶後顯示 */}
-        {selectedVendorData && !isAdding && (
+        {selectedVendorData && !isAdding && isEditing && (
           <VendorDetailForm
             vendor={selectedVendorData}
             onSave={handleSaveEdit}
@@ -192,7 +199,7 @@ export default function VendorsPage() {
         )}
 
         {/* Vendor Orders Section - 只在選擇客戶後顯示 */}
-        {selectedVendor && !isAdding && (
+        {selectedVendor && !isAdding && !isEditing && (
           <VendorOrders
             vendorId={selectedVendor}
             orders={vendorOrders}
