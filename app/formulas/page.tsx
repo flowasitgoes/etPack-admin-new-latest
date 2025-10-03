@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Clock } from "lucide-react"
 import ModuleTabs from "../components/module-tabs"
 import FormulaList from "../components/formula-list"
+import FormulaAddForm from "../components/formula-add-form"
 import HistoricalOrders from "../components/historical-orders"
 import { FormulaService, type Formula, type HistoricalOrder } from "../lib/formula-service"
 
@@ -15,6 +16,7 @@ export default function FormulasPage() {
   const [historicalOrders, setHistoricalOrders] = useState<HistoricalOrder[]>([])
   const [loading, setLoading] = useState(true)
   const [pageOpacity, setPageOpacity] = useState(0)
+  const [isAdding, setIsAdding] = useState(false)
 
   // 標籤配置
   const tabs = [
@@ -77,6 +79,35 @@ export default function FormulasPage() {
     loadHistoricalOrders()
   }, [selectedFormula])
 
+  // 處理新增配方
+  const handleAddFormula = async (newFormula: Formula) => {
+    try {
+      const savedFormula = await FormulaService.createFormula(newFormula)
+      
+      // 更新本地配方列表
+      setFormulas(prev => [...prev, savedFormula])
+      
+      // 選擇新添加的配方
+      setSelectedFormula(savedFormula.id)
+      
+      // 關閉新增表單
+      setIsAdding(false)
+    } catch (error) {
+      console.error("新增配方失敗:", error)
+    }
+  }
+
+  // 處理新增按鈕點擊
+  const handleAddClick = () => {
+    setIsAdding(true)
+    setSelectedFormula("")
+  }
+
+  // 處理取消新增
+  const handleCancelAdd = () => {
+    setIsAdding(false)
+  }
+
 
 
   if (loading) {
@@ -124,10 +155,19 @@ export default function FormulasPage() {
         sortBy={sortBy}
         onFormulaSelect={setSelectedFormula}
         onSortChange={handleSortChange}
+        onAddClick={handleAddClick}
       />
 
+      {/* Formula Add Form - 只在新增模式時顯示 */}
+      {isAdding && (
+        <FormulaAddForm
+          onSave={handleAddFormula}
+          onCancel={handleCancelAdd}
+        />
+      )}
+
       {/* Historical Order Records Section - 只在選擇配方後顯示 */}
-      {selectedFormula && (
+      {selectedFormula && !isAdding && (
         <HistoricalOrders
           formulaId={selectedFormula}
           orders={historicalOrders}

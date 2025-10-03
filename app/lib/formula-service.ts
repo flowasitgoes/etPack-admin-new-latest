@@ -83,4 +83,21 @@ export class FormulaService {
     const sortedItems = await SharedDataService.sortItems(items, sortBy)
     return sortedItems.map(convertSharedItemToFormula)
   }
+
+  // 創建新配方
+  static async createFormula(formula: Formula): Promise<Formula> {
+    // 轉換為 SharedItem 格式
+    const sharedItem: SharedItem = {
+      id: formula.id,
+      name: formula.name,
+      variants: formula.variants,
+      description: formula.description || "",
+      category: "",
+      createdAt: formula.createdAt,
+      updatedAt: formula.updatedAt
+    }
+    
+    const createdItem = await SharedDataService.createItem(sharedItem)
+    return convertSharedItemToFormula(createdItem)
+  }
 } 
