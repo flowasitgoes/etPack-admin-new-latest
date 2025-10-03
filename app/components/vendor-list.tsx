@@ -91,20 +91,20 @@ export default function VendorList({
                   }`}
                 >
                   <div 
-                    className="px-4 py-3 text-sm border-r cursor-pointer"
-                    onClick={() => onVendorSelect(vendor.id)}
+                    className="px-4 py-3 text-sm border-r cursor-default"
+                    // onClick={() => onVendorSelect(vendor.id)} // 暫時隱藏點擊功能
                   >
                     {vendor.name}
                   </div>
                   <div 
-                    className="px-4 py-3 text-sm border-r cursor-pointer"
-                    onClick={() => onVendorSelect(vendor.id)}
+                    className="px-4 py-3 text-sm border-r cursor-default"
+                    // onClick={() => onVendorSelect(vendor.id)} // 暫時隱藏點擊功能
                   >
                     {vendor.contactPerson.name}
                   </div>
                   <div 
-                    className="px-4 py-3 text-sm cursor-pointer"
-                    onClick={() => onVendorSelect(vendor.id)}
+                    className="px-4 py-3 text-sm cursor-default"
+                    // onClick={() => onVendorSelect(vendor.id)} // 暫時隱藏點擊功能
                   >
                     {vendor.contactPerson.phone || "-"}
                   </div>
@@ -130,11 +130,12 @@ export default function VendorList({
       </Card>
       
       {/* 提示信息 - 只在沒有選擇客戶時顯示 */}
-      {!selectedVendor && vendors.length > 0 && (
+      {/* 暫時隱藏提示信息，因為點擊功能被隱藏 */}
+      {/* {!selectedVendor && vendors.length > 0 && (
         <div className="text-center py-8 text-gray-500">
           <p className="text-sm">點擊上方客戶來查看詳細信息和歷史訂單</p>
         </div>
-      )}
+      )} */}
     </div>
   )
 } 

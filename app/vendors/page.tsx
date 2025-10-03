@@ -204,20 +204,22 @@ export default function VendorsPage() {
         )}
 
         {/* Vendor Detail Form - 只在選擇客戶後顯示 */}
-        {selectedVendorData && !isAdding && isEditing && (
+        {/* 暫時隱藏編輯表單功能 */}
+        {/* {selectedVendorData && !isAdding && isEditing && (
           <VendorDetailForm
             vendor={selectedVendorData}
             onSave={handleSaveEdit}
           />
-        )}
+        )} */}
 
         {/* Vendor Orders Section - 只在選擇客戶且顯示訂單時顯示 */}
-        {selectedVendor && !isAdding && showOrders && (
+        {/* 暫時隱藏歷史訂單記錄功能 */}
+        {/* {selectedVendor && !isAdding && showOrders && (
           <VendorOrders
             vendorId={selectedVendor}
             orders={vendorOrders}
           />
-        )}
+        )} */}
       </div>
     </div>
   )
