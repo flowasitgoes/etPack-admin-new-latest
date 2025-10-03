@@ -199,7 +199,7 @@ export default function VendorsPage() {
         )}
 
         {/* Vendor Orders Section - 只在選擇客戶後顯示 */}
-        {selectedVendor && !isAdding && !isEditing && (
+        {selectedVendor && !isAdding && (
           <VendorOrders
             vendorId={selectedVendor}
             orders={vendorOrders}
