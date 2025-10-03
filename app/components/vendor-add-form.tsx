@@ -66,8 +66,10 @@ export default function VendorAddForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (formData.name.trim() && formData.contactPerson.name.trim()) {
-      // 生成新的 ID
-      const newId = `vendor_${Date.now()}`
+      // 生成新的 ID，確保唯一性
+      const timestamp = Date.now()
+      const randomSuffix = Math.random().toString(36).substr(2, 5)
+      const newId = `vendor_${timestamp}_${randomSuffix}`
       const vendorWithId = { ...formData, id: newId }
       onSave(vendorWithId)
     }

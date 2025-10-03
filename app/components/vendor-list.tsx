@@ -78,12 +78,14 @@ export default function VendorList({
             </div>
           </div>
           <div className="max-h-64 overflow-y-auto">
-            {vendors.map((vendor) => {
+            {vendors.map((vendor, index) => {
               const isSelected = selectedVendor === vendor.id
+              // 確保 key 的唯一性，使用 id 或 index 作為備用
+              const uniqueKey = vendor.id || `vendor-${index}`
               
               return (
                 <div
-                  key={vendor.id}
+                  key={uniqueKey}
                   className={`grid grid-cols-3 border-b transition-colors ${
                     isSelected ? "bg-purple-50" : "hover:bg-gray-50"
                   }`}

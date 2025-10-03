@@ -94,8 +94,17 @@ export default function VendorsPage() {
     try {
       const savedVendor = await VendorService.createVendor(newVendor)
       
-      // 更新本地客戶列表
-      setVendors(prev => [...prev, savedVendor])
+      // 更新本地客戶列表，確保不會有重複的 ID
+      setVendors(prev => {
+        const existingIds = new Set(prev.map(v => v.id))
+        if (existingIds.has(savedVendor.id)) {
+          // 如果 ID 已存在，生成新的 ID
+          const timestamp = Date.now()
+          const randomSuffix = Math.random().toString(36).substr(2, 5)
+          savedVendor.id = `vendor_${timestamp}_${randomSuffix}`
+        }
+        return [...prev, savedVendor]
+      })
       
       // 選擇新添加的客戶
       setSelectedVendor(savedVendor.id)
