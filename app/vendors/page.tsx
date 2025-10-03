@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Clock } from "lucide-react"
 import VendorList from "../components/vendor-list"
 import VendorDetailForm from "../components/vendor-detail-form"
+import VendorAddForm from "../components/vendor-add-form"
 import VendorOrders from "../components/vendor-orders"
 import { VendorService, type Vendor, type VendorOrder } from "../lib/vendor-service"
 
@@ -15,6 +16,7 @@ export default function VendorsPage() {
   const [sortBy, setSortBy] = useState("name")
   const [loading, setLoading] = useState(true)
   const [pageOpacity, setPageOpacity] = useState(0)
+  const [isAdding, setIsAdding] = useState(false)
 
   // 獲取當前日期時間
   const getCurrentDateTime = () => {
@@ -78,6 +80,37 @@ export default function VendorsPage() {
     }
   }
 
+  // 處理新增客戶
+  const handleAddVendor = async (newVendor: Vendor) => {
+    try {
+      const savedVendor = await VendorService.createVendor(newVendor)
+      
+      // 更新本地客戶列表
+      setVendors(prev => [...prev, savedVendor])
+      
+      // 選擇新添加的客戶
+      setSelectedVendor(savedVendor.id)
+      setSelectedVendorData(savedVendor)
+      
+      // 關閉新增表單
+      setIsAdding(false)
+    } catch (error) {
+      console.error("新增客戶失敗:", error)
+    }
+  }
+
+  // 處理新增按鈕點擊
+  const handleAddClick = () => {
+    setIsAdding(true)
+    setSelectedVendor("")
+    setSelectedVendorData(null)
+  }
+
+  // 處理取消新增
+  const handleCancelAdd = () => {
+    setIsAdding(false)
+  }
+
   // 當選擇的客戶改變時，載入對應的歷史訂單
   useEffect(() => {
     const loadVendorOrders = async () => {
@@ -137,12 +170,21 @@ export default function VendorsPage() {
           onVendorSelect={handleVendorSelect}
           onSortChange={handleSortChange}
           onEditClick={() => {}} // 移除編輯功能，改為直接選擇
+          onAddClick={handleAddClick}
           isEditing={false}
           editingVendorId=""
         />
 
+        {/* Vendor Add Form - 只在新增模式時顯示 */}
+        {isAdding && (
+          <VendorAddForm
+            onSave={handleAddVendor}
+            onCancel={handleCancelAdd}
+          />
+        )}
+
         {/* Vendor Detail Form - 只在選擇客戶後顯示 */}
-        {selectedVendorData && (
+        {selectedVendorData && !isAdding && (
           <VendorDetailForm
             vendor={selectedVendorData}
             onSave={handleSaveEdit}
@@ -150,7 +192,7 @@ export default function VendorsPage() {
         )}
 
         {/* Vendor Orders Section - 只在選擇客戶後顯示 */}
-        {selectedVendor && (
+        {selectedVendor && !isAdding && (
           <VendorOrders
             vendorId={selectedVendor}
             orders={vendorOrders}

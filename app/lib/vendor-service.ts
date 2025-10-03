@@ -192,6 +192,11 @@ export class VendorService {
     return vendor
   }
 
+  // 創建新客戶 (與 addVendor 相同，但保持 API 一致性)
+  static async createVendor(vendor: Vendor): Promise<Vendor> {
+    return this.addVendor(vendor)
+  }
+
   // 刪除客戶
   static async deleteVendor(vendorId: string): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 300))

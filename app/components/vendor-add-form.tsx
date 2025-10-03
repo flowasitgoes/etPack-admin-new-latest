@@ -1,0 +1,246 @@
+"use client"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { type Vendor } from "../lib/vendor-service"
+
+interface VendorAddFormProps {
+  onSave: (vendor: Vendor) => void
+  onCancel: () => void
+}
+
+export default function VendorAddForm({
+  onSave,
+  onCancel
+}: VendorAddFormProps) {
+  const [formData, setFormData] = useState<Vendor>({
+    id: "",
+    name: "",
+    vendorId: "",
+    address: {
+      country: "國內",
+      city: "",
+      district: "",
+      village: "",
+      detail: ""
+    },
+    phone: "",
+    contactPerson: {
+      name: "",
+      title: "",
+      phone: ""
+    }
+  })
+
+  const handleInputChange = (field: keyof Vendor, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const handleAddressChange = (field: keyof Vendor['address'], value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        [field]: value
+      }
+    }))
+  }
+
+  const handleContactChange = (field: keyof Vendor['contactPerson'], value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      contactPerson: {
+        ...prev.contactPerson,
+        [field]: value
+      }
+    }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (formData.name.trim() && formData.contactPerson.name.trim()) {
+      // 生成新的 ID
+      const newId = `vendor_${Date.now()}`
+      const vendorWithId = { ...formData, id: newId }
+      onSave(vendorWithId)
+    }
+  }
+
+  return (
+    <div className="px-6 mb-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* 客戶基本資料 */}
+        <div className="rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-200 hover:shadow-sm">
+          <div className="flex flex-col space-y-1.5 p-6 pb-3">
+            <div className="flex items-center justify-between">
+              <div className="tracking-tight text-lg font-semibold text-gray-800">客戶基本資料</div>
+              <Button type="button" size="sm" variant="ghost" className="text-primary">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </Button>
+            </div>
+          </div>
+          <div className="p-6 pt-0 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                  客戶名稱 *
+                </Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  placeholder="請輸入客戶名稱"
+                  className="w-full"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="vendorId" className="text-sm font-medium text-gray-700">
+                  客戶編號
+                </Label>
+                <Input
+                  id="vendorId"
+                  value={formData.vendorId}
+                  onChange={(e) => handleInputChange("vendorId", e.target.value)}
+                  placeholder="請輸入客戶編號"
+                  className="w-full"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-gray-700">客戶地址</Label>
+              <div className="grid grid-cols-2 gap-2">
+                <Select value={formData.address.country} onValueChange={(value) => handleAddressChange("country", value)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="國內">國內</SelectItem>
+                    <SelectItem value="國外">國外</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input
+                  value={formData.address.city}
+                  onChange={(e) => handleAddressChange("city", e.target.value)}
+                  placeholder="市"
+                  className="w-full"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Input
+                  value={formData.address.district}
+                  onChange={(e) => handleAddressChange("district", e.target.value)}
+                  placeholder="區"
+                  className="w-full"
+                />
+                <Input
+                  value={formData.address.village}
+                  onChange={(e) => handleAddressChange("village", e.target.value)}
+                  placeholder="里"
+                  className="w-full"
+                />
+              </div>
+              <Input
+                value={formData.address.detail}
+                onChange={(e) => handleAddressChange("detail", e.target.value)}
+                placeholder="詳細地址"
+                className="w-full"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                電話
+              </Label>
+              <Input
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                placeholder="請輸入電話"
+                className="w-full"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 連絡窗口 */}
+        <div className="rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-200 hover:shadow-sm">
+          <div className="flex flex-col space-y-1.5 p-6 pb-3">
+            <div className="flex items-center justify-between">
+              <div className="tracking-tight text-lg font-semibold text-gray-800">連絡窗口</div>
+              <Button type="button" size="sm" variant="ghost" className="text-primary">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </Button>
+            </div>
+          </div>
+          <div className="p-6 pt-0 space-y-4">
+            <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-2">
+                <Label htmlFor="contactName" className="text-sm font-medium text-gray-700">
+                  姓名
+                </Label>
+                <Input
+                  id="contactName"
+                  value={formData.contactPerson.name}
+                  onChange={(e) => handleContactChange("name", e.target.value)}
+                  placeholder="請輸入姓名"
+                  className="w-full"
+                />
+              </div>
+              <div className="flex items-end">
+                <Button type="button" size="sm" className="bg-primary text-white text-xs px-2 py-1">
+                  名片存檔
+                </Button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="contactTitle" className="text-sm font-medium text-gray-700">
+                  職稱
+                </Label>
+                <Input
+                  id="contactTitle"
+                  value={formData.contactPerson.title}
+                  onChange={(e) => handleContactChange("title", e.target.value)}
+                  placeholder="請輸入職稱"
+                  className="w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactPhone" className="text-sm font-medium text-gray-700">
+                  電話
+                </Label>
+                <Input
+                  id="contactPhone"
+                  value={formData.contactPerson.phone}
+                  onChange={(e) => handleContactChange("phone", e.target.value)}
+                  placeholder="請輸入電話"
+                  className="w-full"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-primary/90 h-10 px-4 py-2 bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white"
+          >
+            儲存變更
+          </Button>
+        </div>
+      </form>
+    </div>
+  )
+}

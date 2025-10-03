@@ -13,6 +13,7 @@ interface VendorListProps {
   onVendorSelect: (vendorId: string) => void
   onSortChange: (sortBy: string) => void
   onEditClick: (vendor: Vendor) => void
+  onAddClick: () => void
   isEditing?: boolean
   editingVendorId?: string
 }
@@ -24,6 +25,7 @@ export default function VendorList({
   onVendorSelect,
   onSortChange,
   onEditClick,
+  onAddClick,
   isEditing = false,
   editingVendorId = ""
 }: VendorListProps) {
@@ -107,6 +109,18 @@ export default function VendorList({
                 </div>
               )
             })}
+          </div>
+          {/* 新增按鈕 */}
+          <div className="flex justify-end p-4 border-t">
+            <Button
+              onClick={onAddClick}
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-primary/90 h-9 px-3 bg-primary text-white"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              新增資料
+            </Button>
           </div>
         </CardContent>
       </Card>
