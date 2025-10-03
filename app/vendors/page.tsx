@@ -18,6 +18,7 @@ export default function VendorsPage() {
   const [pageOpacity, setPageOpacity] = useState(0)
   const [isAdding, setIsAdding] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [showOrders, setShowOrders] = useState(false)
 
   // 獲取當前日期時間
   const getCurrentDateTime = () => {
@@ -63,6 +64,7 @@ export default function VendorsPage() {
     setSelectedVendorData(vendor || null)
     setIsEditing(true) // 點擊行時進入編輯模式
     setIsAdding(false) // 隱藏新增模式
+    setShowOrders(true) // 顯示歷史訂單記錄
   }
 
   // 處理保存編輯
@@ -79,8 +81,9 @@ export default function VendorsPage() {
       // 更新選中的客戶數據
       setSelectedVendorData(savedVendor)
       
-      // 儲存變更後退出編輯模式，恢復新增按鈕
+      // 儲存變更後退出編輯模式，恢復新增按鈕，隱藏歷史訂單記錄
       setIsEditing(false)
+      setShowOrders(false)
     } catch (error) {
       console.error("保存客戶失敗:", error)
     }
@@ -111,6 +114,7 @@ export default function VendorsPage() {
     setSelectedVendor("")
     setSelectedVendorData(null)
     setIsEditing(false) // 隱藏編輯模式
+    setShowOrders(false) // 隱藏歷史訂單記錄
   }
 
   // 處理取消新增
@@ -198,8 +202,8 @@ export default function VendorsPage() {
           />
         )}
 
-        {/* Vendor Orders Section - 只在選擇客戶後顯示 */}
-        {selectedVendor && !isAdding && (
+        {/* Vendor Orders Section - 只在選擇客戶且顯示訂單時顯示 */}
+        {selectedVendor && !isAdding && showOrders && (
           <VendorOrders
             vendorId={selectedVendor}
             orders={vendorOrders}
