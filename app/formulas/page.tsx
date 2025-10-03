@@ -17,6 +17,8 @@ export default function FormulasPage() {
   const [loading, setLoading] = useState(true)
   const [pageOpacity, setPageOpacity] = useState(0)
   const [isAdding, setIsAdding] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editingFormulaId, setEditingFormulaId] = useState("")
 
   // 標籤配置
   const tabs = [
@@ -108,6 +110,39 @@ export default function FormulasPage() {
     setIsAdding(false)
   }
 
+  // 處理編輯配方
+  const handleEditFormula = (formula: Formula) => {
+    setIsEditing(true)
+    setEditingFormulaId(formula.id)
+    setIsAdding(false)
+    setSelectedFormula("")
+  }
+
+  // 處理保存編輯
+  const handleSaveEdit = async (updatedFormula: Formula) => {
+    try {
+      // 這裡可以調用 API 來保存編輯的配方
+      // const savedFormula = await FormulaService.updateFormula(updatedFormula)
+      
+      // 更新本地配方列表
+      setFormulas(prev => prev.map(f => 
+        f.id === updatedFormula.id ? updatedFormula : f
+      ))
+      
+      // 關閉編輯模式
+      setIsEditing(false)
+      setEditingFormulaId("")
+    } catch (error) {
+      console.error("保存配方失敗:", error)
+    }
+  }
+
+  // 處理取消編輯
+  const handleCancelEdit = () => {
+    setIsEditing(false)
+    setEditingFormulaId("")
+  }
+
 
 
   if (loading) {
@@ -155,7 +190,12 @@ export default function FormulasPage() {
         sortBy={sortBy}
         onFormulaSelect={setSelectedFormula}
         onSortChange={handleSortChange}
+        onEditClick={handleEditFormula}
         onAddClick={handleAddClick}
+        onSaveEdit={handleSaveEdit}
+        onCancelEdit={handleCancelEdit}
+        isEditing={isEditing}
+        editingFormulaId={editingFormulaId}
       />
 
       {/* Formula Add Form - 只在新增模式時顯示 */}
@@ -167,7 +207,7 @@ export default function FormulasPage() {
       )}
 
       {/* Historical Order Records Section - 只在選擇配方後顯示 */}
-      {selectedFormula && !isAdding && (
+      {selectedFormula && !isAdding && !isEditing && (
         <HistoricalOrders
           formulaId={selectedFormula}
           orders={historicalOrders}

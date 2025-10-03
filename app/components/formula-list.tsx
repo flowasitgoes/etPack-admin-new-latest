@@ -1,9 +1,10 @@
 "use client"
 
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import FormulaEditForm from "./formula-edit-form"
 import { type Formula } from "../lib/formula-service"
 
 interface FormulaListProps {
@@ -14,6 +15,8 @@ interface FormulaListProps {
   onSortChange: (sortBy: string) => void
   onEditClick?: (formula: Formula) => void
   onAddClick?: () => void
+  onSaveEdit?: (formula: Formula) => void
+  onCancelEdit?: () => void
   isEditing?: boolean
   editingFormulaId?: string
 }
@@ -26,6 +29,8 @@ export default function FormulaList({
   onSortChange,
   onEditClick,
   onAddClick,
+  onSaveEdit,
+  onCancelEdit,
   isEditing = false,
   editingFormulaId = ""
 }: FormulaListProps) {
@@ -63,18 +68,16 @@ export default function FormulaList({
       {/* Formula Table */}
       <Card className="mb-6">
         <CardContent className="p-0">
-          <div className={onEditClick ? "grid grid-cols-3" : "grid grid-cols-2"}>
+          <div className="grid grid-cols-3">
             <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tl-lg">
               配方編號
             </div>
-            <div className={`bg-primary text-white px-4 py-3 text-center font-medium ${onEditClick ? "" : "rounded-tr-lg"}`}>
+            <div className="bg-primary text-white px-4 py-3 text-center font-medium">
               配方名稱
             </div>
-            {onEditClick && (
-              <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tr-lg">
-                操作
-              </div>
-            )}
+            <div className="bg-primary text-white px-4 py-3 text-center font-medium rounded-tr-lg">
+              修改
+            </div>
           </div>
           <div className="max-h-64 overflow-y-auto">
             {formulas.map((formula) => {
@@ -84,7 +87,7 @@ export default function FormulaList({
               return (
                 <div
                   key={formula.id}
-                  className={`${onEditClick ? "grid grid-cols-3" : "grid grid-cols-2"} border-b transition-colors ${
+                  className={`grid grid-cols-3 border-b transition-colors ${
                     selectedFormula === formula.id ? "bg-purple-50" : ""
                   } ${
                     isCurrentlyEditing ? "bg-blue-50 border-blue-200" : ""
@@ -105,7 +108,7 @@ export default function FormulaList({
                     {formula.id}
                   </div>
                   <div 
-                    className={`px-4 py-3 text-sm ${onEditClick ? "border-r" : ""} ${
+                    className={`px-4 py-3 text-sm border-r ${
                       isDisabled ? "cursor-not-allowed" : "cursor-pointer"
                     }`}
                     onClick={() => {
@@ -120,27 +123,26 @@ export default function FormulaList({
                       </div>
                     ))}
                   </div>
-                  {onEditClick && (
-                    <div className="px-4 py-3 text-sm flex items-center justify-center">
-                      <Button
-                        size="sm"
-                        className={`px-3 py-1 text-xs font-medium rounded-md shadow-sm transition-all duration-200 transform ${
-                          isDisabled 
-                            ? "bg-gray-400 text-gray-600 cursor-not-allowed" 
-                            : "bg-primary-dark hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-white hover:shadow-md hover:-translate-y-0.5"
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          if (!isDisabled && onEditClick) {
-                            onEditClick(formula)
-                          }
-                        }}
-                        disabled={isDisabled}
-                      >
-                        配方基本資料編輯
-                      </Button>
-                    </div>
-                  )}
+                  <div className="px-4 py-3 text-sm flex items-center justify-center">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className={`text-xs px-2 py-1 ${
+                        isDisabled 
+                          ? "cursor-not-allowed opacity-50" 
+                          : "hover:bg-gray-100"
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        if (!isDisabled && onEditClick) {
+                          onEditClick(formula)
+                        }
+                      }}
+                      disabled={isDisabled}
+                    >
+                      <Edit className="w-3 h-3" />
+                    </Button>
+                  </div>
                 </div>
               )
             })}
@@ -162,8 +164,17 @@ export default function FormulaList({
         </CardContent>
       </Card>
       
-      {/* 提示信息 - 只在沒有選擇配方時顯示 */}
-      {!selectedFormula && formulas.length > 0 && (
+      {/* 編輯表單 - 只在編輯模式時顯示 */}
+      {isEditing && editingFormulaId && onSaveEdit && onCancelEdit && (
+        <FormulaEditForm
+          formula={formulas.find(f => f.id === editingFormulaId)!}
+          onSave={onSaveEdit}
+          onCancel={onCancelEdit}
+        />
+      )}
+
+      {/* 提示信息 - 只在沒有選擇配方且沒有編輯時顯示 */}
+      {!selectedFormula && !isEditing && formulas.length > 0 && (
         <div className="text-center py-8 text-gray-500">
           <p className="text-sm">點擊上方配方來查看歷史訂單記錄</p>
         </div>
