@@ -22,6 +22,9 @@ export default function NavigationMenu({ activeModule = "orders", onModuleChange
     if (pathname === '/employee-pre-info') {
       return 'employee-database'
     }
+    if (pathname === '/employee-table') {
+      return 'employee-database'
+    }
     if (pathname === '/formulas') {
       return 'formulas'
     }
@@ -49,6 +52,12 @@ export default function NavigationMenu({ activeModule = "orders", onModuleChange
   ]
 
   const handleMenuClick = (itemId: string) => {
+    // 如果點擊員工資料庫，直接跳轉到獨立路由
+    if (itemId === 'employee-database') {
+      router.push('/employee-table')
+      return
+    }
+    
     // 檢查是否在員工相關頁面
     const isOnEmployeePage = pathname === '/employee-info' || 
                             pathname === '/employee-preview' || 

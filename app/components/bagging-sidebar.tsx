@@ -201,12 +201,16 @@ export default function BaggingSidebar({ activeModule = "production-schedule", o
         >
           配方資料庫
         </div>
-        {/* <div
-          className="text-center px-4 py-3 cursor-pointer transition-colors text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-          onClick={() => window.location.href = '/employee-table'}
+        <div 
+          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
+            activeModule === "employee-table" 
+              ? "bg-gradient-primary text-white" 
+              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+          }`}
+          onClick={() => router.push('/bagging/employee-table')}
         >
           員工資料庫
-        </div> */}
+        </div>
       </nav>
 
       {/* 分隔線 */}

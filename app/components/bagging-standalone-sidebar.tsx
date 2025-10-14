@@ -26,6 +26,7 @@ export default function BaggingStandaloneSidebar() {
     if (pathname === '/bagging/order-record') return 'order-record'
     if (pathname === '/bagging/material-record') return 'material-record'
     if (pathname === '/bagging/daily-report') return 'daily-report'
+    if (pathname === '/bagging/employee-table') return 'employee-table'
     if (pathname.startsWith('/bagging/') && pathname.endsWith('/daily')) return 'daily-report'
     return 'production-schedule'
   }
@@ -199,8 +200,12 @@ export default function BaggingStandaloneSidebar() {
           配方資料庫
         </div>
         <div 
-          className="text-center px-4 py-3 cursor-pointer transition-colors text-gray-600 hover:text-purple-600 hover:bg-purple-50"
-          onClick={() => window.location.href = '/employee-table'}
+          className={`text-center px-4 py-3 cursor-pointer transition-colors ${
+            getActiveModule() === 'employee-table'
+              ? "bg-gradient-primary text-white" 
+              : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+          }`}
+          onClick={() => router.push('/bagging/employee-table')}
         >
           員工資料庫
         </div>
